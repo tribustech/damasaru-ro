@@ -107,7 +107,7 @@ importers:
         specifier: ^0.8.2
         version: 0.8.2
       '@repo/types':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/types
       lucide-react:
         specifier: ^1.7.0
