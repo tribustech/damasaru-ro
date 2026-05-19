@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**", "build/**", ".strapi/**"],
-      "env": ["STRAPI_URL", "STRAPI_API_TOKEN"]
+      "env": ["STRAPI_URL", "STRAPI_API_TOKEN", "STRAPI_HOSTNAME"]
     },
     "lint": {
       "dependsOn": ["^lint"]

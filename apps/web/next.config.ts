@@ -9,11 +9,15 @@ const nextConfig: NextConfig = {
         port: '1337',
         pathname: '/uploads/**',
       },
-      {
-        protocol: 'https',
-        hostname: process.env.STRAPI_HOSTNAME ?? '',
-        pathname: '/uploads/**',
-      },
+      ...(process.env.STRAPI_HOSTNAME
+        ? [
+            {
+              protocol: 'https' as const,
+              hostname: process.env.STRAPI_HOSTNAME,
+              pathname: '/uploads/**',
+            },
+          ]
+        : []),
     ],
   },
 }
