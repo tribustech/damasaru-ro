@@ -27,7 +27,7 @@ export function HeroSection({ section, eyebrow }: HeroSectionProps) {
               {section.subtitle}
             </p>
           )}
-          {section.ctaButtons.length > 0 && (
+          {section.ctaButtons?.length > 0 && (
             <div className="flex flex-col sm:flex-row gap-4">
               {section.ctaButtons.map((btn) => (
                 <Button key={btn.id} href={btn.href} variant={btn.variant}>

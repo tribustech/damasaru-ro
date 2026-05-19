@@ -16,7 +16,9 @@
   "packageManager": "pnpm@9.0.0",
   "pnpm": {
     "overrides": {
-      "esbuild": "0.25.12"
+      "esbuild": "0.25.12",
+      "@types/react": "^19",
+      "@types/react-dom": "^19"
     }
   },
   "engines": {

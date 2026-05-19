@@ -19,7 +19,7 @@ async function fetchStrapi<T>(
 ): Promise<T> {
   const url = new URL(`/api/${path}`, STRAPI_URL)
   url.searchParams.set('locale', locale)
-  url.searchParams.set('populate', 'deep')
+  url.searchParams.set('populate', '*')
 
   const res = await fetch(url.toString(), {
     headers: {

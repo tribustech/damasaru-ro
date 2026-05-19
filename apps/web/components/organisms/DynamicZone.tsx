@@ -17,21 +17,22 @@ export function DynamicZone({ sections, locale, readMoreLabel, registerLabel }: 
   return (
     <>
       {sections.map((section) => {
+        const key = `${section.__component}-${section.id}`
         switch (section.__component) {
           case 'sections.hero':
-            return <HeroSection key={section.id} section={section} />
+            return <HeroSection key={key} section={section} />
           case 'sections.text-block':
-            return <TextBlock key={section.id} section={section} />
+            return <TextBlock key={key} section={section} />
           case 'sections.cards-grid':
-            return <CardsGrid key={section.id} section={section} />
+            return <CardsGrid key={key} section={section} />
           case 'sections.testimonials':
-            return <TestimonialsSection key={section.id} section={section} />
+            return <TestimonialsSection key={key} section={section} />
           case 'sections.cta-banner':
-            return <CTABanner key={section.id} section={section} />
+            return <CTABanner key={key} section={section} />
           case 'sections.featured-list':
             return (
               <FeaturedList
-                key={section.id}
+                key={key}
                 section={section}
                 locale={locale}
                 readMoreLabel={readMoreLabel}
