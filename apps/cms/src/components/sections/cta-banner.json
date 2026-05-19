@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_cta_banners",
+  "info": {
+    "displayName": "CTA Banner",
+    "icon": "megaphone"
+  },
+  "options": {},
+  "attributes": {
+    "heading": { "type": "string", "required": true },
+    "subtext": { "type": "text" },
+    "buttonLabel": { "type": "string", "required": true },
+    "buttonHref": { "type": "string", "required": true }
+  }
+}

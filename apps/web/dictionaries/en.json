@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Costin",
+    "book": "The Book",
+    "events": "Events",
+    "media": "Media",
+    "blog": "Blog",
+    "contact": "Contact",
+    "cta": "Contact me"
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "resources": "Resources",
+    "social": "Social",
+    "rights": "All rights reserved.",
+    "tagline": "Neuroscience · Psychology · Education"
+  },
+  "blog": {
+    "readMore": "Read more",
+    "readTime": "min read",
+    "allCategories": "all",
+    "noArticles": "No articles found."
+  },
+  "events": {
+    "upcoming": "upcoming",
+    "past": "past",
+    "all": "all",
+    "register": "Register",
+    "noEvents": "No events found."
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send"
+  }
+}

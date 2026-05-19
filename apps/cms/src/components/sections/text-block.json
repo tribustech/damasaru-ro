@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_sections_text_blocks",
+  "info": {
+    "displayName": "Text Block",
+    "icon": "layout"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "richtext" }
+  }
+}

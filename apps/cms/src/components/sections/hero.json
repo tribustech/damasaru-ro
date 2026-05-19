@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": {
+    "displayName": "Hero",
+    "icon": "tv"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" },
+    "ctaButtons": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.cta-button"
+    }
+  }
+}

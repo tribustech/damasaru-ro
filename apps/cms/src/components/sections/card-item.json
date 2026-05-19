@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_sections_card_items",
+  "info": {
+    "displayName": "Card Item",
+    "icon": "feather"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "text": { "type": "text", "required": true },
+    "iconName": { "type": "string" }
+  }
+}

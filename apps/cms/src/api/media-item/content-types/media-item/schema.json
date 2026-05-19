@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "media_items",
+  "info": {
+    "singularName": "media-item",
+    "pluralName": "media-items",
+    "displayName": "Media Item"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": { "localized": true }
+  },
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": ["video", "press", "podcast"],
+      "required": true
+    },
+    "title": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string",
+      "required": true
+    },
+    "source": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string"
+    },
+    "url": { "type": "string" },
+    "date": { "type": "date" },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

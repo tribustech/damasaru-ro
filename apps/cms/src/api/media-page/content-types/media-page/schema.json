@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "media_pages",
+  "info": {
+    "singularName": "media-page",
+    "pluralName": "media-pages",
+    "displayName": "Media Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": { "localized": true }
+  },
+  "attributes": {
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.hero",
+        "sections.text-block",
+        "sections.cards-grid",
+        "sections.testimonials",
+        "sections.cta-banner",
+        "sections.featured-list"
+      ]
+    }
+  }
+}
