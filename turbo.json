@@ -4,7 +4,8 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "build/**", ".strapi/**"]
+      "outputs": [".next/**", "dist/**", "build/**", ".strapi/**"],
+      "env": ["STRAPI_URL", "STRAPI_API_TOKEN"]
     },
     "lint": {
       "dependsOn": ["^lint"]

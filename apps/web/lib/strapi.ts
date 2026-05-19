@@ -10,8 +10,8 @@ import type {
   MediaPage,
 } from '@repo/types'
 
-const STRAPI_URL = process.env.STRAPI_URL ?? 'http://localhost:1337'
-const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN ?? ''
+const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337'
+const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || ''
 
 async function fetchStrapi<T>(
   path: string,
