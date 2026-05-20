@@ -7,7 +7,7 @@ export interface ArticleDTO {
   title: string
   excerpt: string | null
   date: string
-  readingMinutes: number | null
+  readTime: string | null
   cover: MediaDTO | null
   author: string | null
   tags: string[]
@@ -34,7 +34,7 @@ export interface PodcastEpisodeDTO {
   title: string
   description: string | null
   date: string
-  durationMinutes: number | null
+  duration: string | null
   cover: MediaDTO | null
   audioUrl: string | null
   spotifyUrl: string | null

@@ -62,6 +62,8 @@ export interface TestimonialsDTO extends SectionBase {
   eyebrow: string | null
   heading: string | null
   accent: AccentDTO
+  filterBy: Record<string, unknown> | null
+  limit: number
   items: TestimonialDTO[]
 }
 
@@ -91,6 +93,7 @@ export type FeaturedListDTO = SectionBase & {
   accent: AccentDTO
   layout: 'grid' | 'row' | 'marquee' | 'feature' | 'featured-with-list' | 'featured-with-grid'
   limit: number
+  filterBy: Record<string, unknown> | null
   seeAllHref: string | null
   seeAllLabel: string | null
 } & FeaturedListItems

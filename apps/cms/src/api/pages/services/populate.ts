@@ -34,11 +34,11 @@ export const PAGE_POPULATE = {
   },
 }
 
-export const ARTICLE_POPULATE = { cover: true }
-export const EVENT_POPULATE = { cover: true }
-export const PODCAST_EPISODE_POPULATE = { cover: true }
-export const PROJECT_POPULATE = { cover: true }
-export const PRODUCT_POPULATE = { cover: true }
-export const TESTIMONIAL_POPULATE = { avatar: true }
-export const PRESS_MENTION_POPULATE = { logo: true }
+export const ARTICLE_POPULATE = { coverImage: true }
+export const EVENT_POPULATE = { coverImage: true }
+export const PODCAST_EPISODE_POPULATE = { coverImage: true }
+export const PROJECT_POPULATE = { heroImage: true }
+export const PRODUCT_POPULATE = { image: true }
+export const TESTIMONIAL_POPULATE = { photo: true }
+export const PRESS_MENTION_POPULATE = { logoImage: true }
 export const MEDIA_ITEM_POPULATE = { thumbnail: true }

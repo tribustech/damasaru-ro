@@ -56,10 +56,10 @@ export function serializeArticle(raw: any): ArticleDTO {
     title: raw.title,
     excerpt: raw.excerpt ?? null,
     date: raw.date,
-    readingMinutes: raw.readingMinutes ?? null,
-    cover: serializeMedia(raw.cover),
-    author: raw.author ?? null,
-    tags: Array.isArray(raw.tags) ? raw.tags : [],
+    readTime: raw.readTime ?? null,
+    cover: serializeMedia(raw.coverImage),
+    author: null,
+    tags: raw.category ? [raw.category] : [],
   }
 }
 
@@ -71,10 +71,10 @@ export function serializeEvent(raw: any): EventDTO {
     title: raw.title,
     date: raw.date,
     status: raw.status,
-    city: raw.city ?? null,
+    city: raw.location ?? null,
     venue: raw.venue ?? null,
-    cover: serializeMedia(raw.cover),
-    excerpt: raw.excerpt ?? null,
+    cover: serializeMedia(raw.coverImage),
+    excerpt: raw.description ?? null,
   }
 }
 
@@ -86,12 +86,12 @@ export function serializePodcastEpisode(raw: any): PodcastEpisodeDTO {
     number: raw.number,
     title: raw.title,
     description: raw.description ?? null,
-    date: raw.date,
-    durationMinutes: raw.durationMinutes ?? null,
-    cover: serializeMedia(raw.cover),
+    date: raw.publishedAt2 ?? raw.publishedAt ?? null,
+    duration: raw.duration ?? null,
+    cover: serializeMedia(raw.coverImage),
     audioUrl: raw.audioUrl ?? null,
-    spotifyUrl: raw.spotifyUrl ?? null,
-    youtubeUrl: raw.youtubeUrl ?? null,
+    spotifyUrl: null,
+    youtubeUrl: raw.videoUrl ?? null,
   }
 }
 
@@ -103,8 +103,8 @@ export function serializeProject(raw: any): ProjectDTO {
     name: raw.name,
     tagline: raw.tagline ?? null,
     description: raw.description ?? null,
-    cover: serializeMedia(raw.cover),
-    url: raw.url ?? null,
+    cover: serializeMedia(raw.heroImage),
+    url: raw.externalUrl ?? null,
     order: raw.order ?? 0,
   }
 }
@@ -114,11 +114,11 @@ export function serializeProduct(raw: any): ProductDTO {
     id: raw.id,
     documentId: raw.documentId,
     slug: raw.slug,
-    name: raw.name,
+    name: raw.title,
     price: raw.price ?? null,
     description: raw.description ?? null,
-    cover: serializeMedia(raw.cover),
-    url: raw.url ?? null,
+    cover: serializeMedia(raw.image),
+    url: raw.buyUrl ?? null,
     order: raw.order ?? 0,
   }
 }
@@ -130,7 +130,7 @@ export function serializeTestimonial(raw: any): TestimonialDTO {
     quote: raw.quote,
     author: raw.author,
     role: raw.role ?? null,
-    avatar: serializeMedia(raw.avatar),
+    avatar: serializeMedia(raw.photo),
   }
 }
 
@@ -143,7 +143,7 @@ export function serializePressMention(raw: any): PressMentionDTO {
     date: raw.date,
     url: raw.url,
     type: raw.type ?? null,
-    logo: serializeMedia(raw.logo),
+    logo: serializeMedia(raw.logoImage),
   }
 }
 
@@ -152,11 +152,11 @@ export function serializeMediaItem(raw: any): MediaItemDTO {
     id: raw.id,
     documentId: raw.documentId,
     title: raw.title,
-    kind: raw.kind,
+    kind: raw.type,
     date: raw.date ?? null,
     url: raw.url,
     thumbnail: serializeMedia(raw.thumbnail),
-    description: raw.description ?? null,
+    description: raw.source ?? null,
   }
 }
 
@@ -272,7 +272,7 @@ export function serializeSection(raw: any): any {
         body: raw.subtext ?? null,
         accent: raw.accent ?? 'paper',
         source: raw.formId ?? 'site',
-        submitLabel: raw.buttonLabel ?? 'Trimite',
+        submitLabel: raw.buttonLabel ?? 'Abonează-te',
       }
     case 'sections.faq-accordion':
       return {
