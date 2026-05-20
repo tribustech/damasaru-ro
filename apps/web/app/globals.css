@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-navy: #14202E;
+  --color-navy-deep: #0E1822;
+  --color-navy-soft: #1F2D40;
+  --color-navy-line: #2D3F55;
+  --color-gold: #D4AF6A;
+  --color-gold-bright: #E2BF7E;
+  --color-gold-deep: #B8924D;
+  --color-forest: #2D4D43;
+  --color-forest-bright: #3D6B5C;
+  --color-white: #FFFFFE;
+  --color-paper: #F5F2EC;
+  --color-paper-warm: #EBE6DC;
+  --color-text-light: #C5D2E2;
+  --color-text-mid: #4A5568;
+  --color-text-soft: #8B97A8;
+  --color-text-dim: #6B7B91;
+  --color-line: #E5DDD0;
+  --color-line-dark: #1F2D40;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-navy: var(--color-navy);
+  --color-navy-deep: var(--color-navy-deep);
+  --color-navy-soft: var(--color-navy-soft);
+  --color-navy-line: var(--color-navy-line);
+  --color-gold: var(--color-gold);
+  --color-gold-bright: var(--color-gold-bright);
+  --color-gold-deep: var(--color-gold-deep);
+  --color-forest: var(--color-forest);
+  --color-paper: var(--color-paper);
+  --color-paper-warm: var(--color-paper-warm);
+  --color-line: var(--color-line);
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-navy);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.italic-gold {
+  font-style: italic;
+  color: var(--color-gold-deep);
+}
+
+.section-accent-navy .italic-gold,
+.section-accent-navy-deep .italic-gold {
+  color: var(--color-gold);
+}
+
+.prose-paper a { color: var(--color-gold-deep); }
+.prose-navy a { color: var(--color-gold); }
