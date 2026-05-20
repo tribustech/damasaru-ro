@@ -2,7 +2,7 @@ import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import Link from 'next/link'
 
 interface BaseProps {
-  variant?: 'primary' | 'outline'
+  variant?: 'primary' | 'outline' | 'ghost-light'
   size?: 'sm' | 'md'
 }
 
@@ -13,11 +13,15 @@ type Props = ButtonProps | LinkProps
 
 export function Button({ variant = 'primary', size = 'md', className = '', ...props }: Props) {
   const base =
-    'inline-flex items-center justify-center gap-2 rounded-full font-sans transition-opacity hover:opacity-90'
+    'inline-flex items-center justify-center gap-2 rounded-full font-sans transition-all hover:-translate-y-px'
   const sizes = { sm: 'px-5 py-2.5 text-sm', md: 'px-8 py-4 text-base' }
   const variants = {
-    primary: 'bg-[#B8866F] text-white',
-    outline: 'border border-[rgba(45,36,30,0.2)] text-[#2D241E]',
+    primary:
+      'bg-[var(--color-gold)] text-[var(--color-navy)] font-semibold hover:bg-[var(--color-gold-bright)]',
+    outline:
+      'border border-[var(--color-navy)] text-[var(--color-navy)] hover:bg-[var(--color-navy)] hover:text-white',
+    'ghost-light':
+      'border border-[var(--color-navy-line)] text-white hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]',
   }
 
   const classes = [base, sizes[size], variants[variant], className].join(' ')

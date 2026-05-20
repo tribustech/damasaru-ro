@@ -12,18 +12,16 @@ interface NavLinkProps {
 
 export function NavLink({ href, label, onClick, mobile = false }: NavLinkProps) {
   const pathname = usePathname()
-  const isActive = href === '/' ? pathname === href : pathname.startsWith(href)
+  const isActive = pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
 
   if (mobile) {
     return (
       <Link
         href={href}
         onClick={onClick}
-        className="flex items-center justify-between py-3 border-b text-base"
-        style={{
-          color: isActive ? '#B8866F' : '#2D241E',
-          borderColor: 'rgba(45,36,30,0.06)',
-        }}
+        className={`flex items-center justify-between py-3 border-b border-[var(--color-navy-line)] text-base ${
+          isActive ? 'text-[var(--color-gold)]' : 'text-[var(--color-text-light)] hover:text-white'
+        }`}
       >
         {label}
       </Link>
@@ -33,15 +31,13 @@ export function NavLink({ href, label, onClick, mobile = false }: NavLinkProps) 
   return (
     <Link
       href={href}
-      className="text-sm transition-all relative"
-      style={{ color: isActive ? '#2D241E' : '#6B5F54' }}
+      className={`text-sm tracking-wide transition-colors relative pb-1 ${
+        isActive ? 'text-white' : 'text-[var(--color-text-light)] hover:text-[var(--color-gold)]'
+      }`}
     >
       {label}
       {isActive && (
-        <span
-          className="absolute -bottom-1 left-0 right-0 h-px"
-          style={{ backgroundColor: '#B8866F' }}
-        />
+        <span className="absolute -bottom-0 left-0 right-0 h-px bg-[var(--color-gold)]" />
       )}
     </Link>
   )
