@@ -9,39 +9,45 @@ interface FooterProps {
 export function Footer({ locale, dict }: FooterProps) {
   const navLinks = [
     { label: dict.nav.about, href: `/${locale}/despre` },
-    { label: dict.nav.events, href: `/${locale}/evenimente` },
-    { label: dict.nav.media, href: `/${locale}/media` },
-    { label: dict.nav.blog, href: `/${locale}/blog` },
+    { label: dict.nav.book, href: `/${locale}/carte` },
+    { label: dict.nav.podcast, href: `/${locale}/podcast` },
+    { label: dict.nav.idei, href: `/${locale}/idei` },
   ]
 
-  const resourceLinks = [
-    { label: dict.nav.book, href: `/${locale}/carte` },
-    { label: dict.nav.contact, href: `/${locale}/contact` },
+  const activityLinks = [
+    { label: dict.nav.proiecte, href: `/${locale}/proiecte` },
+    { label: dict.nav.events, href: `/${locale}/evenimente` },
+    { label: dict.nav.magazin, href: `/${locale}/magazin` },
+    { label: dict.nav.media, href: `/${locale}/media` },
+  ]
+
+  const socialLinks = [
+    { label: 'YouTube', href: 'https://www.youtube.com/@costindamasaru' },
+    { label: 'Spotify', href: 'https://open.spotify.com' },
+    { label: 'Instagram', href: 'https://www.instagram.com/costindamasaru' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/costindamasaru' },
   ]
 
   return (
-    <footer style={{ backgroundColor: '#2D241E' }}>
+    <footer className="bg-[var(--color-navy)] border-t border-[var(--color-navy-line)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           <div className="lg:col-span-4">
-            <div className="text-2xl tracking-tight mb-4 font-serif" style={{ color: '#FAF8F5' }}>
-              Costin Damașaru
+            <div className="text-2xl font-serif text-white mb-4">
+              Costin <span className="italic text-[var(--color-gold)]">Dămășaru</span>
             </div>
-            <p className="text-sm leading-relaxed mb-8" style={{ color: 'rgba(250,248,245,0.5)' }}>
-              Neurocercetător, autor și facilitator — dedicat să ajut oamenii să înțeleagă puterea creierului lor.
+            <p className="text-sm leading-relaxed text-[var(--color-text-light)]/70 mb-8 max-w-sm">
+              Neurocercetător, autor și fondator. Construiesc instrumente prin care oamenii își recapătă claritatea — în minte și în viață.
             </p>
-            <div
-              className="inline-block px-4 py-2 rounded-full text-xs uppercase tracking-wider"
-              style={{ border: '1px solid rgba(184,134,111,0.3)', color: '#B8866F' }}
-            >
-              Veruvis · Veruvis Kids · Neuro Performance
+            <div className="inline-block px-4 py-2 rounded-full text-xs uppercase tracking-[0.2em] border border-[var(--color-gold)]/30 text-[var(--color-gold)]">
+              Veruvis · Veruvis Kids · Nircura
             </div>
           </div>
 
-          <div className="hidden lg:block lg:col-span-2" />
+          <div className="hidden lg:block lg:col-span-1" />
 
           <div className="lg:col-span-2">
-            <h3 className="text-xs uppercase tracking-wider mb-6" style={{ color: '#B8866F' }}>
+            <h3 className="text-xs uppercase tracking-[0.25em] mb-6 text-[var(--color-gold)] font-semibold">
               {dict.navigation}
             </h3>
             <ul className="space-y-4">
@@ -49,8 +55,7 @@ export function Footer({ locale, dict }: FooterProps) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm transition-colors hover:text-[#B8866F]"
-                    style={{ color: 'rgba(250,248,245,0.55)' }}
+                    className="text-sm text-[var(--color-text-light)]/70 hover:text-[var(--color-gold)] transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -60,16 +65,15 @@ export function Footer({ locale, dict }: FooterProps) {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="text-xs uppercase tracking-wider mb-6" style={{ color: '#B8866F' }}>
+            <h3 className="text-xs uppercase tracking-[0.25em] mb-6 text-[var(--color-gold)] font-semibold">
               {dict.resources}
             </h3>
             <ul className="space-y-4">
-              {resourceLinks.map((item) => (
+              {activityLinks.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm transition-colors hover:text-[#B8866F]"
-                    style={{ color: 'rgba(250,248,245,0.55)' }}
+                    className="text-sm text-[var(--color-text-light)]/70 hover:text-[var(--color-gold)] transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -78,19 +82,20 @@ export function Footer({ locale, dict }: FooterProps) {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h3 className="text-xs uppercase tracking-wider mb-6" style={{ color: '#B8866F' }}>
+          <div className="lg:col-span-3">
+            <h3 className="text-xs uppercase tracking-[0.25em] mb-6 text-[var(--color-gold)] font-semibold">
               {dict.social}
             </h3>
             <ul className="space-y-4">
-              {['LinkedIn', 'Instagram', 'YouTube', 'Twitter'].map((s) => (
-                <li key={s}>
+              {socialLinks.map((s) => (
+                <li key={s.label}>
                   <a
-                    href="#"
-                    className="text-sm transition-colors hover:text-[#B8866F]"
-                    style={{ color: 'rgba(250,248,245,0.55)' }}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-[var(--color-text-light)]/70 hover:text-[var(--color-gold)] transition-colors"
                   >
-                    {s}
+                    {s.label}
                   </a>
                 </li>
               ))}
@@ -98,16 +103,11 @@ export function Footer({ locale, dict }: FooterProps) {
           </div>
         </div>
 
-        <div
-          className="pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ borderColor: 'rgba(250,248,245,0.08)' }}
-        >
-          <p className="text-xs" style={{ color: 'rgba(250,248,245,0.3)' }}>
-            © {new Date().getFullYear()} Costin Damașaru. {dict.rights}
+        <div className="pt-8 border-t border-[var(--color-navy-line)] flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[var(--color-text-light)]/40">
+            © {new Date().getFullYear()} Costin Dămășaru. {dict.rights}
           </p>
-          <p className="text-xs" style={{ color: 'rgba(250,248,245,0.3)' }}>
-            {dict.tagline}
-          </p>
+          <p className="text-xs text-[var(--color-text-light)]/40">{dict.tagline}</p>
         </div>
       </div>
     </footer>

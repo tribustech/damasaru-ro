@@ -1,18 +1,21 @@
 {
   "nav": {
     "home": "Acasă",
-    "about": "Despre Costin",
+    "about": "Despre",
     "book": "Cartea",
+    "podcast": "Podcast",
+    "idei": "Idei",
+    "proiecte": "Proiecte",
     "events": "Evenimente",
+    "magazin": "Magazin",
     "media": "Media",
-    "blog": "Blog",
     "contact": "Contact",
     "cta": "Contactează-mă"
   },
   "footer": {
     "navigation": "Navigare",
-    "resources": "Resurse",
-    "social": "Social",
+    "resources": "Activitate",
+    "social": "Urmărește",
     "rights": "Toate drepturile rezervate.",
     "tagline": "Neuroștiință · Psihologie · Educație"
   },
@@ -26,7 +29,7 @@
     "upcoming": "viitoare",
     "past": "trecute",
     "all": "toate",
-    "register": "Înregistrează-te",
+    "register": "Detalii",
     "noEvents": "Nu există evenimente."
   },
   "contact": {

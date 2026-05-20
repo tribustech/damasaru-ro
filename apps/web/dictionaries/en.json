@@ -1,18 +1,21 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About Costin",
+    "about": "About",
     "book": "The Book",
+    "podcast": "Podcast",
+    "idei": "Essays",
+    "proiecte": "Projects",
     "events": "Events",
+    "magazin": "Shop",
     "media": "Media",
-    "blog": "Blog",
     "contact": "Contact",
-    "cta": "Contact me"
+    "cta": "Get in touch"
   },
   "footer": {
     "navigation": "Navigation",
-    "resources": "Resources",
-    "social": "Social",
+    "resources": "Work",
+    "social": "Follow",
     "rights": "All rights reserved.",
     "tagline": "Neuroscience · Psychology · Education"
   },
@@ -26,7 +29,7 @@
     "upcoming": "upcoming",
     "past": "past",
     "all": "all",
-    "register": "Register",
+    "register": "Details",
     "noEvents": "No events found."
   },
   "contact": {
