@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { getEvent, NotFoundError } from '@/lib/strapi'
-import { EventDetail } from '@/components/organisms/EventDetail'
+import { getArticle, NotFoundError } from '@/lib/strapi'
+import { ArticleDetail } from '@/components/organisms/ArticleDetail'
 
 export const dynamicParams = true
 
@@ -8,11 +8,11 @@ interface PageProps {
   params: Promise<{ locale: string; slug: string }>
 }
 
-export default async function EventDetailPage({ params }: PageProps) {
+export default async function ArticleDetailPage({ params }: PageProps) {
   const { locale, slug } = await params
   try {
-    const event = await getEvent(slug, locale)
-    return <EventDetail event={event} locale={locale} />
+    const article = await getArticle(slug, locale)
+    return <ArticleDetail article={article} locale={locale} />
   } catch (e) {
     if (e instanceof NotFoundError) notFound()
     throw e
@@ -22,8 +22,8 @@ export default async function EventDetailPage({ params }: PageProps) {
 export async function generateMetadata({ params }: PageProps) {
   const { locale, slug } = await params
   try {
-    const event = await getEvent(slug, locale)
-    return { title: event.title, description: event.excerpt ?? undefined }
+    const article = await getArticle(slug, locale)
+    return { title: article.title, description: article.excerpt ?? undefined }
   } catch (e) {
     if (e instanceof NotFoundError) return {}
     throw e
