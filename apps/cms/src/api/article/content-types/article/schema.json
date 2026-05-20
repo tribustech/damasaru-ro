@@ -31,16 +31,13 @@
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "richtext"
     },
-    "date": {
-      "type": "date"
-    },
+    "date": { "type": "date" },
     "category": {
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "string"
     },
-    "readTime": {
-      "type": "string"
-    },
+    "readTime": { "type": "string" },
+    "featured": { "type": "boolean", "default": false },
     "coverImage": {
       "type": "media",
       "multiple": false,

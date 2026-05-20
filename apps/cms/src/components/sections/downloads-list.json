@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_downloads_lists",
+  "info": {
+    "displayName": "Downloads List",
+    "icon": "download"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "intro": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.download-item"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "press_mentions",
+  "info": {
+    "singularName": "press-mention",
+    "pluralName": "press-mentions",
+    "displayName": "Press Mention"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "outlet": { "type": "string", "required": true },
+    "url": { "type": "string" },
+    "date": { "type": "date" },
+    "logoImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["article", "interview", "magazine", "tv", "radio", "podcast"],
+      "required": true,
+      "default": "article"
+    },
+    "excerpt": { "type": "text" },
+    "featured": { "type": "boolean", "default": false }
+  }
+}

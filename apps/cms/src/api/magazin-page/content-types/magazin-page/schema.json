@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "magazin_pages",
+  "info": {
+    "singularName": "magazin-page",
+    "pluralName": "magazin-pages",
+    "displayName": "Magazin Page"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seoTitle": { "pluginOptions": { "i18n": { "localized": true } }, "type": "string" },
+    "seoDescription": { "pluginOptions": { "i18n": { "localized": true } }, "type": "text" },
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.hero", "sections.text-block", "sections.cards-grid", "sections.testimonials",
+        "sections.cta-banner", "sections.featured-list", "sections.stats-strip", "sections.quote-large",
+        "sections.image-text-split", "sections.newsletter-form", "sections.faq-accordion",
+        "sections.logo-wall", "sections.downloads-list", "sections.video-feature",
+        "sections.credentials-grid", "sections.event-feature", "sections.contact-form"
+      ]
+    }
+  }
+}

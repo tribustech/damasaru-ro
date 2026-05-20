@@ -8,6 +8,13 @@
   "attributes": {
     "title": { "type": "string", "required": true },
     "text": { "type": "text", "required": true },
-    "iconName": { "type": "string" }
+    "iconName": { "type": "string" },
+    "iconImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "tag": { "type": "string" },
+    "href": { "type": "string" }
   }
 }

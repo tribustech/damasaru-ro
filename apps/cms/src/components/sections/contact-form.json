@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_contact_forms",
+  "info": {
+    "displayName": "Contact Form",
+    "icon": "envelop"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "subtext": { "type": "text" },
+    "nameLabel": { "type": "string", "default": "Nume" },
+    "emailLabel": { "type": "string", "default": "Email" },
+    "messageLabel": { "type": "string", "default": "Mesaj" },
+    "submitLabel": { "type": "string", "default": "Trimite" },
+    "successMessage": { "type": "string", "default": "Mulțumim, mesajul a fost trimis." },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_quote_larges",
+  "info": {
+    "displayName": "Quote Large",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "quote": { "type": "text", "required": true },
+    "attribution": { "type": "string" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    }
+  }
+}

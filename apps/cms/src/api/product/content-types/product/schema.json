@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": { "localized": true }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "format": {
+      "type": "enumeration",
+      "enum": ["hardcover", "ebook", "audiobook", "event", "course", "bundle"],
+      "required": true,
+      "default": "hardcover"
+    },
+    "price": { "type": "string" },
+    "currency": { "type": "string", "default": "RON" },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "buyUrl": { "type": "string" },
+    "description": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "text"
+    },
+    "longDescription": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "richtext"
+    },
+    "availability": {
+      "type": "enumeration",
+      "enum": ["available", "waitlist", "sold_out", "upcoming"],
+      "default": "available",
+      "required": true
+    },
+    "featured": { "type": "boolean", "default": false },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

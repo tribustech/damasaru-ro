@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_logo_walls",
+  "info": {
+    "displayName": "Logo Wall",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.logo-item"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_newsletter_forms",
+  "info": {
+    "displayName": "Newsletter Form",
+    "icon": "envelop"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "subtext": { "type": "text" },
+    "buttonLabel": { "type": "string", "required": true, "default": "Abonează-te" },
+    "placeholder": { "type": "string", "default": "Adresa ta de email" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy-deep"
+    },
+    "formId": { "type": "string", "default": "default" }
+  }
+}

@@ -18,6 +18,10 @@
       "type": "string",
       "required": true
     },
+    "subtitle": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string"
+    },
     "slug": {
       "type": "uid",
       "targetField": "title",
@@ -27,7 +31,12 @@
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "text"
     },
+    "longDescription": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "richtext"
+    },
     "date": { "type": "date" },
+    "endDate": { "type": "date" },
     "time": { "type": "string" },
     "location": {
       "pluginOptions": { "i18n": { "localized": true } },
@@ -37,21 +46,30 @@
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "string"
     },
+    "address": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string"
+    },
     "price": { "type": "string" },
     "spots": {
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "string"
     },
+    "ticketsUrl": { "type": "string" },
+    "organizer": { "type": "string" },
     "status": {
       "type": "enumeration",
       "enum": ["viitor", "trecut"],
       "default": "viitor",
       "required": true
     },
+    "featured": { "type": "boolean", "default": false },
     "coverImage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
-    }
+    },
+    "aftermovieUrl": { "type": "string" },
+    "jsonLd": { "type": "json" }
   }
 }

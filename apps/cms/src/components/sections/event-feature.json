@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_sections_event_features",
+  "info": {
+    "displayName": "Event Feature",
+    "icon": "calendar"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "event": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::event.event"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}

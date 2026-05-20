@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_faq_accordions",
+  "info": {
+    "displayName": "FAQ Accordion",
+    "icon": "discuss"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "intro": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.faq-item"
+    }
+  }
+}

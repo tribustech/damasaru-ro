@@ -6,12 +6,35 @@
   },
   "options": {},
   "attributes": {
+    "eyebrow": { "type": "string" },
     "title": { "type": "string", "required": true },
+    "titleItalic": { "type": "string" },
     "subtitle": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "mediaPosition": {
+      "type": "enumeration",
+      "enum": ["right", "left", "below", "none"],
+      "default": "right"
+    },
     "ctaButtons": {
       "type": "component",
       "repeatable": true,
       "component": "shared.cta-button"
-    }
+    },
+    "statsStrip": {
+      "type": "component",
+      "repeatable": false,
+      "component": "sections.stats-strip"
+    },
+    "projectsStripLabel": { "type": "string" }
   }
 }

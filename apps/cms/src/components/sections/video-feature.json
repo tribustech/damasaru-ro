@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_video_features",
+  "info": {
+    "displayName": "Video Feature",
+    "icon": "play"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "body": { "type": "text" },
+    "videoUrl": { "type": "string", "required": true },
+    "posterImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    }
+  }
+}

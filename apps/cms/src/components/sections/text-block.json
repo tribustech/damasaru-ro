@@ -8,6 +8,17 @@
   "attributes": {
     "eyebrow": { "type": "string" },
     "heading": { "type": "string", "required": true },
-    "body": { "type": "richtext" }
+    "headingItalic": { "type": "string" },
+    "body": { "type": "richtext" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "align": {
+      "type": "enumeration",
+      "enum": ["left", "center"],
+      "default": "left"
+    }
   }
 }

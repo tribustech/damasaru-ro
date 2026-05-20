@@ -8,5 +8,6 @@ export interface Article extends StrapiBase {
   date: string | null
   category: string | null
   readTime: string | null
+  featured: boolean
   coverImage: StrapiMedia | null
 }

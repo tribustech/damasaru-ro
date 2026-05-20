@@ -6,9 +6,16 @@
   },
   "options": {},
   "attributes": {
+    "eyebrow": { "type": "string" },
     "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
     "subtext": { "type": "text" },
     "buttonLabel": { "type": "string", "required": true },
-    "buttonHref": { "type": "string", "required": true }
+    "buttonHref": { "type": "string", "required": true },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    }
   }
 }

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_stats_strips",
+  "info": {
+    "displayName": "Stats Strip",
+    "icon": "chartCircle"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.stat-item"
+    }
+  }
+}

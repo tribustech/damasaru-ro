@@ -6,11 +6,28 @@
   },
   "options": {},
   "attributes": {
+    "eyebrow": { "type": "string" },
     "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "subheading": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
     "relation": {
       "type": "enumeration",
-      "enum": ["articles", "events"],
+      "enum": ["articles", "events", "podcast-episodes", "projects", "products", "testimonials", "press-mentions"],
       "required": true
-    }
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["grid", "row", "marquee", "feature", "featured-with-list", "featured-with-grid", "list-rows", "event-banner"],
+      "default": "grid"
+    },
+    "limit": { "type": "integer", "default": 3 },
+    "filterBy": { "type": "json" },
+    "seeAllHref": { "type": "string" },
+    "seeAllLabel": { "type": "string" }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_download_items",
+  "info": {
+    "displayName": "Download Item",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "description": { "type": "string" },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "group": { "type": "string" }
+  }
+}
