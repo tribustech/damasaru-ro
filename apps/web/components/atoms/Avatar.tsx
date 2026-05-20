@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import type { StrapiMedia } from '@repo/types'
+import type { MediaDTO } from '@repo/types'
 
 interface AvatarProps {
-  photo: StrapiMedia | null
+  photo: MediaDTO | null
   name: string
   size?: number
 }
@@ -27,7 +27,7 @@ export function Avatar({ photo, name, size = 48 }: AvatarProps) {
   return (
     <Image
       src={photo.url}
-      alt={photo.alternativeText ?? name}
+      alt={photo.alt || name}
       width={size}
       height={size}
       className="rounded-full object-cover"

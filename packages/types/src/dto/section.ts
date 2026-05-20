@@ -31,7 +31,7 @@ export interface HeroDTO extends SectionBase {
 }
 
 interface StatsStripInline {
-  items: { id: number; value: string; label: string }[]
+  items: { id: number; value: string; label: string; caption: string | null }[]
 }
 
 export interface TextBlockDTO extends SectionBase {
@@ -101,7 +101,7 @@ export type FeaturedListDTO = SectionBase & {
 export interface StatsStripDTO extends SectionBase {
   __component: 'sections.stats-strip'
   accent: AccentDTO
-  items: { id: number; value: string; label: string }[]
+  items: { id: number; value: string; label: string; caption: string | null }[]
 }
 
 export interface QuoteLargeDTO extends SectionBase {

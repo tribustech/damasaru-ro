@@ -69,6 +69,7 @@ export function serializeEvent(raw: any): EventDTO {
     documentId: raw.documentId,
     slug: raw.slug,
     title: raw.title,
+    subtitle: raw.subtitle ?? null,
     date: raw.date,
     status: raw.status,
     city: raw.location ?? null,
@@ -116,6 +117,8 @@ export function serializeProduct(raw: any): ProductDTO {
     slug: raw.slug,
     name: raw.title,
     price: raw.price ?? null,
+    availability: raw.availability ?? null,
+    format: raw.format ?? null,
     description: raw.description ?? null,
     cover: serializeMedia(raw.image),
     url: raw.buyUrl ?? null,
@@ -175,7 +178,7 @@ export function serializeSection(raw: any): any {
         mediaPosition: raw.mediaPosition ?? 'right',
         ctaButtons: ctaButtons(raw.ctaButtons),
         statsStrip: raw.statsStrip
-          ? { items: (raw.statsStrip.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label })) }
+          ? { items: (raw.statsStrip.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label, caption: i.caption ?? null })) }
           : null,
       }
     case 'sections.text-block':
@@ -241,7 +244,7 @@ export function serializeSection(raw: any): any {
       return {
         ...base,
         accent: raw.accent ?? 'paper',
-        items: (raw.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label })),
+        items: (raw.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label, caption: i.caption ?? null })),
       }
     case 'sections.quote-large':
       return {

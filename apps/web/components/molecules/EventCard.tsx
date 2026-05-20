@@ -1,55 +1,50 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, MapPin } from 'lucide-react'
-import type { Event } from '@repo/types'
+import type { EventDTO, SectionAccent } from '@repo/types'
 import { Button } from '../atoms/Button'
+import { getAccent } from '@/lib/accent'
 
 interface EventCardProps {
-  event: Event
+  event: EventDTO
   locale: string
-  registerLabel: string
+  registerLabel?: string
+  accent?: SectionAccent | null
 }
 
-export function EventCard({ event, locale, registerLabel }: EventCardProps) {
+export function EventCard({ event, locale, registerLabel = 'Detalii', accent }: EventCardProps) {
+  const a = getAccent(accent)
   const href = `/${locale}/evenimente/${event.slug}`
-  const imageUrl = event.coverImage?.url ?? null
-
+  const imageUrl = event.cover?.url ?? null
   return (
-    <article className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[rgba(45,36,30,0.08)] hover:shadow-md transition-shadow">
+    <article className={`group flex flex-col rounded-3xl overflow-hidden border ${a.border} ${a.isDark ? 'bg-white/5' : 'bg-white'}`}>
       {imageUrl && (
-        <div className="relative aspect-[16/9] overflow-hidden">
+        <Link href={href} className="relative aspect-[16/9] overflow-hidden">
           <Image
             src={imageUrl}
-            alt={event.coverImage?.alternativeText ?? event.title}
+            alt={event.cover?.alt ?? event.title}
             fill
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-        </div>
+          {event.date && (
+            <span className="absolute top-4 left-4 inline-block px-3 py-1.5 text-xs bg-white/95 rounded-full text-[var(--color-navy)]">
+              {event.date}
+            </span>
+          )}
+        </Link>
       )}
       <div className="flex flex-col flex-1 p-6">
-        <h3 className="text-xl font-serif font-light mb-3 leading-snug" style={{ color: '#2D241E' }}>
-          {event.title}
-        </h3>
-        <div className="space-y-2 mb-4">
-          {event.date && (
-            <div className="flex items-center gap-2 text-sm" style={{ color: '#6B5F54' }}>
-              <Calendar size={14} style={{ color: '#B8866F' }} />
-              {event.date}{event.time ? ` · ${event.time}` : ''}
-            </div>
-          )}
-          {event.location && (
-            <div className="flex items-center gap-2 text-sm" style={{ color: '#6B5F54' }}>
-              <MapPin size={14} style={{ color: '#B8866F' }} />
-              {event.location}
-            </div>
-          )}
-        </div>
-        {event.price && (
-          <p className="text-lg font-medium mb-4" style={{ color: '#2D241E' }}>
-            {event.price}
-          </p>
+        <Link href={href}>
+          <h3 className={`text-xl font-serif font-medium mb-2 leading-snug ${a.text}`}>{event.title}</h3>
+        </Link>
+        {event.subtitle && <p className={`text-sm ${a.italic} mb-3`}>{event.subtitle}</p>}
+        {event.city && (
+          <p className={`text-sm mb-3 ${a.textMuted}`}>{event.city}{event.venue ? ` · ${event.venue}` : ''}</p>
         )}
-        <Button href={href} variant="primary" size="sm" className="mt-auto">
+        {event.excerpt && (
+          <p className={`text-sm mb-4 flex-1 leading-relaxed ${a.textMuted}`}>{event.excerpt}</p>
+        )}
+        <Button href={href} variant="primary" size="sm" className="mt-auto self-start">
           {registerLabel}
         </Button>
       </div>

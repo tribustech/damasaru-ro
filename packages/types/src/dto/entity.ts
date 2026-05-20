@@ -18,6 +18,7 @@ export interface EventDTO {
   documentId: string
   slug: string
   title: string
+  subtitle: string | null
   date: string
   status: 'viitor' | 'trecut'
   city: string | null
@@ -59,6 +60,8 @@ export interface ProductDTO {
   slug: string
   name: string
   price: string | null
+  availability: string | null
+  format: string | null
   description: string | null
   cover: MediaDTO | null
   url: string | null

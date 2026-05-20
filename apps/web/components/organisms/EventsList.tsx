@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import type { Event } from '@repo/types'
+import type { EventDTO } from '@repo/types'
 import { EventCard } from '../molecules/EventCard'
 import { Tag } from '../atoms/Tag'
 
 interface EventsListProps {
-  events: Event[]
+  events: EventDTO[]
   locale: string
   registerLabel: string
   allLabel: string

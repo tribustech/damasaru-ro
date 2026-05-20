@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import type { Article } from '@repo/types'
+import type { ArticleDTO } from '@repo/types'
 import { ArticleCard } from '../molecules/ArticleCard'
 import { Tag } from '../atoms/Tag'
 
 interface ArticlesListProps {
-  articles: Article[]
+  articles: ArticleDTO[]
   locale: string
   readMoreLabel: string
   allLabel: string
@@ -22,14 +22,14 @@ export function ArticlesList({
 }: ArticlesListProps) {
   const categories = [
     allLabel,
-    ...Array.from(new Set(articles.map((a) => a.category).filter(Boolean))) as string[],
+    ...Array.from(new Set(articles.flatMap((a) => a.tags).filter(Boolean))) as string[],
   ]
   const [activeCategory, setActiveCategory] = useState(allLabel)
 
   const filtered =
     activeCategory === allLabel
       ? articles
-      : articles.filter((a) => a.category === activeCategory)
+      : articles.filter((a) => a.tags.includes(activeCategory))
 
   return (
     <div>
