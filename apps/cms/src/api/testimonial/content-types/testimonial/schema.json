@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "testimonials",
+  "info": {
+    "singularName": "testimonial",
+    "pluralName": "testimonials",
+    "displayName": "Testimonial"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": { "localized": true }
+  },
+  "attributes": {
+    "quote": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "text",
+      "required": true
+    },
+    "author": { "type": "string", "required": true },
+    "role": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["book", "event", "podcast", "workshop", "general"],
+      "default": "general",
+      "required": true
+    },
+    "rating": { "type": "integer", "min": 1, "max": 5 },
+    "featured": { "type": "boolean", "default": false }
+  }
+}
