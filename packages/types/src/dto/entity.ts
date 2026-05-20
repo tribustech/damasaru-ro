@@ -34,7 +34,7 @@ export interface PodcastEpisodeDTO {
   number: number
   title: string
   description: string | null
-  date: string
+  date: string | null
   duration: string | null
   cover: MediaDTO | null
   audioUrl: string | null

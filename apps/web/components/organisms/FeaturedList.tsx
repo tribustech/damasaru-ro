@@ -22,6 +22,8 @@ const containerClass: Record<string, string> = {
   feature: 'space-y-12',
   'featured-with-list': 'space-y-8',
   'featured-with-grid': 'space-y-8',
+  'list-rows': 'flex flex-col gap-4',
+  'event-banner': 'space-y-12',
 }
 
 export function FeaturedList({ section, locale }: FeaturedListProps) {

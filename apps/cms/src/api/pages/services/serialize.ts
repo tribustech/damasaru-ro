@@ -22,16 +22,21 @@ function absolutize(url: string | null | undefined): string | null {
 
 export function serializeMedia(raw: any): MediaDTO | null {
   if (!raw) return null
+  const url = absolutize(raw.url)
+  if (!url) return null
   const formats = raw.formats
     ? Object.fromEntries(
-        Object.entries(raw.formats).map(([key, fmt]: [string, any]) => [
-          key,
-          { url: absolutize(fmt.url)!, width: fmt.width, height: fmt.height },
-        ]),
+        Object.entries(raw.formats)
+          .map(([key, fmt]: [string, any]) => {
+            const formatUrl = absolutize(fmt.url)
+            if (!formatUrl) return null
+            return [key, { url: formatUrl, width: fmt.width, height: fmt.height }] as const
+          })
+          .filter((e): e is readonly [string, { url: string; width: number; height: number }] => e !== null),
       )
     : undefined
   return {
-    url: absolutize(raw.url)!,
+    url,
     alt: raw.alternativeText ?? '',
     width: raw.width ?? 0,
     height: raw.height ?? 0,

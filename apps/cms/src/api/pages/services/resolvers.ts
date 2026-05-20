@@ -104,8 +104,9 @@ export async function resolveTestimonialsList({ locale, limit, filterBy }: ListO
   return list.map(serializeTestimonial)
 }
 
-export async function resolvePressMentions({ locale, limit, filterBy }: ListOpts) {
+export async function resolvePressMentions({ locale: _locale, limit, filterBy }: ListOpts) {
   const list = await strapi.documents('api::press-mention.press-mention').findMany({
+    status: 'published',
     sort: ['date:desc'],
     limit,
     populate: PRESS_MENTION_POPULATE,

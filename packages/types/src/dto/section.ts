@@ -91,7 +91,7 @@ export type FeaturedListDTO = SectionBase & {
   headingItalic: string | null
   subheading: string | null
   accent: AccentDTO
-  layout: 'grid' | 'row' | 'marquee' | 'feature' | 'featured-with-list' | 'featured-with-grid'
+  layout: 'grid' | 'row' | 'marquee' | 'feature' | 'featured-with-list' | 'featured-with-grid' | 'list-rows' | 'event-banner'
   limit: number
   filterBy: Record<string, unknown> | null
   seeAllHref: string | null

@@ -1,4 +1,11 @@
-import { PAGE_POPULATE } from './populate'
+import {
+  PAGE_POPULATE,
+  ARTICLE_POPULATE,
+  EVENT_POPULATE,
+  PODCAST_EPISODE_POPULATE,
+  PROJECT_POPULATE,
+  PRODUCT_POPULATE,
+} from './populate'
 import { serializeSection, serializeMedia } from './serialize'
 import { resolveFeaturedList, resolveEventByDocumentId, resolveTestimonialsList } from './resolvers'
 
@@ -73,7 +80,7 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
       locale,
       status: 'published',
       filters: { slug: { $eq: slug } },
-      populate: { coverImage: true },
+      populate: ARTICLE_POPULATE,
     } as any)
     if (!item) return null
     const related = await strapi.documents('api::article.article').findMany({
@@ -82,7 +89,7 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
       sort: ['date:desc'],
       limit: 3,
       filters: { slug: { $ne: slug } },
-      populate: { coverImage: true },
+      populate: ARTICLE_POPULATE,
     } as any)
     return {
       id: (item as any).id,
@@ -113,12 +120,12 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
 
   async podcast(slug, locale) {
     const item = await strapi.documents('api::podcast-episode.podcast-episode').findFirst({
-      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: { coverImage: true },
+      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: PODCAST_EPISODE_POPULATE,
     } as any)
     if (!item) return null
     const related = await strapi.documents('api::podcast-episode.podcast-episode').findMany({
       locale, status: 'published', sort: ['number:desc'], limit: 3,
-      filters: { slug: { $ne: slug } }, populate: { coverImage: true },
+      filters: { slug: { $ne: slug } }, populate: PODCAST_EPISODE_POPULATE,
     } as any)
     const it = item as any
     return {
@@ -140,12 +147,12 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
 
   async proiecte(slug, locale) {
     const item = await strapi.documents('api::project.project').findFirst({
-      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: { heroImage: true },
+      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: PROJECT_POPULATE,
     } as any)
     if (!item) return null
     const related = await strapi.documents('api::project.project').findMany({
       locale, status: 'published', sort: ['order:asc'], limit: 3,
-      filters: { slug: { $ne: slug } }, populate: { heroImage: true },
+      filters: { slug: { $ne: slug } }, populate: PROJECT_POPULATE,
     } as any)
     const it = item as any
     return {
@@ -163,12 +170,12 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
 
   async evenimente(slug, locale) {
     const item = await strapi.documents('api::event.event').findFirst({
-      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: { coverImage: true },
+      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: EVENT_POPULATE,
     } as any)
     if (!item) return null
     const related = await strapi.documents('api::event.event').findMany({
       locale, status: 'published', sort: ['date:desc'], limit: 3,
-      filters: { slug: { $ne: slug } }, populate: { coverImage: true },
+      filters: { slug: { $ne: slug } }, populate: EVENT_POPULATE,
     } as any)
     const it = item as any
     return {
@@ -188,12 +195,12 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
 
   async magazin(slug, locale) {
     const item = await strapi.documents('api::product.product').findFirst({
-      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: { image: true },
+      locale, status: 'published', filters: { slug: { $eq: slug } }, populate: PRODUCT_POPULATE,
     } as any)
     if (!item) return null
     const related = await strapi.documents('api::product.product').findMany({
       locale, status: 'published', sort: ['order:asc'], limit: 3,
-      filters: { slug: { $ne: slug } }, populate: { image: true },
+      filters: { slug: { $ne: slug } }, populate: PRODUCT_POPULATE,
     } as any)
     const it = item as any
     return {
