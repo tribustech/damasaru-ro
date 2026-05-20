@@ -12,7 +12,9 @@
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+    "upgrade:dry": "npx @strapi/upgrade latest --dry",
+    "cleanup": "node --env-file=.env scripts/cleanup.js",
+    "cleanup:full": "node --env-file=.env scripts/cleanup.js --files"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.41.1",
