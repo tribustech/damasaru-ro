@@ -28,7 +28,7 @@ export const PAGE_POPULATE = {
       'sections.credentials-grid': {
         populate: { groups: { populate: { items: true } } },
       },
-      'sections.event-feature': { populate: { cta: true } },
+      'sections.event-feature': { populate: { cta: true, event: { populate: { coverImage: true } } } },
       'sections.contact-form': { populate: true },
     },
   },
