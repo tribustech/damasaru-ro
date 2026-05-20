@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation'
-import { getEventsPage } from '@/lib/strapi'
+import { getMagazinPage } from '@/lib/strapi'
 import { DynamicZone } from '@/components/organisms/DynamicZone'
 
-export default async function EventsPage({
+export default async function MagazinPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const page = await getEventsPage(locale).catch(() => null)
+  const page = await getMagazinPage(locale).catch(() => null)
   if (!page) notFound()
   return <DynamicZone sections={page.sections} locale={locale} />
 }

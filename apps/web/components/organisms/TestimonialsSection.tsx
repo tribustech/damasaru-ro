@@ -1,25 +1,31 @@
+import type { TestimonialsDTO } from '@repo/types'
 import { SectionHeading } from '../molecules/SectionHeading'
 import { TestimonialCard } from '../molecules/TestimonialCard'
-import type { SectionTestimonials } from '@repo/types'
+import { getAccent, accentRootClass } from '@/lib/accent'
 
 interface TestimonialsSectionProps {
-  section: SectionTestimonials
-  eyebrow?: string
-  heading?: string
+  section: TestimonialsDTO
+  locale: string
 }
 
-export function TestimonialsSection({ section, eyebrow, heading }: TestimonialsSectionProps) {
+export function TestimonialsSection({ section }: TestimonialsSectionProps) {
+  const a = getAccent(section.accent)
   return (
-    <section className="py-24" style={{ backgroundColor: '#FAF8F5' }}>
+    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {heading && (
+        {(section.heading || section.eyebrow) && (
           <div className="mb-16 text-center">
-            <SectionHeading eyebrow={eyebrow} heading={heading} />
+            <SectionHeading
+              eyebrow={section.eyebrow}
+              heading={section.heading ?? ''}
+              accent={section.accent}
+              align="center"
+            />
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {section.items.map((item) => (
-            <TestimonialCard key={item.id} item={item} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {section.items.map((item, idx) => (
+            <TestimonialCard key={item.id} item={item} accent={section.accent} featured={idx === 0} />
           ))}
         </div>
       </div>

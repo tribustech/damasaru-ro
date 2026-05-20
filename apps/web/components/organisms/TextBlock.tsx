@@ -1,28 +1,26 @@
+import type { TextBlockDTO } from '@repo/types'
 import { SectionHeading } from '../molecules/SectionHeading'
-import type { SectionTextBlock } from '@repo/types'
+import { getAccent, accentRootClass } from '@/lib/accent'
 
 interface TextBlockProps {
-  section: SectionTextBlock
-  dark?: boolean
+  section: TextBlockDTO
 }
 
-export function TextBlock({ section, dark = false }: TextBlockProps) {
+export function TextBlock({ section }: TextBlockProps) {
+  const a = getAccent(section.accent)
   return (
-    <section
-      className="py-24"
-      style={{ backgroundColor: dark ? '#2D241E' : '#FAF8F5' }}
-    >
+    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="max-w-3xl">
           <SectionHeading
             eyebrow={section.eyebrow}
-            heading={section.heading}
-            dark={dark}
+            heading={section.heading ?? ''}
+            headingItalic={section.headingItalic}
+            accent={section.accent}
           />
           {section.body && (
             <div
-              className="mt-6 prose prose-lg max-w-none"
-              style={{ color: dark ? 'rgba(250,248,245,0.7)' : '#6B5F54' }}
+              className={`mt-8 text-lg leading-relaxed ${a.textMuted} prose ${a.isDark ? 'prose-navy' : 'prose-paper'} max-w-none`}
               dangerouslySetInnerHTML={{ __html: section.body }}
             />
           )}

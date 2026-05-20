@@ -1,28 +1,27 @@
+import type { CtaBannerDTO } from '@repo/types'
 import { Button } from '../atoms/Button'
-import type { SectionCtaBanner } from '@repo/types'
+import { getAccent, accentRootClass } from '@/lib/accent'
 
 interface CTABannerProps {
-  section: SectionCtaBanner
+  section: CtaBannerDTO
 }
 
 export function CTABanner({ section }: CTABannerProps) {
+  const a = getAccent(section.accent ?? 'navy')
   return (
-    <section className="py-24" style={{ backgroundColor: '#2D241E' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-        <h2
-          className="text-4xl lg:text-5xl font-serif font-light mb-6"
-          style={{ color: '#FAF8F5' }}
-        >
+    <section className={`${a.background} ${accentRootClass(section.accent ?? 'navy')} py-24`}>
+      <div className="max-w-3xl mx-auto px-6 lg:px-12 text-center">
+        <h2 className={`text-4xl lg:text-5xl font-serif font-medium mb-6 leading-tight ${a.text}`}>
           {section.heading}
         </h2>
-        {section.subtext && (
-          <p className="text-lg mb-10 max-w-2xl mx-auto" style={{ color: 'rgba(250,248,245,0.6)' }}>
-            {section.subtext}
-          </p>
+        {section.subheading && (
+          <p className={`text-lg mb-10 leading-relaxed ${a.textMuted}`}>{section.subheading}</p>
         )}
-        <Button href={section.buttonHref} variant="primary">
-          {section.buttonLabel}
-        </Button>
+        {section.cta && (
+          <Button href={section.cta.href} variant="primary">
+            {section.cta.label}
+          </Button>
+        )}
       </div>
     </section>
   )
