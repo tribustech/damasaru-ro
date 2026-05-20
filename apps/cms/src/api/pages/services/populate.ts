@@ -10,12 +10,12 @@ export const PAGE_POPULATE = {
       },
       'sections.text-block': { populate: true },
       'sections.cards-grid': {
-        populate: { items: { populate: { image: true, cta: true } } },
+        populate: { items: { populate: { iconImage: true } } },
       },
       'sections.testimonials': {
-        populate: { items: { populate: { avatar: true } } },
+        populate: true,
       },
-      'sections.cta-banner': { populate: { cta: true } },
+      'sections.cta-banner': { populate: true },
       'sections.featured-list': { populate: true },
       'sections.stats-strip': { populate: { items: true } },
       'sections.quote-large': { populate: true },

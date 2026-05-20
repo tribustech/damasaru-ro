@@ -196,9 +196,9 @@ export function serializeSection(raw: any): any {
         items: (raw.items ?? []).map((i: any) => ({
           id: i.id,
           title: i.title,
-          body: i.body ?? null,
-          image: serializeMedia(i.image),
-          cta: ctaButton(i.cta),
+          body: i.text ?? null,
+          image: serializeMedia(i.iconImage),
+          cta: i.href ? { label: i.tag ?? '', href: i.href, variant: 'primary' as const } : null,
         })),
       }
     case 'sections.testimonials':
@@ -207,22 +207,19 @@ export function serializeSection(raw: any): any {
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
         accent: raw.accent ?? 'paper',
-        items: (raw.items ?? []).map((i: any) => ({
-          id: i.id,
-          documentId: i.documentId ?? '',
-          quote: i.quote,
-          author: i.author,
-          role: i.role ?? null,
-          avatar: serializeMedia(i.avatar),
-        })),
+        filterBy: raw.filterBy ?? null,
+        limit: raw.limit ?? 6,
+        items: [],
       }
     case 'sections.cta-banner':
       return {
         ...base,
         heading: raw.heading,
-        subheading: raw.subheading ?? null,
+        subheading: raw.subtext ?? null,
         accent: raw.accent ?? 'paper',
-        cta: ctaButton(raw.cta),
+        cta: raw.buttonLabel
+          ? { label: raw.buttonLabel, href: raw.buttonHref ?? '#', variant: 'primary' as const }
+          : null,
       }
     case 'sections.featured-list':
       return {
@@ -272,10 +269,10 @@ export function serializeSection(raw: any): any {
         ...base,
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading,
-        body: raw.body ?? null,
+        body: raw.subtext ?? null,
         accent: raw.accent ?? 'paper',
-        source: raw.source ?? 'site',
-        submitLabel: raw.submitLabel ?? 'Trimite',
+        source: raw.formId ?? 'site',
+        submitLabel: raw.buttonLabel ?? 'Trimite',
       }
     case 'sections.faq-accordion':
       return {
@@ -309,7 +306,7 @@ export function serializeSection(raw: any): any {
         ...base,
         heading: raw.heading ?? null,
         videoUrl: raw.videoUrl,
-        caption: raw.caption ?? null,
+        caption: raw.body ?? null,
         accent: raw.accent ?? 'paper',
       }
     case 'sections.credentials-grid':
@@ -320,7 +317,11 @@ export function serializeSection(raw: any): any {
         groups: (raw.groups ?? []).map((g: any) => ({
           id: g.id,
           title: g.title,
-          items: (g.items ?? []).map((i: any) => ({ id: i.id, label: i.label, sub: i.sub ?? null })),
+          items: (Array.isArray(g.items) ? g.items : []).map((i: any) => ({
+            id: i.id ?? 0,
+            label: i.label ?? '',
+            sub: i.sub ?? null,
+          })),
         })),
       }
     case 'sections.event-feature':
