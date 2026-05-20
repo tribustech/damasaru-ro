@@ -163,23 +163,23 @@ function PodcastFeaturedWithList({ items, locale }: { items: PodcastEpisodeDTO[]
         </div>
       </Link>
 
-      <div className="flex flex-col gap-px bg-[var(--color-navy-line)] rounded-lg overflow-hidden">
+      <div className="flex flex-col gap-px bg-[var(--color-line)] rounded-lg overflow-hidden">
         {rest.map((ep) => (
           <Link
             key={ep.id}
             href={`/${locale}/podcast/${ep.slug}`}
-            className="bg-[var(--color-navy)] p-6 flex justify-between items-start gap-5 hover:bg-[var(--color-navy-soft)] transition-colors"
+            className="bg-white p-6 flex justify-between items-start gap-5 hover:bg-[var(--color-paper-warm)] transition-colors"
           >
             <div className="flex-1">
               <div className="font-serif italic text-[var(--color-gold-deep)] text-sm">Ep. {ep.number}</div>
-              <h4 className="text-[15px] font-medium leading-snug my-1.5 text-white">{ep.title}</h4>
+              <h4 className="text-[15px] font-medium leading-snug my-1.5 text-[var(--color-navy)]">{ep.title}</h4>
               <div className="text-xs text-[var(--color-text-soft)]">
                 {ep.duration && <span>{ep.duration}</span>}
                 {ep.duration && ep.date && <span> · </span>}
                 {ep.date && <span>{formatDate(ep.date, locale)}</span>}
               </div>
             </div>
-            <div className="font-serif italic text-[var(--color-gold-deep)]">→</div>
+            <div className="font-serif italic text-[var(--color-gold-deep)] self-center">→</div>
           </Link>
         ))}
       </div>
