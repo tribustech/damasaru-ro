@@ -5,7 +5,12 @@ import path from 'node:path'
 // Walk up from this file until we find a directory containing
 // `Documentation/Pagini`. This makes the seed resilient to whether Strapi runs
 // from `src/` (dev) or `dist/` (built mode), and to monorepo restructuring.
-function findDocumentationRoot(): string {
+//
+// Returns null instead of throwing: the client docs live outside the app
+// (sibling `../Documentation`) and are NOT shipped to production, so in a
+// deployed container this resolves to null. Callers (seedAll) must skip
+// doc-dependent seeding in that case rather than crash the boot.
+function findDocumentationRoot(): string | null {
   let dir = __dirname
   for (let i = 0; i < 12; i++) {
     const candidate = path.join(dir, 'Documentation', 'Pagini')
@@ -14,15 +19,17 @@ function findDocumentationRoot(): string {
     if (parent === dir) break
     dir = parent
   }
-  throw new Error(
-    `[seed] could not find Documentation/Pagini walking up from ${__dirname}`
-  )
+  return null
 }
 
-const DOCUMENTATION_ROOT = findDocumentationRoot()
+export const DOCUMENTATION_ROOT = findDocumentationRoot()
 
 export function docPath(...parts: string[]): string {
-  return path.join(DOCUMENTATION_ROOT, ...parts)
+  // DOCUMENTATION_ROOT is null where the client docs aren't shipped (e.g.
+  // production). We still return a path so callers can derive the file's
+  // basename — uploadFile() reuses already-uploaded media by name and only
+  // reads the local file when the media isn't in the library yet.
+  return path.join(DOCUMENTATION_ROOT ?? path.join(__dirname, '__docs_unavailable__'), ...parts)
 }
 
 const mimeMap: Record<string, string> = {
@@ -44,23 +51,30 @@ export async function uploadFile(
   filePath: string,
   options: { alt?: string; caption?: string } = {}
 ): Promise<number | null> {
-  if (!fs.existsSync(filePath)) {
-    strapi.log.warn(`[seed] missing file ${filePath}`)
-    return null
-  }
-  const cacheKey = filePath
+  const name = path.basename(filePath)
+  const cacheKey = name
   if (uploadCache.has(cacheKey)) return uploadCache.get(cacheKey)!
 
-  const ext = path.extname(filePath).toLowerCase()
-  const mime = mimeMap[ext] ?? 'application/octet-stream'
-  const name = path.basename(filePath)
-
-  // Reuse if already uploaded with the same name
+  // Reuse if already uploaded with the same name. This is the path that lets
+  // the seed run without the local source files (e.g. in production, where the
+  // client Documentation/ assets are not shipped): the media was uploaded once
+  // and persists in S3 + the upload-library `files` table, so we just relink it.
   const existing = await strapi.db.query('plugin::upload.file').findOne({ where: { name } })
   if (existing) {
     uploadCache.set(cacheKey, existing.id)
     return existing.id
   }
+
+  // Not in the library yet — uploading it requires the local source file.
+  if (!fs.existsSync(filePath)) {
+    strapi.log.warn(
+      `[seed] media "${name}" is not in the upload library and the source file is unavailable (${filePath}) — leaving unset`
+    )
+    return null
+  }
+
+  const ext = path.extname(filePath).toLowerCase()
+  const mime = mimeMap[ext] ?? 'application/octet-stream'
 
   const stats = fs.statSync(filePath)
   const tmpPath = path.join('/tmp', `seed-${Date.now()}-${name}`)
