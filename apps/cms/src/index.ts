@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi'
 import { seedAll } from './seed'
+import { registerRevalidation, enableRevalidation } from './revalidation'
 
 const PUBLIC_ACTIONS = [
   'api::audiobook-waitlist-entry.audiobook-waitlist-entry.create',
@@ -28,10 +29,14 @@ async function grantPublicPermissions(strapi: Core.Strapi) {
 }
 
 export default {
-  register() {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    registerRevalidation(strapi)
+  },
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     await seedAll(strapi)
     await grantPublicPermissions(strapi)
+    // Seed writes are done — start forwarding content changes to the web app.
+    enableRevalidation()
   },
 }
