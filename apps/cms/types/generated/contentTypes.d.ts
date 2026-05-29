@@ -592,6 +592,38 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAudiobookWaitlistEntryAudiobookWaitlistEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'audiobook_waitlist_entries';
+  info: {
+    displayName: 'Audiobook Waitlist Entry';
+    pluralName: 'audiobook-waitlist-entries';
+    singularName: 'audiobook-waitlist-entry';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::audiobook-waitlist-entry.audiobook-waitlist-entry'
+    > &
+      Schema.Attribute.Private;
+    note: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiBookPageBookPage extends Struct.SingleTypeSchema {
   collectionName: 'book_pages';
   info: {
@@ -720,6 +752,37 @@ export interface ApiContactPageContactPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiEventWaitlistEntryEventWaitlistEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'event_waitlist_entries';
+  info: {
+    displayName: 'Event Waitlist Entry';
+    pluralName: 'event-waitlist-entries';
+    singularName: 'event-waitlist-entry';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::event-waitlist-entry.event-waitlist-entry'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    source: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
@@ -754,6 +817,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    displayOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<100>;
     endDate: Schema.Attribute.Date;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     jsonLd: Schema.Attribute.JSON;
@@ -1233,6 +1297,15 @@ export interface ApiPodcastEpisodePodcastEpisode
   };
   attributes: {
     audioUrl: Schema.Attribute.String;
+    category: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    categoryKind: Schema.Attribute.Enumeration<
+      ['identity', 'ai', 'comm', 'business', 'spirit', 'community']
+    >;
     coverImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1262,6 +1335,8 @@ export interface ApiPodcastEpisodePodcastEpisode
         };
       }>;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<['live', 'upcoming']> &
+      Schema.Attribute.DefaultTo<'upcoming'>;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -1492,6 +1567,9 @@ export interface ApiProiectePageProiectePage extends Struct.SingleTypeSchema {
         'sections.credentials-grid',
         'sections.event-feature',
         'sections.contact-form',
+        'sections.proiecte-hero',
+        'sections.project-feature',
+        'sections.press-wall',
       ]
     >;
     seoDescription: Schema.Attribute.Text &
@@ -1574,6 +1652,47 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSpeakerBookingEntrySpeakerBookingEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'speaker_booking_entries';
+  info: {
+    displayName: 'Speaker Booking Entry';
+    pluralName: 'speaker-booking-entries';
+    singularName: 'speaker-booking-entry';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    audienceSize: Schema.Attribute.String;
+    budget: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dateEstimate: Schema.Attribute.String;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    eventType: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::speaker-booking-entry.speaker-booking-entry'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    organization: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    status: Schema.Attribute.Enumeration<
+      ['new', 'contacted', 'booked', 'declined', 'archived']
+    > &
+      Schema.Attribute.DefaultTo<'new'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -2154,8 +2273,10 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::about-page.about-page': ApiAboutPageAboutPage;
       'api::article.article': ApiArticleArticle;
+      'api::audiobook-waitlist-entry.audiobook-waitlist-entry': ApiAudiobookWaitlistEntryAudiobookWaitlistEntry;
       'api::book-page.book-page': ApiBookPageBookPage;
       'api::contact-page.contact-page': ApiContactPageContactPage;
+      'api::event-waitlist-entry.event-waitlist-entry': ApiEventWaitlistEntryEventWaitlistEntry;
       'api::event.event': ApiEventEvent;
       'api::events-page.events-page': ApiEventsPageEventsPage;
       'api::home-page.home-page': ApiHomePageHomePage;
@@ -2170,6 +2291,7 @@ declare module '@strapi/strapi' {
       'api::product.product': ApiProductProduct;
       'api::proiecte-page.proiecte-page': ApiProiectePageProiectePage;
       'api::project.project': ApiProjectProject;
+      'api::speaker-booking-entry.speaker-booking-entry': ApiSpeakerBookingEntrySpeakerBookingEntry;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

@@ -46,11 +46,18 @@ export function serializeMedia(raw: any): MediaDTO | null {
 
 function ctaButton(raw: any) {
   if (!raw) return null
-  return { label: raw.label, href: raw.href, variant: raw.variant ?? 'primary' }
+  return { label: raw.label, href: raw.href, variant: raw.variant ?? 'primary', goldDeep: !!raw.goldDeep }
 }
 
-function ctaButtons(raw: any[]): { label: string; href: string; variant: 'primary' | 'outline' }[] {
-  return (raw ?? []).map((r) => ({ label: r.label, href: r.href, variant: r.variant ?? 'primary' }))
+function ctaButtons(
+  raw: any[],
+): { label: string; href: string; variant: 'primary' | 'outline' | 'secondary'; goldDeep: boolean }[] {
+  return (raw ?? []).map((r) => ({
+    label: r.label,
+    href: r.href,
+    variant: r.variant ?? 'primary',
+    goldDeep: !!r.goldDeep,
+  }))
 }
 
 export function serializeArticle(raw: any): ArticleDTO {
@@ -85,6 +92,7 @@ export function serializeEvent(raw: any): EventDTO {
 }
 
 export function serializePodcastEpisode(raw: any): PodcastEpisodeDTO {
+  const rawGuests = Array.isArray(raw.guests) ? raw.guests : []
   return {
     id: raw.id,
     documentId: raw.documentId,
@@ -98,6 +106,11 @@ export function serializePodcastEpisode(raw: any): PodcastEpisodeDTO {
     audioUrl: raw.audioUrl ?? null,
     spotifyUrl: null,
     youtubeUrl: raw.videoUrl ?? null,
+    category: raw.category ?? null,
+    categoryKind: raw.categoryKind ?? null,
+    status: raw.status === 'live' ? 'live' : 'upcoming',
+    guests: rawGuests.map((g: any) => ({ name: g.name ?? '', role: g.role ?? null })),
+    featured: !!raw.featured,
   }
 }
 
@@ -194,19 +207,26 @@ export function serializeSection(raw: any): any {
         headingItalic: raw.headingItalic ?? null,
         body: raw.body ?? '',
         accent: raw.accent ?? 'paper',
+        align: raw.align ?? 'left',
+        cta: ctaButton(raw.cta),
       }
     case 'sections.cards-grid':
       return {
         ...base,
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
+        lead: raw.lead ?? null,
         accent: raw.accent ?? 'paper',
+        columns: raw.columns ?? '3',
+        variant: raw.variant ?? 'default',
         items: (raw.items ?? []).map((i: any) => ({
           id: i.id,
           title: i.title,
-          body: i.text ?? null,
+          text: i.text ?? null,
           image: serializeMedia(i.iconImage),
-          cta: i.href ? { label: i.tag ?? '', href: i.href, variant: 'primary' as const } : null,
+          tag: i.tag ?? null,
+          href: i.href ?? null,
         })),
       }
     case 'sections.testimonials':
@@ -222,7 +242,9 @@ export function serializeSection(raw: any): any {
     case 'sections.cta-banner':
       return {
         ...base,
+        eyebrow: raw.eyebrow ?? null,
         heading: raw.heading,
+        headingItalic: raw.headingItalic ?? null,
         subheading: raw.subtext ?? null,
         accent: raw.accent ?? 'paper',
         cta: raw.buttonLabel
@@ -265,22 +287,33 @@ export function serializeSection(raw: any): any {
         ...base,
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
         body: raw.body ?? '',
         accent: raw.accent ?? 'paper',
         image: serializeMedia(raw.image),
+        imageCaption: raw.imageCaption ?? null,
         // JSON schema uses "imagePosition" not "imageSide"
         imageSide: raw.imagePosition ?? 'right',
         cta: ctaButton(raw.cta),
+        projectsRow: (raw.projectsRow ?? []).map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          tag: p.tag ?? null,
+          href: p.href ?? null,
+        })),
       }
     case 'sections.newsletter-form':
       return {
         ...base,
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading,
+        headingItalic: raw.headingItalic ?? null,
         body: raw.subtext ?? null,
         accent: raw.accent ?? 'paper',
         source: raw.formId ?? 'site',
         submitLabel: raw.buttonLabel ?? 'Abonează-te',
+        placeholder: raw.placeholder ?? 'adresa@email.ro',
+        fineprint: raw.fineprint ?? null,
       }
     case 'sections.faq-accordion':
       return {
@@ -312,24 +345,45 @@ export function serializeSection(raw: any): any {
     case 'sections.video-feature':
       return {
         ...base,
+        eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
-        videoUrl: raw.videoUrl,
-        caption: raw.body ?? null,
-        accent: raw.accent ?? 'paper',
+        headingItalic: raw.headingItalic ?? null,
+        badge: raw.badge ?? null,
+        meta: raw.meta ?? null,
+        body: raw.body ?? null,
+        videoUrl: raw.videoUrl ?? null,
+        videoFile: serializeMedia(raw.videoFile),
+        posterImage: serializeMedia(raw.posterImage),
+        orientation: raw.orientation ?? 'landscape',
+        posterBadgeLabel: raw.posterBadgeLabel ?? null,
+        posterBadgeQuote: raw.posterBadgeQuote ?? null,
+        posterBadgeImage: serializeMedia(raw.posterBadgeImage),
+        ctaButton: ctaButton(raw.ctaButton),
+        accent: raw.accent ?? 'navy',
       }
     case 'sections.credentials-grid':
       return {
         ...base,
+        eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
+        lead: raw.lead ?? null,
         accent: raw.accent ?? 'paper',
         groups: (raw.groups ?? []).map((g: any) => ({
           id: g.id,
           title: g.title,
-          items: (Array.isArray(g.items) ? g.items : []).map((i: any) => ({
-            id: i.id ?? 0,
-            label: i.label ?? '',
-            sub: i.sub ?? null,
-          })),
+          items: (Array.isArray(g.items) ? g.items : []).map((i: any, idx: number) => {
+            if (typeof i === 'string') {
+              const parts = i.split(' — ')
+              if (parts.length > 1) {
+                return { id: idx, label: parts[0], sub: parts.slice(1).join(' — ') }
+              }
+              return { id: idx, label: i, sub: null }
+            }
+            return { id: i.id ?? idx, label: i.label ?? '', sub: i.sub ?? null }
+          }),
+          image: serializeMedia(g.image),
+          imageCaption: g.imageCaption ?? null,
         })),
       }
     case 'sections.event-feature':
@@ -340,17 +394,115 @@ export function serializeSection(raw: any): any {
         event: null,
         cta: ctaButton(raw.cta),
       }
-    case 'sections.contact-form':
+    case 'sections.contact-form': {
+      const formOptions = (arr: any[] | null | undefined) =>
+        (arr ?? []).map((o: any) => ({
+          id: o.id,
+          label: o.label,
+          value: o.value,
+          routingEmail: o.routingEmail ?? null,
+        }))
       return {
         ...base,
         eyebrow: raw.eyebrow ?? null,
         heading: raw.heading ?? null,
         headingItalic: raw.headingItalic ?? null,
-        // JSON schema uses "subtext" not "body"
         body: raw.subtext ?? null,
-        accent: raw.accent ?? 'paper',
+        expectationNote: raw.expectationNote ?? null,
+        nameLabel: raw.nameLabel ?? 'Nume',
+        namePlaceholder: raw.namePlaceholder ?? null,
+        emailLabel: raw.emailLabel ?? 'Email',
+        emailPlaceholder: raw.emailPlaceholder ?? null,
+        phoneLabel: raw.phoneLabel ?? null,
+        phonePlaceholder: raw.phonePlaceholder ?? null,
+        organizationLabel: raw.organizationLabel ?? null,
+        organizationPlaceholder: raw.organizationPlaceholder ?? null,
+        organizationOptional: raw.organizationOptional ?? false,
+        subjectLabel: raw.subjectLabel ?? null,
+        subjectPlaceholder: raw.subjectPlaceholder ?? null,
+        subjectOptions: formOptions(raw.subjectOptions),
+        eventTypeLabel: raw.eventTypeLabel ?? null,
+        eventTypePlaceholder: raw.eventTypePlaceholder ?? null,
+        eventTypeOptions: formOptions(raw.eventTypeOptions),
+        audienceSizeLabel: raw.audienceSizeLabel ?? null,
+        audienceSizePlaceholder: raw.audienceSizePlaceholder ?? null,
+        audienceSizeOptions: formOptions(raw.audienceSizeOptions),
+        budgetLabel: raw.budgetLabel ?? null,
+        budgetPlaceholder: raw.budgetPlaceholder ?? null,
+        budgetOptions: formOptions(raw.budgetOptions),
+        dateEstimateLabel: raw.dateEstimateLabel ?? null,
+        dateEstimatePlaceholder: raw.dateEstimatePlaceholder ?? null,
+        optionalSectionLabel: raw.optionalSectionLabel ?? null,
+        messageLabel: raw.messageLabel ?? 'Mesaj',
+        messagePlaceholder: raw.messagePlaceholder ?? null,
+        consentText: raw.consentText ?? null,
         submitLabel: raw.submitLabel ?? 'Trimite',
         successMessage: raw.successMessage ?? '',
+        fineprint: raw.fineprint ?? null,
+        accent: raw.accent ?? 'paper',
+      }
+    }
+    case 'sections.proiecte-hero':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        title: raw.title,
+        titleItalic: raw.titleItalic ?? null,
+        subtitle: raw.subtitle ?? null,
+        body: raw.body ?? null,
+        accent: raw.accent ?? 'navy',
+        anchors: ctaButtons(raw.anchors),
+      }
+    case 'sections.project-feature':
+      return {
+        ...base,
+        anchorId: raw.anchorId ?? null,
+        eyebrow: raw.eyebrow ?? null,
+        wordmark: raw.wordmark,
+        wordmarkItalic: raw.wordmarkItalic ?? null,
+        wordmarkLine2: raw.wordmarkLine2 ?? null,
+        wordmarkLine3: raw.wordmarkLine3 ?? null,
+        since: raw.since ?? null,
+        tagline: raw.tagline ?? null,
+        body: raw.body ?? '',
+        layout: raw.layout ?? 'text-left',
+        accent: raw.accent ?? 'navy',
+        image: serializeMedia(raw.image),
+        imageCaption: raw.imageCaption ?? null,
+        stats: (raw.stats ?? []).map((s: any) => ({ id: s.id, value: s.value, label: s.label })),
+        ctas: ctaButtons(raw.ctas),
+        asocBox: raw.asocBox
+          ? {
+              statusText: raw.asocBox.statusText ?? null,
+              title: raw.asocBox.title ?? null,
+              titleItalic: raw.asocBox.titleItalic ?? null,
+              body: raw.asocBox.body ?? null,
+            }
+          : null,
+      }
+    case 'sections.press-wall':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        heading: raw.heading,
+        headingItalic: raw.headingItalic ?? null,
+        subtitle: raw.subtitle ?? null,
+        accent: raw.accent ?? 'paper',
+        expandLabel: raw.expandLabel ?? null,
+        collapseLabel: raw.collapseLabel ?? null,
+        secondaryLabel: raw.secondaryLabel ?? null,
+        items: (raw.items ?? []).map((i: any) => ({
+          id: i.id,
+          brandKey: i.brandKey,
+          info: i.info ?? null,
+          title: i.title ?? null,
+          url: i.url ?? null,
+        })),
+        secondaryItems: (raw.secondaryItems ?? []).map((s: any) => ({
+          id: s.id,
+          label: s.label,
+          url: s.url ?? null,
+        })),
       }
     default:
       strapi.log.warn(`[pages] unknown section component: ${raw.__component}`)

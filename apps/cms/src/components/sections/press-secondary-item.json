@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_sections_press_secondary_items",
+  "info": {
+    "displayName": "Press Secondary Item",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "url": { "type": "string" }
+  }
+}

@@ -38,11 +38,12 @@ export interface SectionTextBlock {
   __component: 'sections.text-block'
   id: number
   eyebrow: string | null
-  heading: string
+  heading: string | null
   headingItalic: string | null
   body: string | null
   accent: SectionAccent
   align: 'left' | 'center'
+  cta: CtaButton | null
 }
 
 export interface CardItem {
@@ -148,6 +149,7 @@ export interface SectionNewsletterForm {
   subtext: string | null
   buttonLabel: string
   placeholder: string
+  fineprint: string | null
   accent: SectionAccent
   formId: string
 }
@@ -211,9 +213,17 @@ export interface SectionVideoFeature {
   eyebrow: string | null
   heading: string
   headingItalic: string | null
+  badge: string | null
+  meta: string | null
   body: string | null
-  videoUrl: string
+  videoUrl: string | null
+  videoFile: StrapiMedia | null
   posterImage: StrapiMedia | null
+  orientation: 'landscape' | 'portrait'
+  posterBadgeLabel: string | null
+  posterBadgeQuote: string | null
+  posterBadgeImage: StrapiMedia | null
+  ctaButton: CtaButton | null
   accent: SectionAccent
 }
 
@@ -243,6 +253,13 @@ export interface SectionEventFeature {
   cta: CtaButton | null
 }
 
+export interface FormOption {
+  id: number
+  label: string
+  value: string
+  routingEmail: string | null
+}
+
 export interface SectionContactForm {
   __component: 'sections.contact-form'
   id: number
@@ -250,12 +267,105 @@ export interface SectionContactForm {
   heading: string
   headingItalic: string | null
   subtext: string | null
+  expectationNote: string | null
   nameLabel: string
+  namePlaceholder: string | null
   emailLabel: string
+  emailPlaceholder: string | null
+  phoneLabel: string | null
+  phonePlaceholder: string | null
+  organizationLabel: string | null
+  organizationPlaceholder: string | null
+  organizationOptional: boolean
+  subjectLabel: string | null
+  subjectPlaceholder: string | null
+  subjectOptions: FormOption[]
+  eventTypeLabel: string | null
+  eventTypePlaceholder: string | null
+  eventTypeOptions: FormOption[]
+  audienceSizeLabel: string | null
+  audienceSizePlaceholder: string | null
+  audienceSizeOptions: FormOption[]
+  budgetLabel: string | null
+  budgetPlaceholder: string | null
+  budgetOptions: FormOption[]
+  dateEstimateLabel: string | null
+  dateEstimatePlaceholder: string | null
+  optionalSectionLabel: string | null
   messageLabel: string
+  messagePlaceholder: string | null
+  consentText: string | null
   submitLabel: string
   successMessage: string
+  fineprint: string | null
   accent: SectionAccent
+}
+
+export interface SectionProiecteHero {
+  __component: 'sections.proiecte-hero'
+  id: number
+  eyebrow: string | null
+  title: string
+  titleItalic: string | null
+  subtitle: string | null
+  body: string | null
+  accent: SectionAccent
+  anchors: CtaButton[]
+}
+
+export interface AsocBox {
+  statusText: string | null
+  title: string | null
+  titleItalic: string | null
+  body: string | null
+}
+
+export interface SectionProjectFeature {
+  __component: 'sections.project-feature'
+  id: number
+  anchorId: string | null
+  eyebrow: string | null
+  wordmark: string
+  wordmarkItalic: string | null
+  wordmarkLine2: string | null
+  wordmarkLine3: string | null
+  since: string | null
+  tagline: string | null
+  body: string | null
+  layout: 'text-left' | 'text-right' | 'centered'
+  accent: SectionAccent
+  image: StrapiMedia | null
+  imageCaption: string | null
+  stats: StatItem[]
+  ctas: CtaButton[]
+  asocBox: AsocBox | null
+}
+
+export interface PressBrand {
+  brandKey: string
+  info: string | null
+  title: string | null
+  url: string | null
+}
+
+export interface PressSecondaryItem {
+  label: string
+  url: string | null
+}
+
+export interface SectionPressWall {
+  __component: 'sections.press-wall'
+  id: number
+  eyebrow: string | null
+  heading: string
+  headingItalic: string | null
+  subtitle: string | null
+  accent: SectionAccent
+  expandLabel: string | null
+  collapseLabel: string | null
+  secondaryLabel: string | null
+  items: (PressBrand & { id: number })[]
+  secondaryItems: (PressSecondaryItem & { id: number })[]
 }
 
 export type Section =
@@ -276,3 +386,6 @@ export type Section =
   | SectionCredentialsGrid
   | SectionEventFeature
   | SectionContactForm
+  | SectionProiecteHero
+  | SectionProjectFeature
+  | SectionPressWall

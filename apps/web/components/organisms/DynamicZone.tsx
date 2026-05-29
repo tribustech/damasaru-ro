@@ -16,6 +16,9 @@ import { VideoFeature } from './VideoFeature'
 import { CredentialsGrid } from './CredentialsGrid'
 import { EventFeature } from './EventFeature'
 import { ContactForm } from './ContactForm'
+import { ProiecteHero } from './ProiecteHero'
+import { ProjectFeature } from './ProjectFeature'
+import { PressWall } from './PressWall'
 
 interface DynamicZoneProps {
   sections: SectionDTO[]
@@ -62,6 +65,12 @@ export function DynamicZone({ sections, locale }: DynamicZoneProps) {
             return <EventFeature key={key} section={section} locale={locale} />
           case 'sections.contact-form':
             return <ContactForm key={key} section={section} />
+          case 'sections.proiecte-hero':
+            return <ProiecteHero key={key} section={section} />
+          case 'sections.project-feature':
+            return <ProjectFeature key={key} section={section} />
+          case 'sections.press-wall':
+            return <PressWall key={key} section={section} />
           default:
             return null
         }

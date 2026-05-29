@@ -1,5 +1,5 @@
 import type { StatsStripDTO } from '@repo/types'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { getAccent, accentRootClass, getZoneClass } from '@/lib/accent'
 
 interface StatsStripProps {
   section: StatsStripDTO
@@ -8,7 +8,7 @@ interface StatsStripProps {
 export function StatsStrip({ section }: StatsStripProps) {
   const a = getAccent(section.accent ?? 'navy')
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent ?? 'navy')} py-16 border-t border-b ${a.border}`}>
+    <section className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)} border-t border-b ${a.border}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className={`grid grid-cols-2 md:grid-cols-${Math.min(section.items?.length || 3, 4)} gap-8 text-center`}>
           {section.items?.map((stat) => (

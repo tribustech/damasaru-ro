@@ -15,6 +15,7 @@ import { ProjectCard } from '../molecules/ProjectCard'
 import { ProductCard } from '../molecules/ProductCard'
 import { TestimonialCard } from '../molecules/TestimonialCard'
 import { PressMentionCard } from '../molecules/PressMentionCard'
+import { EventWaitlistForm } from '../molecules/EventWaitlistForm'
 import { accentRootClass, getAccent } from '@/lib/accent'
 
 interface FeaturedListProps {
@@ -29,12 +30,20 @@ const fallbackContainer: Record<string, string> = {
   feature: 'space-y-12',
 }
 
+const ZONE_BY_ACCENT: Record<string, string> = {
+  navy: 'zone-dark',
+  paper: 'zone-light',
+  'paper-warm': 'zone-warm',
+  'navy-deep': 'zone-dark-deep',
+}
+
 export function FeaturedList({ section, locale }: FeaturedListProps) {
   const a = getAccent(section.accent)
   const layout = section.layout ?? 'grid'
+  const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-light'
 
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent)} py-20 lg:py-28`}>
+    <section className={`${zoneClass} ${accentRootClass(section.accent)}`}>
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mb-12 max-w-3xl">
           <SectionHeading
@@ -46,7 +55,8 @@ export function FeaturedList({ section, locale }: FeaturedListProps) {
           />
         </div>
         <LayoutBody section={section} layout={layout} locale={locale} />
-        {section.seeAllHref && section.seeAllLabel && (
+        {/* event-banner layouts render their own CTA inside the card; skip the outer link */}
+        {layout !== 'event-banner' && section.seeAllHref && section.seeAllLabel && (
           <div className="mt-10">
             <Link
               href={section.seeAllHref}
@@ -76,12 +86,96 @@ function LayoutBody({ section, layout, locale }: { section: FeaturedListDTO; lay
     return <ProjectsListRows items={section.items} locale={locale} />
   }
   if (layout === 'event-banner' && section.relation === 'events') {
-    return <EventBanner items={section.items} locale={locale} />
+    return (
+      <EventBanner
+        items={section.items}
+        locale={locale}
+        ctaHref={section.seeAllHref ?? null}
+        ctaLabel={section.seeAllLabel ?? null}
+      />
+    )
+  }
+  if (layout === 'marquee' && section.relation === 'testimonials') {
+    return <TestimonialsScroller items={section.items} />
+  }
+  if (layout === 'grid' && section.relation === 'podcast-episodes') {
+    const ordered = [...section.items].sort((a, b) => a.number - b.number)
+    return (
+      <div className="episodes-grid">
+        {ordered.map((item) => (
+          <PodcastEpisodeCard key={item.id} episode={item} locale={locale} />
+        ))}
+      </div>
+    )
+  }
+  if (layout === 'feature' && section.relation === 'podcast-episodes') {
+    return <LatestEpisodeFeature items={section.items} locale={locale} />
   }
 
   return (
     <div className={fallbackContainer[layout] ?? fallbackContainer.grid}>
       <DefaultCards section={section} locale={locale} />
+    </div>
+  )
+}
+
+function LatestEpisodeFeature({ items, locale }: { items: PodcastEpisodeDTO[]; locale: string }) {
+  const ep = items[0]
+  if (!ep) return null
+  const href = `/${locale}/podcast/${ep.slug}`
+  return (
+    <div className="latest-card">
+      <div className="latest-thumbnail-real">
+        {ep.cover?.url && (
+          <Image
+            src={ep.cover.url}
+            alt={ep.cover.alt || ep.title}
+            width={ep.cover.width || 1280}
+            height={ep.cover.height || 720}
+            sizes="(max-width: 968px) 100vw, 60vw"
+          />
+        )}
+        <Link href={href} className="latest-play-btn-overlay" aria-label="Ascultă episodul">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </Link>
+      </div>
+      <div>
+        <div className="latest-meta">
+          EP. {String(ep.number).padStart(2, '0')} · CE&rsquo;AI LA MANSARDĂ
+        </div>
+        <h3 className="latest-title">{ep.title}</h3>
+        {ep.description && (
+          <p className="latest-description">{`„${ep.description}"`}</p>
+        )}
+        <div className="latest-buttons">
+          <Link href={href} className="btn btn-primary">
+            Ascultă acum <span aria-hidden>→</span>
+          </Link>
+          <Link href={`/${locale}/podcast`} className="btn btn-ghost">
+            Toate episoadele
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TestimonialsScroller({ items }: { items: import('@repo/types').TestimonialDTO[] }) {
+  if (items.length === 0) return null
+  return (
+    <div className="reviews-scroll">
+      {items.map((t) => (
+        <div key={t.id} className="review-card">
+          <div className="review-stars">★★★★★</div>
+          <div className="review-text">{`„${t.quote}"`}</div>
+          <div className="review-author">
+            {t.author}
+            {t.role && <span>{t.role}</span>}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
@@ -94,11 +188,17 @@ function DefaultCards({ section, locale }: { section: FeaturedListDTO; locale: s
       ))
     case 'events':
       return section.items.map((item) => (
-        <EventCard key={item.id} event={item} locale={locale} accent={section.accent} />
+        <EventCard
+          key={item.id}
+          event={item}
+          locale={locale}
+          accent={section.accent}
+          interactive={item.status === 'viitor'}
+        />
       ))
     case 'podcast-episodes':
       return section.items.map((item) => (
-        <PodcastEpisodeCard key={item.id} episode={item} locale={locale} accent={section.accent} />
+        <PodcastEpisodeCard key={item.id} episode={item} locale={locale} />
       ))
     case 'projects':
       return section.items.map((item) => (
@@ -301,9 +401,22 @@ function ProjectsListRows({ items, locale }: { items: ProjectDTO[]; locale: stri
   )
 }
 
-function EventBanner({ items, locale }: { items: EventDTO[]; locale: string }) {
+function EventBanner({
+  items,
+  locale,
+  ctaHref,
+  ctaLabel,
+}: {
+  items: EventDTO[]
+  locale: string
+  ctaHref: string | null
+  ctaLabel: string | null
+}) {
   if (items.length === 0) return null
   const event = items[0]
+  const isExternal = !!ctaHref && /^https?:\/\//.test(ctaHref)
+  // Waitlist signal: ctaHref === '#newsletter' means "no bilete yet — collect emails inline".
+  const showWaitlist = ctaHref === '#newsletter'
   return (
     <div
       className="relative overflow-hidden bg-[var(--color-navy)] text-white rounded-xl p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-12 items-center border border-[var(--color-navy-line)] shadow-[0_32px_64px_-20px_rgba(20,32,46,.3)]"
@@ -341,26 +454,42 @@ function EventBanner({ items, locale }: { items: EventDTO[]; locale: string }) {
             </div>
           )}
         </div>
-        <Link
-          href={`/${locale}/evenimente/${event.slug}`}
-          className="inline-flex items-center gap-2 bg-[var(--color-gold)] text-[var(--color-navy)] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[var(--color-gold-bright)] transition-colors"
-        >
-          Rezervă-ți locul →
-        </Link>
+        {!showWaitlist && ctaHref && ctaLabel && (
+          isExternal ? (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[var(--color-gold)] text-[var(--color-navy)] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[var(--color-gold-bright)] transition-colors"
+            >
+              {ctaLabel} →
+            </a>
+          ) : (
+            <Link
+              href={ctaHref}
+              className="inline-flex items-center gap-2 bg-[var(--color-gold)] text-[var(--color-navy)] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[var(--color-gold-bright)] transition-colors"
+            >
+              {ctaLabel} →
+            </Link>
+          )
+        )}
       </div>
-      <div className="relative z-10 bg-[var(--color-navy-soft)] border border-[var(--color-navy-line)] rounded-lg p-8 text-center">
-        <div className="font-serif text-5xl lg:text-6xl text-[var(--color-gold)] font-medium leading-none">
-          {event.date ? formatDay(event.date) : '—'}
-        </div>
-        <div className="text-xs text-[var(--color-text-light)] mt-2 mb-6 tracking-wide">
-          {event.date ? formatMonth(event.date, locale) : ''}
-        </div>
-        <Link
-          href={`/${locale}/evenimente/${event.slug}`}
-          className="text-[var(--color-gold)] text-xs border-b border-[var(--color-gold)] hover:text-white hover:border-white transition-colors"
-        >
-          Detalii eveniment →
-        </Link>
+      <div className="relative z-10">
+        {showWaitlist ? (
+          <EventWaitlistForm
+            source={event.slug}
+            submitLabel={ctaLabel ? `${ctaLabel} →` : 'Anunță-mă →'}
+          />
+        ) : (
+          <div className="bg-[var(--color-navy-soft)] border border-[var(--color-navy-line)] rounded-lg p-8 text-center">
+            <div className="font-serif text-5xl lg:text-6xl text-[var(--color-gold)] font-medium leading-none">
+              {event.date ? formatDay(event.date) : '—'}
+            </div>
+            <div className="text-xs text-[var(--color-text-light)] mt-2 tracking-wide">
+              {event.date ? formatMonth(event.date, locale) : ''}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

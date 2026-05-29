@@ -10,11 +10,53 @@
     "heading": { "type": "string", "required": true },
     "headingItalic": { "type": "string" },
     "subtext": { "type": "text" },
+    "expectationNote": { "type": "text" },
     "nameLabel": { "type": "string", "default": "Nume" },
+    "namePlaceholder": { "type": "string" },
     "emailLabel": { "type": "string", "default": "Email" },
+    "emailPlaceholder": { "type": "string" },
+    "phoneLabel": { "type": "string" },
+    "phonePlaceholder": { "type": "string" },
+    "organizationLabel": { "type": "string" },
+    "organizationPlaceholder": { "type": "string" },
+    "organizationOptional": { "type": "boolean", "default": false },
+    "subjectLabel": { "type": "string" },
+    "subjectPlaceholder": { "type": "string" },
+    "subjectOptions": {
+      "type": "component",
+      "component": "shared.form-option",
+      "repeatable": true
+    },
+    "eventTypeLabel": { "type": "string" },
+    "eventTypePlaceholder": { "type": "string" },
+    "eventTypeOptions": {
+      "type": "component",
+      "component": "shared.form-option",
+      "repeatable": true
+    },
+    "audienceSizeLabel": { "type": "string" },
+    "audienceSizePlaceholder": { "type": "string" },
+    "audienceSizeOptions": {
+      "type": "component",
+      "component": "shared.form-option",
+      "repeatable": true
+    },
+    "budgetLabel": { "type": "string" },
+    "budgetPlaceholder": { "type": "string" },
+    "budgetOptions": {
+      "type": "component",
+      "component": "shared.form-option",
+      "repeatable": true
+    },
+    "dateEstimateLabel": { "type": "string" },
+    "dateEstimatePlaceholder": { "type": "string" },
+    "optionalSectionLabel": { "type": "string" },
     "messageLabel": { "type": "string", "default": "Mesaj" },
+    "messagePlaceholder": { "type": "string" },
+    "consentText": { "type": "text" },
     "submitLabel": { "type": "string", "default": "Trimite" },
     "successMessage": { "type": "string", "default": "Mulțumim, mesajul a fost trimis." },
+    "fineprint": { "type": "string" },
     "accent": {
       "type": "enumeration",
       "enum": ["navy", "paper", "paper-warm", "navy-deep"],

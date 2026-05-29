@@ -64,6 +64,7 @@
       "required": true
     },
     "featured": { "type": "boolean", "default": false },
+    "displayOrder": { "type": "integer", "default": 100 },
     "coverImage": {
       "type": "media",
       "multiple": false,

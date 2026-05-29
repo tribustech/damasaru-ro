@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_sections_press_walls",
+  "info": {
+    "displayName": "Press Wall",
+    "icon": "bullhorn"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "headingItalic": { "type": "string" },
+    "subtitle": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "expandLabel": { "type": "string" },
+    "collapseLabel": { "type": "string" },
+    "secondaryLabel": { "type": "string" },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.press-brand"
+    },
+    "secondaryItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.press-secondary-item"
+    }
+  }
+}

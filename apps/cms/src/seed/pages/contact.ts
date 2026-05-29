@@ -5,79 +5,83 @@ export async function seedContactPage(strapi: Core.Strapi): Promise<void> {
   await upsertSingleType(strapi, 'api::contact-page.contact-page', {
     seoTitle: 'Contact — Costin Dămășaru',
     seoDescription:
-      'Scrie-mi un mesaj, propune o conversație sau cere un material de presă. Răspund personal, cât pot de repede.',
+      'Scrie-i direct lui Costin Dămășaru — pentru presă, evenimente, colaborări sau feedback. Răspuns personal în 48 de ore.',
     sections: [
-      // Zone 1 — Hero (navy)
+      // ZONA 1 — Hero (navy). Copy verbatim from Contact_Mockup.html.
       {
         __component: 'sections.hero',
-        eyebrow: 'CONTACT',
+        eyebrow: 'Contact',
         title: 'Hai să',
         titleItalic: 'vorbim.',
         subtitle:
-          'Fie că ai o întrebare, o propunere de colaborare sau vrei să mă inviți pe scenă, lasă-mi un mesaj. Citesc tot ce primesc și răspund personal.',
+          '„Indiferent dacă scrii pentru presă, vrei să mă inviți la un eveniment, sau vrei doar să-mi spui cum te-a impactat o idee — sunt aici și ascult."',
         accent: 'navy',
         mediaPosition: 'none',
       },
 
-      // Zone 2 — Canale de contact (paper, cards grid)
+      // ZONA 2 — Formular (paper). Copy verbatim from Contact_Mockup.html.
+      // TODO (schema gap): contact-form component needs subjectOptions[], organizationLabel,
+      // consentText, fineprint + an email routing map to fully express the HTML mockup form
+      // (subject select with 5 options, optional organization field, GDPR checkbox).
+      // Tracked as punch-list item #5. Until then, only nameLabel/emailLabel/messageLabel render.
+      {
+        __component: 'sections.contact-form',
+        eyebrow: 'Scrie-mi',
+        heading: 'Spune-mi cu ce',
+        headingItalic: 'te pot ajuta.',
+        subtext:
+          '„Citesc fiecare mesaj personal. Răspund în 48 de ore lucrătoare, în general mai repede dacă pot."',
+        nameLabel: 'Numele tău',
+        emailLabel: 'Email',
+        messageLabel: 'Mesajul tău',
+        submitLabel: 'Trimite mesajul',
+        successMessage:
+          'Am primit mesajul tău. Îți răspund personal în 48 de ore lucrătoare.',
+        accent: 'paper',
+      },
+
+      // ZONA 3 — Mă găsești și aici (navy). 6 social channels, copy + hrefs verbatim from HTML.
+      // TODO: Costin to confirm real URLs/handles before launch (per Contact_Copy.docx §5.1).
       {
         __component: 'sections.cards-grid',
-        eyebrow: 'CANALE',
-        heading: 'Trei moduri',
-        headingItalic: 'să ajungi la mine.',
-        lead: 'Pentru fiecare tip de cerere, există un drum mai scurt. Alege-l pe cel potrivit și ajungem mai repede unde trebuie.',
-        accent: 'paper',
+        eyebrow: 'În rest',
+        heading: 'Mă găsești',
+        headingItalic: 'și aici.',
+        lead: '„Sunt activ pe rețele și acolo conversația e mai relaxată — pe LinkedIn împărtășesc mai mult din zona profesională, pe Instagram și TikTok lucruri mai apropiate de viața de zi cu zi."',
+        accent: 'navy',
         columns: '3',
         items: [
           {
-            title: 'Scrie-mi un email',
-            text: 'Pentru întrebări personale, propuneri editoriale sau orice nu se încadrează în categoriile de mai jos. Răspund în câteva zile.',
-            tag: 'EMAIL',
-            href: 'mailto:contact@damasaru.ro',
+            title: 'LinkedIn',
+            text: '/in/costindamasaru',
+            href: 'https://linkedin.com/in/costindamasaru',
           },
           {
-            title: 'Invitație pe scenă',
-            text: 'Conferințe, workshop-uri, evenimente corporate sau interviuri publice. Trimite-mi detaliile prin formularul de mai jos.',
-            tag: 'SPEAKING',
-            href: '#contact',
+            title: 'YouTube',
+            text: '@costindamasaru',
+            href: 'https://youtube.com/@costindamasaru',
           },
           {
-            title: 'Materiale de presă',
-            text: 'Fotografii, bio, fragmente din carte și informații pentru jurnaliști. Toate, pregătite și gata de descărcat.',
-            tag: 'PRESĂ',
-            href: '/media',
+            title: 'Instagram',
+            text: '@costindamasaru',
+            href: 'https://instagram.com/costindamasaru',
+          },
+          {
+            title: 'Spotify',
+            text: 'Podcast',
+            href: 'https://open.spotify.com/show/costindamasaru',
+          },
+          {
+            title: 'Facebook',
+            text: '/costindamasaru',
+            href: 'https://facebook.com/costindamasaru',
+          },
+          {
+            title: 'TikTok',
+            text: '@costindamasaru',
+            href: 'https://tiktok.com/@costindamasaru',
           },
         ],
-      },
-
-      // Zone 3 — Formularul de contact (paper)
-      {
-        __component: 'sections.contact-form',
-        eyebrow: 'FORMULAR',
-        heading: 'Lasă-mi',
-        headingItalic: 'un mesaj.',
-        subtext:
-          'Spune-mi pe scurt despre ce e vorba. Dacă e o invitație sau o propunere concretă, adaugă datele esențiale — dată, loc, public, context.',
-        nameLabel: 'Nume',
-        emailLabel: 'Email',
-        messageLabel: 'Mesaj',
-        submitLabel: 'Trimite mesajul',
-        successMessage: 'Mulțumesc — îți răspund cât pot de repede.',
-        accent: 'paper',
-      },
-
-      // Zone 4 — Newsletter (navy-deep) — identical pattern to Home
-      {
-        __component: 'sections.newsletter-form',
-        eyebrow: 'NEWSLETTER',
-        heading: 'Ce vezi tu nu e doar un creier.',
-        headingItalic: 'E o viață.',
-        subtext:
-          'Newsletter săptămânal — un eseu scurt, un episod nou de podcast, un eveniment care merită. Fără spam. Vreodată.',
-        buttonLabel: 'Abonează-te',
-        placeholder: 'Adresa ta de email',
-        accent: 'navy-deep',
-        formId: 'contact',
       },
     ],
   })

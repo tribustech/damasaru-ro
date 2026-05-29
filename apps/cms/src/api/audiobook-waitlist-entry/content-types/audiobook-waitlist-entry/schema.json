@@ -1,0 +1,16 @@
+{
+  "kind": "collectionType",
+  "collectionName": "audiobook_waitlist_entries",
+  "info": {
+    "singularName": "audiobook-waitlist-entry",
+    "pluralName": "audiobook-waitlist-entries",
+    "displayName": "Audiobook Waitlist Entry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "email": { "type": "email", "required": true, "unique": true },
+    "note": { "type": "text" }
+  }
+}

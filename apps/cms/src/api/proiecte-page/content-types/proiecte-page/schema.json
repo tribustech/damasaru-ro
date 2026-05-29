@@ -18,7 +18,8 @@
         "sections.cta-banner", "sections.featured-list", "sections.stats-strip", "sections.quote-large",
         "sections.image-text-split", "sections.newsletter-form", "sections.faq-accordion",
         "sections.logo-wall", "sections.downloads-list", "sections.video-feature",
-        "sections.credentials-grid", "sections.event-feature", "sections.contact-form"
+        "sections.credentials-grid", "sections.event-feature", "sections.contact-form",
+        "sections.proiecte-hero", "sections.project-feature", "sections.press-wall"
       ]
     }
   }

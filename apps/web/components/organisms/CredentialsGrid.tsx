@@ -1,34 +1,76 @@
+import Image from 'next/image'
 import type { CredentialsGridDTO } from '@repo/types'
-import { SectionHeading } from '../molecules/SectionHeading'
-import { getAccent, accentRootClass } from '@/lib/accent'
 
 interface CredentialsGridProps {
   section: CredentialsGridDTO
 }
 
+const ZONE_BY_ACCENT: Record<CredentialsGridDTO['accent'], string> = {
+  navy: 'zone-dark',
+  paper: 'zone-light',
+  'paper-warm': 'zone-warm',
+  'navy-deep': 'zone-dark-deep',
+}
+
 export function CredentialsGrid({ section }: CredentialsGridProps) {
-  const a = getAccent(section.accent ?? 'paper-warm')
+  const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-warm'
+
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent ?? 'paper-warm')} py-24`}>
-      <div className="max-w-6xl mx-auto px-6 lg:px-12">
-        <SectionHeading
-          heading={section.heading ?? ''}
-          accent={section.accent}
-        />
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <section className={zoneClass}>
+      <div className="ds-container">
+        {section.eyebrow && <div className="section-eyebrow">{section.eyebrow}</div>}
+        {section.heading && (
+          <h2 className="section-title">
+            {section.heading}
+            {section.headingItalic && <span className="italic">{section.headingItalic}</span>}
+          </h2>
+        )}
+        {section.lead && (
+          <p
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              fontSize: '22px',
+              color: 'var(--color-text-mid)',
+              marginTop: '32px',
+              lineHeight: 1.5,
+              maxWidth: '880px',
+            }}
+          >
+            {section.lead}
+          </p>
+        )}
+        <div className="creds-grid">
           {section.groups.map((group) => (
-            <div key={group.id}>
-              <h3 className={`text-xs uppercase tracking-[0.25em] font-semibold mb-4 ${a.eyebrow}`}>
-                {group.title}
-              </h3>
-              <ul className={`space-y-2 text-sm ${a.textMuted}`}>
-                {group.items.map((item) => (
-                  <li key={item.id} className="leading-relaxed">
-                    {item.label}
-                    {item.sub && <span className="block text-xs opacity-70">{item.sub}</span>}
-                  </li>
-                ))}
-              </ul>
+            <div key={group.id} className="creds-col">
+              <h4>{group.title}</h4>
+              {group.image && (
+                <div className="mentor-photo">
+                  <Image
+                    src={group.image.url}
+                    alt={group.image.alt || group.title}
+                    width={group.image.width || 600}
+                    height={group.image.height || 600}
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
+              )}
+              {group.imageCaption && <p className="mentor-caption">{group.imageCaption}</p>}
+              {group.items.length > 0 && (
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item.id}>
+                      {item.sub ? (
+                        <>
+                          <strong>{item.label}</strong> — {item.sub}
+                        </>
+                      ) : (
+                        item.label
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </div>

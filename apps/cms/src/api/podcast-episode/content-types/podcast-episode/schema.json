@@ -46,6 +46,19 @@
       "allowedTypes": ["images"]
     },
     "guests": { "type": "json" },
-    "featured": { "type": "boolean", "default": false }
+    "featured": { "type": "boolean", "default": false },
+    "category": {
+      "pluginOptions": { "i18n": { "localized": true } },
+      "type": "string"
+    },
+    "categoryKind": {
+      "type": "enumeration",
+      "enum": ["identity", "ai", "comm", "business", "spirit", "community"]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["live", "upcoming"],
+      "default": "upcoming"
+    }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "speaker_booking_entries",
+  "info": {
+    "singularName": "speaker-booking-entry",
+    "pluralName": "speaker-booking-entries",
+    "displayName": "Speaker Booking Entry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "email": { "type": "email", "required": true },
+    "name": { "type": "string", "required": true },
+    "phone": { "type": "string" },
+    "organization": { "type": "string" },
+    "eventType": { "type": "string" },
+    "audienceSize": { "type": "string" },
+    "budget": { "type": "string" },
+    "dateEstimate": { "type": "string" },
+    "message": { "type": "text", "required": true },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "contacted", "booked", "declined", "archived"],
+      "default": "new"
+    }
+  }
+}

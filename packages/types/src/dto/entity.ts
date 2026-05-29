@@ -27,6 +27,21 @@ export interface EventDTO {
   excerpt: string | null
 }
 
+export type PodcastEpisodeCategoryKind =
+  | 'identity'
+  | 'ai'
+  | 'comm'
+  | 'business'
+  | 'spirit'
+  | 'community'
+
+export type PodcastEpisodeStatus = 'live' | 'upcoming'
+
+export interface PodcastEpisodeGuestDTO {
+  name: string
+  role: string | null
+}
+
 export interface PodcastEpisodeDTO {
   id: number
   documentId: string
@@ -40,6 +55,11 @@ export interface PodcastEpisodeDTO {
   audioUrl: string | null
   spotifyUrl: string | null
   youtubeUrl: string | null
+  category: string | null
+  categoryKind: PodcastEpisodeCategoryKind | null
+  status: PodcastEpisodeStatus
+  guests: PodcastEpisodeGuestDTO[]
+  featured: boolean
 }
 
 export interface ProjectDTO {

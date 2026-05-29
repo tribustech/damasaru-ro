@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_asoc_boxes",
+  "info": {
+    "displayName": "Asoc Box",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "statusText": { "type": "string" },
+    "title": { "type": "string" },
+    "titleItalic": { "type": "string" },
+    "body": { "type": "text" }
+  }
+}

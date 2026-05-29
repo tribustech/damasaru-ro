@@ -1,5 +1,5 @@
 import type { QuoteLargeDTO } from '@repo/types'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { getAccent, accentRootClass, getZoneClass } from '@/lib/accent'
 
 interface QuoteLargeProps {
   section: QuoteLargeDTO
@@ -8,7 +8,7 @@ interface QuoteLargeProps {
 export function QuoteLarge({ section }: QuoteLargeProps) {
   const a = getAccent(section.accent ?? 'navy')
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent ?? 'navy')} py-32`}>
+    <section className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)}`}>
       <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
         <blockquote
           className={`text-3xl lg:text-5xl font-serif italic leading-[1.2] ${a.text}`}

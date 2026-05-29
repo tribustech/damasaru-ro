@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_sections_project_features",
+  "info": {
+    "displayName": "Project Feature",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "anchorId": { "type": "string" },
+    "eyebrow": { "type": "string" },
+    "wordmark": { "type": "string", "required": true },
+    "wordmarkItalic": { "type": "string" },
+    "wordmarkLine2": { "type": "string" },
+    "wordmarkLine3": { "type": "string" },
+    "since": { "type": "string" },
+    "tagline": { "type": "text" },
+    "body": { "type": "richtext" },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["text-left", "text-right", "centered"],
+      "default": "text-left"
+    },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    },
+    "image": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "imageCaption": { "type": "text" },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.stat-item"
+    },
+    "ctas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.cta-button"
+    },
+    "asocBox": {
+      "type": "component",
+      "repeatable": false,
+      "component": "sections.asoc-box"
+    }
+  }
+}

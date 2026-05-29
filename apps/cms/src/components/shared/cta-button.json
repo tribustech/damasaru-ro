@@ -10,8 +10,9 @@
     "href": { "type": "string", "required": true },
     "variant": {
       "type": "enumeration",
-      "enum": ["primary", "outline"],
+      "enum": ["primary", "outline", "secondary"],
       "default": "primary"
-    }
+    },
+    "goldDeep": { "type": "boolean", "default": false }
   }
 }

@@ -41,20 +41,31 @@ export interface TextBlockDTO extends SectionBase {
   headingItalic: string | null
   body: string
   accent: AccentDTO
+  align: 'left' | 'center'
+  cta: CtaButtonDTO | null
+}
+
+export type CardsGridVariant = 'default' | 'convictions' | 'cta-cards' | 'chapters' | 'products' | 'platforms'
+
+export interface CardsGridItemDTO {
+  id: number
+  title: string
+  text: string | null
+  image: MediaDTO | null
+  tag: string | null
+  href: string | null
 }
 
 export interface CardsGridDTO extends SectionBase {
   __component: 'sections.cards-grid'
   eyebrow: string | null
   heading: string | null
+  headingItalic: string | null
+  lead: string | null
   accent: AccentDTO
-  items: {
-    id: number
-    title: string
-    body: string | null
-    image: MediaDTO | null
-    cta: CtaButtonDTO | null
-  }[]
+  columns: '2' | '3' | '4'
+  variant: CardsGridVariant
+  items: CardsGridItemDTO[]
 }
 
 export interface TestimonialsDTO extends SectionBase {
@@ -69,7 +80,9 @@ export interface TestimonialsDTO extends SectionBase {
 
 export interface CtaBannerDTO extends SectionBase {
   __component: 'sections.cta-banner'
+  eyebrow: string | null
   heading: string
+  headingItalic: string | null
   subheading: string | null
   accent: AccentDTO
   cta: CtaButtonDTO | null
@@ -111,25 +124,38 @@ export interface QuoteLargeDTO extends SectionBase {
   accent: AccentDTO
 }
 
+export interface ProjectMiniDTO {
+  id: number | string
+  name: string
+  tag: string | null
+  href: string | null
+}
+
 export interface ImageTextSplitDTO extends SectionBase {
   __component: 'sections.image-text-split'
   eyebrow: string | null
   heading: string | null
+  headingItalic: string | null
   body: string
   accent: AccentDTO
   image: MediaDTO | null
+  imageCaption: string | null
   imageSide: 'left' | 'right'
   cta: CtaButtonDTO | null
+  projectsRow: ProjectMiniDTO[]
 }
 
 export interface NewsletterFormDTO extends SectionBase {
   __component: 'sections.newsletter-form'
   eyebrow: string | null
   heading: string
+  headingItalic: string | null
   body: string | null
   accent: AccentDTO
   source: string
   submitLabel: string
+  placeholder: string
+  fineprint: string | null
 }
 
 export interface FaqAccordionDTO extends SectionBase {
@@ -156,17 +182,37 @@ export interface DownloadsListDTO extends SectionBase {
 
 export interface VideoFeatureDTO extends SectionBase {
   __component: 'sections.video-feature'
+  eyebrow: string | null
   heading: string | null
-  videoUrl: string
-  caption: string | null
+  headingItalic: string | null
+  badge: string | null
+  meta: string | null
+  body: string | null
+  videoUrl: string | null
+  videoFile: MediaDTO | null
+  posterImage: MediaDTO | null
+  orientation: 'landscape' | 'portrait'
+  posterBadgeLabel: string | null
+  posterBadgeQuote: string | null
+  posterBadgeImage: MediaDTO | null
+  ctaButton: CtaButtonDTO | null
   accent: AccentDTO
 }
 
 export interface CredentialsGridDTO extends SectionBase {
   __component: 'sections.credentials-grid'
+  eyebrow: string | null
   heading: string | null
+  headingItalic: string | null
+  lead: string | null
   accent: AccentDTO
-  groups: { id: number; title: string; items: { id: number; label: string; sub: string | null }[] }[]
+  groups: {
+    id: number
+    title: string
+    items: { id: number; label: string; sub: string | null }[]
+    image: MediaDTO | null
+    imageCaption: string | null
+  }[]
 }
 
 export interface EventFeatureDTO extends SectionBase {
@@ -177,13 +223,103 @@ export interface EventFeatureDTO extends SectionBase {
   cta: CtaButtonDTO | null
 }
 
+export interface FormOptionDTO {
+  id: number
+  label: string
+  value: string
+  routingEmail: string | null
+}
+
 export interface ContactFormDTO extends SectionBase {
   __component: 'sections.contact-form'
+  eyebrow: string | null
   heading: string | null
+  headingItalic: string | null
   body: string | null
-  accent: AccentDTO
+  expectationNote: string | null
+  nameLabel: string
+  namePlaceholder: string | null
+  emailLabel: string
+  emailPlaceholder: string | null
+  phoneLabel: string | null
+  phonePlaceholder: string | null
+  organizationLabel: string | null
+  organizationPlaceholder: string | null
+  organizationOptional: boolean
+  subjectLabel: string | null
+  subjectPlaceholder: string | null
+  subjectOptions: FormOptionDTO[]
+  eventTypeLabel: string | null
+  eventTypePlaceholder: string | null
+  eventTypeOptions: FormOptionDTO[]
+  audienceSizeLabel: string | null
+  audienceSizePlaceholder: string | null
+  audienceSizeOptions: FormOptionDTO[]
+  budgetLabel: string | null
+  budgetPlaceholder: string | null
+  budgetOptions: FormOptionDTO[]
+  dateEstimateLabel: string | null
+  dateEstimatePlaceholder: string | null
+  optionalSectionLabel: string | null
+  messageLabel: string
+  messagePlaceholder: string | null
+  consentText: string | null
   submitLabel: string
   successMessage: string
+  fineprint: string | null
+  accent: AccentDTO
+}
+
+export interface ProiecteHeroDTO extends SectionBase {
+  __component: 'sections.proiecte-hero'
+  eyebrow: string | null
+  title: string
+  titleItalic: string | null
+  subtitle: string | null
+  body: string | null
+  accent: AccentDTO
+  anchors: CtaButtonDTO[]
+}
+
+export interface AsocBoxDTO {
+  statusText: string | null
+  title: string | null
+  titleItalic: string | null
+  body: string | null
+}
+
+export interface ProjectFeatureDTO extends SectionBase {
+  __component: 'sections.project-feature'
+  anchorId: string | null
+  eyebrow: string | null
+  wordmark: string
+  wordmarkItalic: string | null
+  wordmarkLine2: string | null
+  wordmarkLine3: string | null
+  since: string | null
+  tagline: string | null
+  body: string
+  layout: 'text-left' | 'text-right' | 'centered'
+  accent: AccentDTO
+  image: MediaDTO | null
+  imageCaption: string | null
+  stats: { id: number; value: string; label: string }[]
+  ctas: CtaButtonDTO[]
+  asocBox: AsocBoxDTO | null
+}
+
+export interface PressWallDTO extends SectionBase {
+  __component: 'sections.press-wall'
+  eyebrow: string | null
+  heading: string
+  headingItalic: string | null
+  subtitle: string | null
+  accent: AccentDTO
+  expandLabel: string | null
+  collapseLabel: string | null
+  secondaryLabel: string | null
+  items: { id: number; brandKey: string; info: string | null; title: string | null; url: string | null }[]
+  secondaryItems: { id: number; label: string; url: string | null }[]
 }
 
 export type SectionDTO =
@@ -204,3 +340,6 @@ export type SectionDTO =
   | CredentialsGridDTO
   | EventFeatureDTO
   | ContactFormDTO
+  | ProiecteHeroDTO
+  | ProjectFeatureDTO
+  | PressWallDTO

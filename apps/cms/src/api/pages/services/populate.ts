@@ -8,7 +8,7 @@ export const PAGE_POPULATE = {
           statsStrip: { populate: { items: true } },
         },
       },
-      'sections.text-block': {},
+      'sections.text-block': { populate: { cta: true } },
       'sections.cards-grid': {
         populate: { items: { populate: { iconImage: true } } },
       },
@@ -17,17 +17,41 @@ export const PAGE_POPULATE = {
       'sections.featured-list': {},
       'sections.stats-strip': { populate: { items: true } },
       'sections.quote-large': {},
-      'sections.image-text-split': { populate: { image: true, cta: true } },
+      'sections.image-text-split': { populate: { image: true, cta: true, projectsRow: true } },
       'sections.newsletter-form': {},
       'sections.faq-accordion': { populate: { items: true } },
       'sections.logo-wall': { populate: { items: { populate: { logo: true } } } },
       'sections.downloads-list': { populate: { items: { populate: { file: true } } } },
-      'sections.video-feature': {},
+      'sections.video-feature': {
+        populate: {
+          videoFile: true,
+          posterImage: true,
+          posterBadgeImage: true,
+          ctaButton: true,
+        },
+      },
       'sections.credentials-grid': {
-        populate: { groups: true },
+        populate: { groups: { populate: { image: true } } },
       },
       'sections.event-feature': { populate: { cta: true, event: { populate: { coverImage: true } } } },
-      'sections.contact-form': {},
+      'sections.contact-form': {
+        populate: {
+          subjectOptions: true,
+          eventTypeOptions: true,
+          audienceSizeOptions: true,
+          budgetOptions: true,
+        },
+      },
+      'sections.proiecte-hero': { populate: { anchors: true } },
+      'sections.project-feature': {
+        populate: {
+          image: true,
+          stats: true,
+          ctas: true,
+          asocBox: true,
+        },
+      },
+      'sections.press-wall': { populate: { items: true, secondaryItems: true } },
     },
   },
 }

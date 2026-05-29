@@ -4,6 +4,8 @@ This monorepo builds **damasaru.ro**, the personal website of **Costin Damasaru*
 
 The authoritative spec lives in `../Documentation/` (client-supplied copy, mockups, photography). `../Documentation Figma/` is a parallel exploration I did in Figma Make — useful for visual reference, but **the client's `Documentation/` folder always wins** if the two disagree.
 
+> **Read `docs/site-spec.md` first** — it's the digested form of `../Documentation/Structura Site.xlsx` (binary, can't be read with text tools). It owns the canonical sitemap, the 7-zone homepage chromatic rhythm, the per-page section blueprint, the design tokens (Forest palette + Cormorant/Inter type scale), and the conversion priorities. Everything below is engineering convention; that file is product/design truth.
+
 ---
 
 ## Stack

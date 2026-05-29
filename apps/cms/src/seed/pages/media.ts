@@ -5,37 +5,31 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
   const heroPortrait = await uploadFile(
     strapi,
     docPath('8. Media', 'V-0301.jpg'),
-    { alt: 'Costin Dămășaru — interviu cu microfon PRO TV' }
+    { alt: 'Costin Dămășaru — interviu cu microfon PRO TV la stand' }
   )
 
-  const featuredStoryImage = await uploadFile(
-    strapi,
-    docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_1.jpg'),
-    { alt: 'Costin Dămășaru — portret presă' }
-  )
-
-  // Press kit downloads — we reuse the 4 press portraits as downloadable JPGs.
-  // PDFs for bio (scurt/extins) don't exist yet — skip those items rather than
-  // upload placeholders.
+  // Press kit downloads — Kit_Bio is empty (no PDFs yet), so we surface the 4
+  // press portraits as the downloadable assets. Bio PDFs are flagged in the
+  // intro copy with a fallback to contact@damasaru.ro.
   const portret1Id = await uploadFile(
     strapi,
     docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_1.jpg'),
-    { alt: 'Costin Dămășaru — portret 1' }
+    { alt: 'Costin Dămășaru — portret presă 1' }
   )
   const portret2Id = await uploadFile(
     strapi,
     docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_2.jpg'),
-    { alt: 'Costin Dămășaru — portret 2' }
+    { alt: 'Costin Dămășaru — portret presă 2' }
   )
   const portret3Id = await uploadFile(
     strapi,
     docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_3.jpg'),
-    { alt: 'Costin Dămășaru — portret 3' }
+    { alt: 'Costin Dămășaru — portret presă 3' }
   )
   const portret4Id = await uploadFile(
     strapi,
     docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_4.jpg'),
-    { alt: 'Costin Dămășaru — portret 4' }
+    { alt: 'Costin Dămășaru — portret presă 4' }
   )
 
   const downloadItems = [
@@ -73,152 +67,181 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
     }))
 
   await upsertSingleType(strapi, 'api::media-page.media-page', {
-    seoTitle: 'Media — Costin Dămășaru | TV, Podcast, Publicații, Radio',
+    seoTitle: 'Media — Costin Dămășaru | TV, Podcast, Reviste',
     seoDescription:
-      'Toate aparițiile publice ale lui Costin Dămășaru — interviuri TV, podcasturi, articole și emisiuni. Cu filtre pe brand și tip.',
+      'Toate aparițiile publice ale lui Costin Dămășaru — 83 de interviuri TV, podcasturi, articole și emisiuni. Cele mai notabile conversații + reviste.',
     sections: [
-      // Zone 1 — Hero (navy) with main portrait
+      // ZONE 1 — Hero (navy) with PRO TV interview portrait
       {
         __component: 'sections.hero',
         eyebrow: 'MEDIA',
         title: 'Toate aparițiile',
         titleItalic: 'într-un singur loc.',
         subtitle:
-          '82 de apariții publice — la televiziuni, în podcasturi, în reviste — adunate aici, ca să găsești ușor ce te interesează.',
+          '„83 de apariții publice — la televiziuni, în podcasturi, în reviste — adunate aici, ca să găsești ușor ce te interesează."',
         accent: 'navy',
         mediaPosition: 'right',
         media: heroPortrait,
       },
 
-      // Zone 2 — Stats strip (paper)
+      // ZONE 2 — Stat strip (paper) — values + labels per mockup
       {
         __component: 'sections.stats-strip',
         accent: 'paper',
         items: [
-          { value: '50+', label: 'APARIȚII MEDIA', caption: null },
-          { value: '10+', label: 'PODCASTURI', caption: null },
-          { value: '3', label: 'TV-URI NAȚIONALE', caption: null },
+          { value: '83', label: 'APARIȚII DOCUMENTATE', caption: null },
+          { value: '40+', label: 'CANALE MEDIA DIFERITE', caption: null },
+          { value: '3', label: 'COSTIN · VERUVIS · VERUVIS KIDS', caption: null },
         ],
       },
 
-      // Zone 3 — Outlet wall (paper-warm) — cards-grid because logo-wall requires images we don't have
+      // ZONE 3 — Logo wall „Publicații de referință" (paper).
+      // No SVG/logo assets exist for the 8 outlets, so we use cards-grid
+      // (default variant) with outlet name + count + scurtă descriere — same
+      // information density as the mockup logo cells.
       {
         __component: 'sections.cards-grid',
-        eyebrow: 'PUBLICAȚII ȘI POSTURI',
-        heading: 'Unde am vorbit',
-        headingItalic: 'în ultimii ani.',
-        lead: 'O selecție din publicațiile și posturile care au găzduit conversații despre creier, performanță și sens.',
-        accent: 'paper-warm',
+        eyebrow: 'FEATURED',
+        heading: 'Publicații',
+        headingItalic: 'de referință.',
+        lead:
+          '„Cele mai prestigioase locuri unde s-a vorbit despre proiectele mele sau cu mine direct."',
+        accent: 'paper',
         columns: '4',
+        variant: 'default',
         items: [
-          { title: 'Pro TV', text: 'Reportaj GoTech World · Vorbește Lumea — apariții TV repetate pe subiecte de neuroștiință aplicată.' },
-          { title: 'Digi24', text: 'Intervenții pe subiecte de sănătate mintală, performanță și educație.' },
-          { title: 'TVR', text: 'Eu Pot · Punctul Critic · Un doctor pentru dumneavoastră — emisiuni publice de profunzime.' },
-          { title: 'Forbes România', text: 'CEE Forum 2023 · proiectul editorial „24 pentru 2024" — viitorul creierului uman optimizat.' },
-          { title: 'Adevărul', text: 'Interviu Adevărul Live despre toxicitatea din viața noastră și cum o demontăm.' },
-          { title: 'HotNews', text: 'Interviu detaliat despre Brain Mapping-BCI și tehnologiile de optimizare a creierului.' },
-          { title: 'Ziarul Financiar', text: 'Business Magazin · ZF Live · Business Hi-Tech — interviuri antreprenoriale.' },
-          { title: 'Republica', text: 'Eseuri și opinii despre educație, sănătate mintală și transformarea socială.' },
+          {
+            title: 'Forbes România',
+            text: 'CEE Forum 2023 · 24 pentru 2024 — proiectul editorial despre creierul uman optimizat.',
+            tag: '2 prezențe',
+          },
+          {
+            title: 'PRO TV',
+            text: 'GoTech World · Vorbește Lumea — apariții TV repetate pe subiecte de neuroștiință aplicată.',
+            tag: '3 apariții',
+          },
+          {
+            title: 'HotNews',
+            text: 'Interviu detaliat despre Brain Mapping & BCI și tehnologiile de optimizare a creierului.',
+            tag: '1 interviu',
+          },
+          {
+            title: 'Ziarul Financiar',
+            text: 'Business Magazin · ZF Live · Business Hi-Tech — interviuri antreprenoriale.',
+            tag: '3 articole',
+          },
+          {
+            title: 'Adevărul',
+            text: 'Adevărul Live · interviu TV despre toxicitatea din viața noastră.',
+            tag: '2 prezențe',
+          },
+          {
+            title: 'Capital + EVZ',
+            text: 'Gala Top Performeri în Sănătate 2023 — Veruvis premiat pentru contribuția la dezvoltarea medicinei.',
+            tag: 'Premiat 2023',
+          },
+          {
+            title: 'TVR',
+            text: 'Eu Pot · Punctul Critic · Un doctor pentru dumneavoastră · TVRi — emisiuni publice de profunzime.',
+            tag: '5 emisiuni',
+          },
+          {
+            title: 'Wall-Street.ro',
+            text: 'Mențiuni multiple pe verticala antreprenoriat și inovație — tag autor dedicat.',
+            tag: 'Mențiuni multiple',
+          },
         ],
       },
 
-      // Zone 4 — Featured story image-text-split (paper)
-      {
-        __component: 'sections.image-text-split',
-        eyebrow: 'POVESTEA DIN SPATELE APARIȚIILOR',
-        heading: 'De ce vorbesc public',
-        headingItalic: 'despre creier și viață.',
-        accent: 'paper',
-        imagePosition: 'right',
-        image: featuredStoryImage,
-        body: `De-a lungul anilor am fost invitat în multe locuri — TV, radio, podcasturi, reviste. De multe ori discuțiile au fost despre Veruvis sau Veruvis Kids, alteori despre experiențele mele personale. Aici găsești tot, fără să mai cauți pe internet.
-
-Nu am început să apar public ca să fac PR. Am început fiindcă mulți oameni vin la mine cu aceleași întrebări — despre anxietate, despre burnout, despre cum funcționează creierul lor — și e mai eficient să răspund o dată, în public, decât de o sută de ori în privat.
-
-Fiecare apariție de aici e o conversație reală: cu jurnaliști, cu antreprenori, cu părinți, cu cercetători. Le păstrez pe toate fiindcă, împreună, formează o hartă mai bună a ceea ce fac decât orice CV.`,
-      },
-
-      // Zone 5 — Press manifest text block (paper-warm)
-      {
-        __component: 'sections.text-block',
-        eyebrow: 'FILOZOFIA MEA',
-        heading: 'Atunci când vei înțelege propria relație creier–minte,',
-        headingItalic: 'te vei opri din a te lupta cu tine.',
-        accent: 'paper-warm',
-        align: 'center',
-        body: `Asta e ideea în jurul căreia se construiește, în diverse forme, fiecare interviu de mai jos.
-
-Nu am vorbit niciodată despre creier în abstract. Am vorbit despre creierul tău, al meu, al copilului tău, al colegului care nu mai poate. Despre cum poate fi măsurat, înțeles și reantrenat. Despre faptul că suferința mintală nu e defect de caracter și că performanța nu ține de motivație.
-
-Dacă ești jurnalist, producător sau organizator de conferințe — folosește presa de mai jos ca punct de plecare. Ceea ce caut, de fiecare dată, este o conversație onestă. Nu un slogan.`,
-      },
-
-      // Zone 6 — Magazine featured-list (paper)
+      // ZONE 4 — Cele mai notabile conversații (paper-warm) — top 8 cu thumbnail YouTube
       {
         __component: 'sections.featured-list',
-        eyebrow: 'PE PRIMA PAGINĂ',
-        heading: 'Reviste care au scris',
-        headingItalic: 'cover story.',
+        eyebrow: 'TOP APARIȚII',
+        heading: 'Cele mai notabile',
+        headingItalic: 'conversații.',
         subheading:
-          'Prezență confirmată în print — de la business mainstream la lifestyle și leadership.',
+          '„Conversațiile mari — Măruță, Mihai Morar, podcasturi și televiziuni cu cea mai mare audiență."',
+        accent: 'paper-warm',
+        relation: 'press-mentions',
+        layout: 'grid',
+        limit: 8,
+        filterBy: { featured: true },
+      },
+
+      // ZONE 4a — Filozofia mea (navy interlude) — quote autentic Costin
+      {
+        __component: 'sections.quote-large',
+        eyebrow: 'FILOZOFIA MEA',
+        quote:
+          '„Atunci când vei înțelege propria relație creier–minte, te vei opri din a te lupta cu tine."',
+        attribution: 'COSTIN DĂMĂȘARU',
+        accent: 'navy',
+      },
+
+      // ZONE 4b — Pe prima pagină (paper) — 5 reviste cover story
+      {
+        __component: 'sections.featured-list',
+        eyebrow: 'PRINT · REVISTE',
+        heading: 'Pe prima',
+        headingItalic: 'pagină.',
+        subheading:
+          '„Interviuri ample, editoriale dedicate — în publicațiile de business și lifestyle din România."',
         accent: 'paper',
         relation: 'press-mentions',
         layout: 'grid',
         limit: 6,
         filterBy: { type: 'magazine' },
-        seeAllHref: '/media/arhiva',
-        seeAllLabel: 'Vezi arhiva completă',
       },
 
-      // Zone 7 — All mentions marquee (navy)
+      // ZONE 5 — Restul aparițiilor (paper) — carousel marquee
       {
         __component: 'sections.featured-list',
-        eyebrow: 'COLABORĂRI MEDIA',
-        heading: 'Conversații recente',
-        headingItalic: 'pe scurt.',
+        eyebrow: 'ARHIVA',
+        heading: 'Restul aparițiilor —',
+        headingItalic: '58 colaborări.',
         subheading:
-          'Cele mai notabile apariții TV, podcast și radio din ultimul an, în defilare continuă.',
-        accent: 'navy',
+          '„Trece mouse-ul peste un card ca să-l oprești. Click pe el ca să-l deschizi."',
+        accent: 'paper',
         relation: 'press-mentions',
         layout: 'marquee',
-        limit: 12,
+        limit: 24,
       },
 
-      // Zone 8 — Archive CTA (paper-warm)
+      // ZONE 5b — Arhiva completă CTA (navy mega-banner)
       {
         __component: 'sections.cta-banner',
-        eyebrow: 'PENTRU JURNALIȘTI',
-        heading: 'Vrei să mă inviți',
-        headingItalic: 'într-un interviu?',
+        eyebrow: 'ARHIVA COMPLETĂ',
+        heading: 'Vrei să vezi toate cele 83 de apariții',
+        headingItalic: 'ordonate cu filtre?',
         subtext:
-          'Scrie-mi direct — răspund în 24-48 ore pe weekday. Pentru pregătire, descarcă bio-ul și foto-press din kit-ul de mai jos.',
-        buttonLabel: 'Contactează-mă',
-        buttonHref: '/contact',
-        accent: 'paper-warm',
+          '„Toate aparițiile sortabile pe Tip (TV, Podcast, Publicație, Radio, Evenimente) și pe Brand (Costin, Veruvis, Veruvis Kids). Cu căutare în titluri."',
+        buttonLabel: 'Deschide arhiva completă →',
+        buttonHref: '/media/arhiva',
+        accent: 'navy',
       },
 
-      // Zone 9 — Press kit downloads (paper)
+      // ZONE 6 — Press Kit „La îndemână" (paper)
       {
         __component: 'sections.downloads-list',
         eyebrow: 'PRESS KIT',
-        heading: 'La îndemână —',
-        headingItalic: 'tot ce ai nevoie.',
+        heading: 'La',
+        headingItalic: 'îndemână.',
         intro:
-          'Materiale pregătite pentru presă, podcasturi și conferințe. Pentru bio scurt și extins în PDF, scrie pe contact@damasaru.ro — le trimit personal.',
+          '„Foto, bio și contact direct, pregătite pentru orice material despre mine." Pentru bio (scurt 50 cuv. · mediu 150 cuv. · extins 400 cuv.) în PDF sau pentru contact presă, scrie pe contact@damasaru.ro — răspund în maxim 24 ore în zilele lucrătoare.',
         accent: 'paper',
         items: downloadItems,
       },
 
-      // Zone 10 — Newsletter (navy-deep)
+      // ZONE 7 — Newsletter (navy-deep)
       {
         __component: 'sections.newsletter-form',
         eyebrow: 'NEWSLETTER',
-        heading: 'Rămâi aproape',
-        headingItalic: 'de conversațiile importante.',
+        heading: 'Vrei să afli',
+        headingItalic: 'când apare ceva nou?',
         subtext:
-          'Newsletter săptămânal — o apariție recentă, un eseu nou, un eveniment care merită. Fără spam. Vreodată.',
-        buttonLabel: 'Abonează-te',
-        placeholder: 'Adresa ta de email',
+          '„Newsletter bilunar — articole noi din Idei, episoade de podcast, apariții publice noi și — important pentru tine — anunțuri pentru produse noi în magazin. Fără spam."',
+        buttonLabel: 'Abonează-mă',
+        placeholder: 'adresa@ta.ro',
         accent: 'navy-deep',
         formId: 'media',
       },

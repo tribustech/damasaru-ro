@@ -7,7 +7,7 @@
   "options": {},
   "attributes": {
     "title": { "type": "string", "required": true },
-    "text": { "type": "text", "required": true },
+    "text": { "type": "text" },
     "iconName": { "type": "string" },
     "iconImage": {
       "type": "media",

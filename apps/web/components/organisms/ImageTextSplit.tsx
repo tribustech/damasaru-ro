@@ -1,51 +1,178 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import type { ImageTextSplitDTO } from '@repo/types'
-import { Button } from '../atoms/Button'
-import { SectionHeading } from '../molecules/SectionHeading'
-import { getAccent, accentRootClass } from '@/lib/accent'
 
 interface ImageTextSplitProps {
   section: ImageTextSplitDTO
 }
 
+const ZONE_BY_ACCENT: Record<ImageTextSplitDTO['accent'], string> = {
+  navy: 'zone-dark',
+  paper: 'zone-light',
+  'paper-warm': 'zone-warm',
+  'navy-deep': 'zone-dark-deep',
+}
+
+type Block =
+  | { kind: 'p'; text: string }
+  | { kind: 'quote'; text: string }
+
+function bodyToBlocks(body: string): Block[] {
+  return body
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) =>
+      p.startsWith('> ')
+        ? ({ kind: 'quote', text: p.slice(2).trim() } as Block)
+        : ({ kind: 'p', text: p } as Block)
+    )
+}
+
 export function ImageTextSplit({ section }: ImageTextSplitProps) {
-  const a = getAccent(section.accent)
-  const reverse = section.imageSide === 'left'
-  return (
-    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${reverse ? 'lg:[&>:first-child]:order-2' : ''}`}>
-          <div>
-            <SectionHeading
-              eyebrow={section.eyebrow}
-              heading={section.heading ?? ''}
-              accent={section.accent}
-            />
-            {section.body && (
-              <div
-                className={`mt-6 space-y-4 text-lg leading-relaxed ${a.textMuted} prose ${a.isDark ? 'prose-navy' : 'prose-paper'} max-w-none`}
-                dangerouslySetInnerHTML={{ __html: section.body }}
+  const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-light'
+  const reverse = section.imageSide === 'right'
+  const blocks = bodyToBlocks(section.body ?? '')
+  const hasProjects = section.projectsRow && section.projectsRow.length > 0
+
+  if (!section.image) {
+    return (
+      <section className={zoneClass}>
+        <div className="ds-container">
+          <div className="zone2-grid no-image">
+            <div>
+              {section.eyebrow && <div className="section-eyebrow">{section.eyebrow}</div>}
+              {section.heading && (
+                <h2 className="section-title">
+                  {section.heading}
+                  {section.headingItalic && <span className="italic">{section.headingItalic}</span>}
+                </h2>
+              )}
+            </div>
+            <div className="zone2-text-lead">
+              {blocks.map((b, i) =>
+                b.kind === 'quote' ? (
+                  <div key={i} className="pull-quote-light">
+                    <p>{b.text}</p>
+                  </div>
+                ) : (
+                  <p key={i}>{b.text}</p>
+                )
+              )}
+              {section.cta && (
+                <div style={{ marginTop: '32px' }}>
+                  <Link href={section.cta.href} className="btn btn-primary">
+                    {section.cta.label}
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  const paragraphs = blocks.filter((b) => b.kind === 'p').map((b) => b.text)
+  const splitIdx = hasProjects && paragraphs.length >= 3 ? 2 : paragraphs.length
+  const beforeProjects = paragraphs.slice(0, splitIdx)
+  const afterProjects = paragraphs.slice(splitIdx)
+  const isAboutMini = /despre\s+(autor|gazd[aă]|host)|about\s+(author|host)/i.test(section.eyebrow ?? '')
+
+  if (isAboutMini) {
+    return (
+      <section className={zoneClass}>
+        <div className="ds-container">
+          <div className="about-mini-grid">
+            <div className="about-mini-photo">
+              <Image
+                src={section.image.url}
+                alt={section.image.alt || section.heading || ''}
+                width={section.image.width || 900}
+                height={section.image.height || 1200}
+                sizes="(max-width: 1024px) 100vw, 40vw"
               />
-            )}
-            {section.cta && (
-              <div className="mt-8">
-                <Button href={section.cta.href} variant={a.isDark ? 'ghost-light' : section.cta.variant}>
+            </div>
+            <div className="about-mini-body">
+              {section.eyebrow && <div className="section-eyebrow">{section.eyebrow}</div>}
+              {section.heading && (
+                <h2 className="section-title">
+                  {section.heading}
+                  {section.headingItalic && <span className="italic">{section.headingItalic}</span>}
+                </h2>
+              )}
+              {paragraphs.map((p, i) => (
+                <p key={i}>{`„${p}"`}</p>
+              ))}
+              {section.cta && (
+                <Link href={section.cta.href} className="btn btn-ghost">
                   {section.cta.label}
-                </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className={zoneClass}>
+      <div className="ds-container">
+        <div className={`zone2-grid${reverse ? ' reverse' : ''}`} style={reverse ? { gridTemplateColumns: '1fr 1fr' } : undefined}>
+          <div className="zone2-photo-block" style={reverse ? { order: 2 } : undefined}>
+            <div className="zone2-photo">
+              <Image
+                src={section.image.url}
+                alt={section.image.alt || section.heading || ''}
+                width={section.image.width || 900}
+                height={section.image.height || 1200}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            {section.imageCaption && <p className="zone2-caption">{section.imageCaption}</p>}
+          </div>
+          <div className="zone2-text">
+            {section.eyebrow && <div className="section-eyebrow">{section.eyebrow}</div>}
+            {section.heading && (
+              <h2 className="section-title">
+                {section.heading}
+                {section.headingItalic && <span className="italic">{section.headingItalic}</span>}
+              </h2>
+            )}
+            <div>
+              {beforeProjects.map((p, i) => (
+                <p key={`b${i}`}>{p}</p>
+              ))}
+              {hasProjects && (
+                <div className="projects-row">
+                  {section.projectsRow.map((proj) =>
+                    proj.href ? (
+                      <Link key={proj.id} href={proj.href} className="project-mini">
+                        <div className="project-mini-name">{proj.name}</div>
+                        {proj.tag && <div className="project-mini-tag">{proj.tag}</div>}
+                      </Link>
+                    ) : (
+                      <div key={proj.id} className="project-mini">
+                        <div className="project-mini-name">{proj.name}</div>
+                        {proj.tag && <div className="project-mini-tag">{proj.tag}</div>}
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+              {afterProjects.map((p, i) => (
+                <p key={`a${i}`}>{p}</p>
+              ))}
+            </div>
+            {section.cta && (
+              <div style={{ marginTop: '32px' }}>
+                <Link href={section.cta.href} className="btn btn-primary">
+                  {section.cta.label}
+                </Link>
               </div>
             )}
           </div>
-          {section.image && (
-            <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden">
-              <Image
-                src={section.image.url.startsWith('http') ? section.image.url : `${process.env.STRAPI_URL ?? 'http://localhost:1337'}${section.image.url}`}
-                alt={section.image.alt ?? section.heading ?? ''}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          )}
         </div>
       </div>
     </section>

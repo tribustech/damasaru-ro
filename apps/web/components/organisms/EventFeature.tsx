@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { EventFeatureDTO } from '@repo/types'
 import { Eyebrow } from '../atoms/Eyebrow'
 import { Button } from '../atoms/Button'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { getAccent, accentRootClass, getZoneClass } from '@/lib/accent'
 
 interface EventFeatureProps {
   section: EventFeatureDTO
@@ -15,7 +15,7 @@ export function EventFeature({ section, locale }: EventFeatureProps) {
   const event = section.event
   if (!event) return null
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
+    <section className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {section.eyebrow && <Eyebrow label={section.eyebrow} accent={section.accent} align="center" />}
         <div className={`mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center rounded-3xl overflow-hidden border ${a.border}`}>

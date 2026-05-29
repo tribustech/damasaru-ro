@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { FaqAccordionDTO } from '@repo/types'
 import { SectionHeading } from '../molecules/SectionHeading'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { getAccent, accentRootClass, getZoneClass } from '@/lib/accent'
 
 interface FaqAccordionProps {
   section: FaqAccordionDTO
@@ -13,7 +13,7 @@ export function FaqAccordion({ section }: FaqAccordionProps) {
   const a = getAccent(section.accent)
   const [open, setOpen] = useState<number | null>(null)
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
+    <section className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)}`}>
       <div className="max-w-3xl mx-auto px-6 lg:px-12">
         <SectionHeading
           eyebrow={section.eyebrow}

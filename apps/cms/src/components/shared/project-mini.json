@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_project_minis",
+  "info": {
+    "displayName": "Project Mini Card",
+    "description": "Compact project card used in the projects-row strip (name + tag + optional link).",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "tag": { "type": "string" },
+    "href": { "type": "string" }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_press_brands",
+  "info": {
+    "displayName": "Press Brand",
+    "icon": "certificate"
+  },
+  "options": {},
+  "attributes": {
+    "brandKey": { "type": "string", "required": true },
+    "info": { "type": "string" },
+    "title": { "type": "string" },
+    "url": { "type": "string" }
+  }
+}

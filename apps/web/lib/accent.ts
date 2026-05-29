@@ -59,3 +59,15 @@ export function getAccent(accent: SectionAccent | null | undefined): AccentClass
 export function accentRootClass(accent: SectionAccent | null | undefined) {
   return `section-accent-${accent ?? 'paper'}`
 }
+
+const ZONE_BY_ACCENT: Record<string, string> = {
+  navy: 'zone-dark',
+  paper: 'zone-light',
+  'paper-warm': 'zone-warm',
+  'navy-deep': 'zone-dark-deep',
+}
+
+/** Returns the chromatic-rhythm zone class for an accent, mirroring the mockup CSS. */
+export function getZoneClass(accent: SectionAccent | null | undefined): string {
+  return ZONE_BY_ACCENT[accent ?? 'paper'] ?? 'zone-light'
+}

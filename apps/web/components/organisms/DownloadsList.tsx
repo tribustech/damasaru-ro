@@ -1,6 +1,6 @@
 import type { DownloadsListDTO } from '@repo/types'
 import { SectionHeading } from '../molecules/SectionHeading'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { getAccent, accentRootClass, getZoneClass } from '@/lib/accent'
 
 interface DownloadsListProps {
   section: DownloadsListDTO
@@ -9,7 +9,7 @@ interface DownloadsListProps {
 export function DownloadsList({ section }: DownloadsListProps) {
   const a = getAccent(section.accent)
   return (
-    <section className={`${a.background} ${accentRootClass(section.accent)} py-24`}>
+    <section className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)}`}>
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <SectionHeading
           heading={section.heading ?? ''}

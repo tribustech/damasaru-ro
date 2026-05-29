@@ -42,5 +42,6 @@ export interface CtaButton {
   id: number
   label: string
   href: string
-  variant: 'primary' | 'outline'
+  variant: 'primary' | 'outline' | 'secondary'
+  goldDeep: boolean
 }

@@ -20,6 +20,11 @@
       "enum": ["2", "3", "4"],
       "default": "3"
     },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["default", "convictions", "cta-cards", "chapters", "products", "platforms"],
+      "default": "default"
+    },
     "items": {
       "type": "component",
       "repeatable": true,

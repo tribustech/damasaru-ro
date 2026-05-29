@@ -1,5 +1,19 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SectionsAsocBox extends Struct.ComponentSchema {
+  collectionName: 'components_sections_asoc_boxes';
+  info: {
+    displayName: 'Asoc Box';
+    icon: 'information';
+  };
+  attributes: {
+    body: Schema.Attribute.Text;
+    statusText: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    titleItalic: Schema.Attribute.String;
+  };
+}
+
 export interface SectionsCardItem extends Struct.ComponentSchema {
   collectionName: 'components_sections_card_items';
   info: {
@@ -11,7 +25,7 @@ export interface SectionsCardItem extends Struct.ComponentSchema {
     iconImage: Schema.Attribute.Media<'images'>;
     iconName: Schema.Attribute.String;
     tag: Schema.Attribute.String;
-    text: Schema.Attribute.Text & Schema.Attribute.Required;
+    text: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -34,6 +48,17 @@ export interface SectionsCardsGrid extends Struct.ComponentSchema {
     headingItalic: Schema.Attribute.String;
     items: Schema.Attribute.Component<'sections.card-item', true>;
     lead: Schema.Attribute.Text;
+    variant: Schema.Attribute.Enumeration<
+      [
+        'default',
+        'convictions',
+        'cta-cards',
+        'chapters',
+        'products',
+        'platforms',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'default'>;
   };
 }
 
@@ -48,12 +73,39 @@ export interface SectionsContactForm extends Struct.ComponentSchema {
       ['navy', 'paper', 'paper-warm', 'navy-deep']
     > &
       Schema.Attribute.DefaultTo<'paper'>;
+    audienceSizeLabel: Schema.Attribute.String;
+    audienceSizeOptions: Schema.Attribute.Component<'shared.form-option', true>;
+    audienceSizePlaceholder: Schema.Attribute.String;
+    budgetLabel: Schema.Attribute.String;
+    budgetOptions: Schema.Attribute.Component<'shared.form-option', true>;
+    budgetPlaceholder: Schema.Attribute.String;
+    consentText: Schema.Attribute.Text;
+    dateEstimateLabel: Schema.Attribute.String;
+    dateEstimatePlaceholder: Schema.Attribute.String;
     emailLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Email'>;
+    emailPlaceholder: Schema.Attribute.String;
+    eventTypeLabel: Schema.Attribute.String;
+    eventTypeOptions: Schema.Attribute.Component<'shared.form-option', true>;
+    eventTypePlaceholder: Schema.Attribute.String;
+    expectationNote: Schema.Attribute.Text;
     eyebrow: Schema.Attribute.String;
+    fineprint: Schema.Attribute.String;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     headingItalic: Schema.Attribute.String;
     messageLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Mesaj'>;
+    messagePlaceholder: Schema.Attribute.String;
     nameLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Nume'>;
+    namePlaceholder: Schema.Attribute.String;
+    optionalSectionLabel: Schema.Attribute.String;
+    organizationLabel: Schema.Attribute.String;
+    organizationOptional: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    organizationPlaceholder: Schema.Attribute.String;
+    phoneLabel: Schema.Attribute.String;
+    phonePlaceholder: Schema.Attribute.String;
+    subjectLabel: Schema.Attribute.String;
+    subjectOptions: Schema.Attribute.Component<'shared.form-option', true>;
+    subjectPlaceholder: Schema.Attribute.String;
     submitLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Trimite'>;
     subtext: Schema.Attribute.Text;
@@ -69,6 +121,8 @@ export interface SectionsCredentialGroup extends Struct.ComponentSchema {
     icon: 'list';
   };
   attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    imageCaption: Schema.Attribute.Text;
     items: Schema.Attribute.JSON & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
@@ -284,8 +338,10 @@ export interface SectionsImageTextSplit extends Struct.ComponentSchema {
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     headingItalic: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images'>;
+    imageCaption: Schema.Attribute.Text;
     imagePosition: Schema.Attribute.Enumeration<['left', 'right']> &
       Schema.Attribute.DefaultTo<'right'>;
+    projectsRow: Schema.Attribute.Component<'shared.project-mini', true>;
   };
 }
 
@@ -335,12 +391,117 @@ export interface SectionsNewsletterForm extends Struct.ComponentSchema {
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Aboneaz\u0103-te'>;
     eyebrow: Schema.Attribute.String;
+    fineprint: Schema.Attribute.String;
     formId: Schema.Attribute.String & Schema.Attribute.DefaultTo<'default'>;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     headingItalic: Schema.Attribute.String;
     placeholder: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Adresa ta de email'>;
     subtext: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsPressBrand extends Struct.ComponentSchema {
+  collectionName: 'components_sections_press_brands';
+  info: {
+    displayName: 'Press Brand';
+    icon: 'certificate';
+  };
+  attributes: {
+    brandKey: Schema.Attribute.String & Schema.Attribute.Required;
+    info: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    url: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsPressSecondaryItem extends Struct.ComponentSchema {
+  collectionName: 'components_sections_press_secondary_items';
+  info: {
+    displayName: 'Press Secondary Item';
+    icon: 'link';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsPressWall extends Struct.ComponentSchema {
+  collectionName: 'components_sections_press_walls';
+  info: {
+    displayName: 'Press Wall';
+    icon: 'bullhorn';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    collapseLabel: Schema.Attribute.String;
+    expandLabel: Schema.Attribute.String;
+    eyebrow: Schema.Attribute.String;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    headingItalic: Schema.Attribute.String;
+    items: Schema.Attribute.Component<'sections.press-brand', true>;
+    secondaryItems: Schema.Attribute.Component<
+      'sections.press-secondary-item',
+      true
+    >;
+    secondaryLabel: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsProiecteHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_proiecte_heroes';
+  info: {
+    displayName: 'Proiecte Hero';
+    icon: 'tv';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'navy'>;
+    anchors: Schema.Attribute.Component<'shared.cta-button', true>;
+    body: Schema.Attribute.RichText;
+    eyebrow: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    titleItalic: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsProjectFeature extends Struct.ComponentSchema {
+  collectionName: 'components_sections_project_features';
+  info: {
+    displayName: 'Project Feature';
+    icon: 'layer';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'navy'>;
+    anchorId: Schema.Attribute.String;
+    asocBox: Schema.Attribute.Component<'sections.asoc-box', false>;
+    body: Schema.Attribute.RichText;
+    ctas: Schema.Attribute.Component<'shared.cta-button', true>;
+    eyebrow: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
+    imageCaption: Schema.Attribute.Text;
+    layout: Schema.Attribute.Enumeration<
+      ['text-left', 'text-right', 'centered']
+    > &
+      Schema.Attribute.DefaultTo<'text-left'>;
+    since: Schema.Attribute.String;
+    stats: Schema.Attribute.Component<'sections.stat-item', true>;
+    tagline: Schema.Attribute.Text;
+    wordmark: Schema.Attribute.String & Schema.Attribute.Required;
+    wordmarkItalic: Schema.Attribute.String;
+    wordmarkLine2: Schema.Attribute.String;
+    wordmarkLine3: Schema.Attribute.String;
   };
 }
 
@@ -438,8 +599,9 @@ export interface SectionsTextBlock extends Struct.ComponentSchema {
     align: Schema.Attribute.Enumeration<['left', 'center']> &
       Schema.Attribute.DefaultTo<'left'>;
     body: Schema.Attribute.RichText;
+    cta: Schema.Attribute.Component<'shared.cta-button', false>;
     eyebrow: Schema.Attribute.String;
-    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    heading: Schema.Attribute.String;
     headingItalic: Schema.Attribute.String;
   };
 }
@@ -455,12 +617,21 @@ export interface SectionsVideoFeature extends Struct.ComponentSchema {
       ['navy', 'paper', 'paper-warm', 'navy-deep']
     > &
       Schema.Attribute.DefaultTo<'navy'>;
+    badge: Schema.Attribute.String;
     body: Schema.Attribute.Text;
+    ctaButton: Schema.Attribute.Component<'shared.cta-button', false>;
     eyebrow: Schema.Attribute.String;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     headingItalic: Schema.Attribute.String;
+    meta: Schema.Attribute.String;
+    orientation: Schema.Attribute.Enumeration<['landscape', 'portrait']> &
+      Schema.Attribute.DefaultTo<'landscape'>;
+    posterBadgeImage: Schema.Attribute.Media<'images'>;
+    posterBadgeLabel: Schema.Attribute.String;
+    posterBadgeQuote: Schema.Attribute.String;
     posterImage: Schema.Attribute.Media<'images'>;
-    videoUrl: Schema.Attribute.String & Schema.Attribute.Required;
+    videoFile: Schema.Attribute.Media<'videos'>;
+    videoUrl: Schema.Attribute.String;
   };
 }
 
@@ -471,16 +642,45 @@ export interface SharedCtaButton extends Struct.ComponentSchema {
     icon: 'cursor';
   };
   attributes: {
+    goldDeep: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     href: Schema.Attribute.String & Schema.Attribute.Required;
     label: Schema.Attribute.String & Schema.Attribute.Required;
-    variant: Schema.Attribute.Enumeration<['primary', 'outline']> &
+    variant: Schema.Attribute.Enumeration<['primary', 'outline', 'secondary']> &
       Schema.Attribute.DefaultTo<'primary'>;
+  };
+}
+
+export interface SharedFormOption extends Struct.ComponentSchema {
+  collectionName: 'components_shared_form_options';
+  info: {
+    displayName: 'Form Option';
+    icon: 'list';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    routingEmail: Schema.Attribute.String;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedProjectMini extends Struct.ComponentSchema {
+  collectionName: 'components_shared_project_minis';
+  info: {
+    description: 'Compact project card used in the projects-row strip (name + tag + optional link).';
+    displayName: 'Project Mini Card';
+    icon: 'grid';
+  };
+  attributes: {
+    href: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    tag: Schema.Attribute.String;
   };
 }
 
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'sections.asoc-box': SectionsAsocBox;
       'sections.card-item': SectionsCardItem;
       'sections.cards-grid': SectionsCardsGrid;
       'sections.contact-form': SectionsContactForm;
@@ -498,6 +698,11 @@ declare module '@strapi/strapi' {
       'sections.logo-item': SectionsLogoItem;
       'sections.logo-wall': SectionsLogoWall;
       'sections.newsletter-form': SectionsNewsletterForm;
+      'sections.press-brand': SectionsPressBrand;
+      'sections.press-secondary-item': SectionsPressSecondaryItem;
+      'sections.press-wall': SectionsPressWall;
+      'sections.proiecte-hero': SectionsProiecteHero;
+      'sections.project-feature': SectionsProjectFeature;
       'sections.quote-large': SectionsQuoteLarge;
       'sections.stat-item': SectionsStatItem;
       'sections.stats-strip': SectionsStatsStrip;
@@ -506,6 +711,8 @@ declare module '@strapi/strapi' {
       'sections.text-block': SectionsTextBlock;
       'sections.video-feature': SectionsVideoFeature;
       'shared.cta-button': SharedCtaButton;
+      'shared.form-option': SharedFormOption;
+      'shared.project-mini': SharedProjectMini;
     }
   }
 }

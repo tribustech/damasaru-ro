@@ -2,7 +2,7 @@ import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import Link from 'next/link'
 
 interface BaseProps {
-  variant?: 'primary' | 'outline' | 'ghost-light'
+  variant?: 'primary' | 'outline' | 'secondary' | 'ghost-light'
   size?: 'sm' | 'md'
 }
 
@@ -20,6 +20,8 @@ export function Button({ variant = 'primary', size = 'md', className = '', ...pr
       'bg-[var(--color-gold)] text-[var(--color-navy)] font-semibold hover:bg-[var(--color-gold-bright)]',
     outline:
       'border border-[var(--color-navy)] text-[var(--color-navy)] hover:bg-[var(--color-navy)] hover:text-white',
+    secondary:
+      'border border-[var(--color-gold)] text-[var(--color-gold)] font-semibold hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]',
     'ghost-light':
       'border border-[var(--color-navy-line)] text-white hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]',
   }

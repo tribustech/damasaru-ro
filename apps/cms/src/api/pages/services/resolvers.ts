@@ -49,7 +49,7 @@ export async function resolveEvents({ locale, limit, filterBy }: ListOpts) {
   const list = await strapi.documents('api::event.event').findMany({
     locale,
     status: 'published',
-    sort: ['date:desc'],
+    sort: ['displayOrder:asc', 'date:desc'],
     limit,
     populate: EVENT_POPULATE,
     filters: whereFromFilterBy(filterBy),

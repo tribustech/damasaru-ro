@@ -31,8 +31,8 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
         mediaPosition: 'right',
         media: bookCover,
         ctaButtons: [
-          { label: 'Vezi opțiunile', href: '#produse', variant: 'primary' },
-          { label: 'Citește primul capitol', href: '#preview', variant: 'outline' },
+          { label: 'Vezi opțiunile', href: '#cum-o-citesti', variant: 'primary' },
+          { label: 'Citește primul capitol', href: '#preview-gratuit', variant: 'outline' },
         ],
         statsStrip: {
           items: [
@@ -43,29 +43,30 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
         },
       },
 
-      // Zone 2 — De ce am scris-o (paper, image-text-split)
+      // Zone 2 — De ce am scris-o (paper, image-text-split no-image variant + pull-quote)
       {
         __component: 'sections.image-text-split',
         eyebrow: 'DE CE AM SCRIS-O',
-        heading: 'Cartea de care',
+        heading: 'Cartea pe care',
         headingItalic: 'am avut nevoie eu însumi.',
         body:
-          'Cartea asta e idealul de manual de care mi-aș fi dorit să am parte când am trecut prin iadul meu personal. Ce mi-aș fi dorit să primesc de la toți terapeuții cu care am colaborat de-a lungul drumului spre vindecare.\n\nÎn centru văd zilnic același tipar: oameni inteligenți, capabili, care au încercat de toate — coaching, terapie, podcast-uri motivaționale, suplimente — și totuși se simt blocați. Nu pentru că le lipsește voința. Pentru că nimeni nu le-a explicat, pe limba pe care o vorbesc ei, cum funcționează unealta cu care încearcă să se schimbe.\n\nCartea asta e ce le explic oamenilor în primele întâlniri, condensat și organizat — astfel încât să poți face singur primii pași. Nu e o carte de motivație. Nu e o carte de meditație. E un manual de utilizare pentru creier.',
-        image: bookCover,
+          '„Cartea asta e idealul de manual de care mi-aș fi dorit să am parte când am trecut prin iadul meu personal. Ce mi-aș fi dorit să primesc de la toți terapeuții cu care am colaborat de-a lungul drumului spre vindecare."\n\n„În centru văd zilnic același tipar: oameni inteligenți, capabili, care au încercat de toate — coaching, terapie, podcast-uri motivaționale, suplimente — și totuși se simt blocați. Nu pentru că le lipsește voința. Pentru că nimeni nu le-a explicat, pe limba pe care o vorbesc ei, cum funcționează unealta cu care încearcă să se schimbe."\n\n„Cartea asta e ce le explic oamenilor în primele întâlniri, condensat și organizat — astfel încât să poți face singur primii pași. Nu e o carte de motivație. Nu e o carte de meditație. E un manual de utilizare pentru creier."\n\n> Dacă ai un instrument scump și nu știi cum se folosește, nu e instrumentul de vină. Iar creierul e cel mai scump instrument pe care îl ai.',
+        image: null,
         imagePosition: 'right',
         accent: 'paper',
       },
 
-      // Zone 3 — Ce găsești înăuntru (paper, cards-grid 3 cols)
+      // Zone 3 — Ce găsești înăuntru (paper, cards-grid chapters variant — 13 capitole)
       {
         __component: 'sections.cards-grid',
         eyebrow: 'CE GĂSEȘTI ÎNĂUNTRU',
         heading: '13 capitole.',
         headingItalic: 'O singură călătorie.',
         lead:
-          'Cartea urmărește două drumuri în paralel: drumul meu personal — de la naufragiu la vindecare — și drumul evoluției, prin poveștile oamenilor reali care au trecut prin centru.',
+          '„Cartea urmărește două drumuri în paralel: drumul meu personal — de la naufragiu la vindecare — și drumul evoluției, prin poveștile oamenilor reali care au trecut prin centru."',
         accent: 'paper',
-        columns: '3',
+        columns: '2',
+        variant: 'chapters',
         items: [
           {
             title: 'Traumele transgeneraționale',
@@ -135,47 +136,48 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
         ],
       },
 
-      // Zone 4 — Cum o citești (paper-warm, cards-grid 3 cols)
+      // Zone 4 — Cum o citești (paper-warm, products variant: 3 product cards)
       {
         __component: 'sections.cards-grid',
         eyebrow: 'CUM O CITEȘTI',
         heading: 'Trei feluri.',
         headingItalic: 'Tu alegi.',
         lead:
-          'Carte fizică, PDF instant pe ecran, sau audiobook în vocea mea. Tu alegi cum o vrei.',
+          '„Carte fizică, PDF instant pe ecran, sau audiobook în vocea mea. Tu alegi cum o vrei."',
         accent: 'paper-warm',
         columns: '3',
+        variant: 'products',
         items: [
           {
             title: 'Cartea fizică',
-            text: 'Cea pe care o ții în mână, cu copertă, cu file pe care faci notițe, cu colțuri îndoite. 256 de pagini. Editura Bookzone. 57,9 lei.',
-            tag: 'EDITURA BOOKZONE',
+            text: 'Cea pe care o ții în mână, cu copertă, cu file pe care faci notițe, cu colțuri îndoite. 256 de pagini. Editura Bookzone. 57,9 lei',
+            tag: 'Editura Bookzone',
             href: 'https://bookzone.ro/carte/creierul-este-superputerea-ta-bkz',
           },
           {
             title: 'PDF — citește pe ecran',
-            text: 'Aceeași carte, în format digital. Descarcă imediat după plată, citește-o pe telefon, tabletă, laptop. Fără DRM. E a ta. 50 lei.',
-            tag: 'INSTANT · DOWNLOAD',
+            text: 'Aceeași carte, în format digital. Descarcă imediat după plată, citește-o pe telefon, tabletă, laptop. Fără DRM. E a ta. 50 lei',
+            tag: 'Instant · Download',
             href: '#produse',
           },
           {
             title: 'Audiobook — vocea mea',
-            text: 'Citit de mine, cap-coadă. Pentru că anumite lucruri trebuie spuse cum trebuie. Înscrie-te și te anunț când e gata. Lansare condiționată de cerere.',
-            tag: 'ÎN PREGĂTIRE',
-            href: '#audiobook',
+            text: 'Citit de mine, cap-coadă. Pentru că anumite lucruri trebuie spuse cum trebuie. Înscrie-te și te anunț când e gata.',
+            tag: 'În pregătire',
+            href: '#audiobook-waitlist',
           },
         ],
       },
 
-      // Zone 5 — Audiobook waitlist (navy, cta-banner)
+      // Zone 5 — Audiobook waitlist (navy, cta-banner waitlist variant)
       {
         __component: 'sections.cta-banner',
         eyebrow: 'PRE-LAUNCH · AUDIOBOOK',
-        heading: 'Audiobook',
-        headingItalic: 'în curs.',
+        heading: 'Vrei cartea',
+        headingItalic: 'în vocea mea?',
         subtext:
-          'Vrei cartea în vocea mea? Înregistrez eu, integral. Am nevoie să știu cât de mare e cererea înainte să intru în studio. Dacă ești pe lista de așteptare, te anunț în prima zi în care e gata. Și primești audiobook-ul la 50% reducere la lansare.',
-        buttonLabel: 'Înscrie-te pe waitlist',
+          '„Înregistrez eu, integral. Pentru că anumite lucruri trebuie spuse cum trebuie — nu citite mecanic de cineva care nu a fost acolo."\n\n„Am nevoie să știu cât de mare e cererea înainte să intru în studio. Dacă ești pe lista de așteptare, te anunț în prima zi în care e gata. Și primești audiobook-ul la 50% reducere la lansare."',
+        buttonLabel: 'Înscrie-mă pe listă',
         buttonHref: '#audiobook',
         accent: 'navy',
       },
@@ -190,9 +192,10 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
           'Nu vreau să-mi dai bani pe încredere oarbă. Citește primul capitol — gratuit, fără să-mi dai email-ul, fără nimic. Dacă te prinde, cumperi. Dacă nu, ai învățat ceva oricum.',
         accent: 'paper',
         align: 'center',
+        cta: { label: 'Descarcă primul capitol (PDF)', href: '#', variant: 'primary' },
       },
 
-      // Zone 7 — Testimoniale (paper-warm, featured-list testimonials)
+      // Zone 7 — Testimoniale (paper-warm, marquee horizontal scrollable)
       {
         __component: 'sections.featured-list',
         eyebrow: 'CE SPUN CITITORII',
@@ -200,7 +203,7 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
         headingItalic: 'să continuăm.',
         accent: 'paper-warm',
         relation: 'testimonials',
-        layout: 'grid',
+        layout: 'marquee',
         limit: 6,
         filterBy: { source: 'book' },
       },

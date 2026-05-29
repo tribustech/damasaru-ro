@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_form_options",
+  "info": {
+    "displayName": "Form Option",
+    "icon": "list"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "value": { "type": "string", "required": true },
+    "routingEmail": { "type": "string" }
+  }
+}

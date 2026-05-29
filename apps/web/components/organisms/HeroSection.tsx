@@ -1,114 +1,140 @@
 import Image from 'next/image'
 import type { HeroDTO } from '@repo/types'
-import { Button } from '../atoms/Button'
-import { Eyebrow } from '../atoms/Eyebrow'
-import { getAccent, accentRootClass } from '@/lib/accent'
+import { HeroCtaLink } from '@/components/molecules/HeroCtaLink'
 
 interface HeroSectionProps {
   section: HeroDTO
   locale: string
 }
 
+const ZONE_BY_ACCENT: Record<HeroDTO['accent'], string> = {
+  navy: 'zone-hero',
+  paper: 'zone-light',
+  'paper-warm': 'zone-warm',
+  'navy-deep': 'zone-dark-deep',
+}
+
+type PodcastPlatformIcon = { key: 'apple' | 'amazon'; title: string; href: string }
+
+const PODCAST_PLATFORM_ICONS: PodcastPlatformIcon[] = [
+  { key: 'apple', title: 'Apple Podcasts', href: 'https://podcasts.apple.com/' },
+  { key: 'amazon', title: 'Amazon Music', href: 'https://music.amazon.com/' },
+]
+
+function PodcastPlatformIconSvg({ which }: { which: PodcastPlatformIcon['key'] }) {
+  if (which === 'apple') {
+    return (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 5c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3zm0 13c-2.5 0-4.7-1.3-6-3.2 0-2 4-3.1 6-3.1s6 1.1 6 3.1c-1.3 1.9-3.5 3.2-6 3.2z" />
+      </svg>
+    )
+  }
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </svg>
+  )
+}
+
 export function HeroSection({ section, locale: _locale }: HeroSectionProps) {
-  const a = getAccent(section.accent)
   const hasMedia = !!section.media && section.mediaPosition !== 'none'
   const reverse = section.mediaPosition === 'left'
   const statsItems = section.statsStrip?.items ?? []
-  const overlayStats = hasMedia ? statsItems.slice(0, 2) : []
-  const stripStats = hasMedia && overlayStats.length > 0 ? [] : statsItems
-
-  const grid = hasMedia
-    ? `grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center ${reverse ? 'lg:[&>:first-child]:order-2' : ''}`
-    : 'max-w-3xl'
+  const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-hero'
+  const altLower = (section.media?.alt ?? '').toLowerCase()
+  const eyebrowLower = (section.eyebrow ?? '').toLowerCase()
+  const isPodcast = /podcast/.test(eyebrowLower) || /podcast|cover[- ]?art|mansard/.test(altLower)
+  const isBookCover =
+    !isPodcast && !!section.media?.alt && /copert(a|ei|ă)|book[- ]?cover/i.test(section.media.alt)
+  const statsLooksLikeStrip = statsItems.length === 3
+  const heroLayoutOpen = !!(section.ctaButtons?.length || section.subtitle || statsItems.length)
 
   return (
-    <section
-      className={`${a.background} ${accentRootClass(section.accent)} relative overflow-hidden pt-28 pb-20 lg:pt-32 lg:pb-24`}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className={grid}>
+    <section className={zoneClass}>
+      <div className="ds-container">
+        <div className={hasMedia ? `hero-grid${reverse ? ' reverse' : ''}` : 'body-grid-narrow'}>
           <div>
-            {section.eyebrow && <Eyebrow label={section.eyebrow} accent={section.accent} />}
-            <h1 className={`text-5xl lg:text-7xl font-serif font-medium leading-[1] ${a.text} mb-6`}>
+            {section.eyebrow && <span className="hero-eyebrow">{section.eyebrow}</span>}
+            <h1 className="hero-h1">
               {section.title}
-              {section.titleItalic && (
-                <>
-                  <br />
-                  <span className={a.italic}>{section.titleItalic}</span>
-                </>
-              )}
+              {section.titleItalic && <span className="italic">{section.titleItalic}</span>}
             </h1>
-            {section.subtitle && (
-              <p className={`text-lg lg:text-xl max-w-xl leading-relaxed ${a.textMuted} mb-10`}>
-                {section.subtitle}
-              </p>
-            )}
+            {section.subtitle && <p className="hero-lead">{section.subtitle}</p>}
             {section.ctaButtons?.length > 0 && (
-              <div className="flex flex-wrap gap-3">
+              <div className="hero-ctas">
                 {section.ctaButtons.map((btn) => (
-                  <Button
+                  <HeroCtaLink
                     key={btn.href}
                     href={btn.href}
-                    variant={a.isDark && btn.variant === 'outline' ? 'ghost-light' : btn.variant}
-                  >
-                    {btn.label}
-                  </Button>
+                    label={btn.label}
+                    className={`btn ${btn.variant === 'outline' ? 'btn-ghost-light' : 'btn-primary'}`}
+                  />
                 ))}
               </div>
             )}
-            {stripStats.length > 0 && (
-              <div className={`mt-12 pt-8 border-t ${a.border} grid grid-cols-2 sm:grid-cols-3 gap-6`}>
-                {stripStats.map((stat) => (
-                  <div key={stat.id}>
-                    <div className={`text-2xl lg:text-3xl font-serif ${a.italic.split(' ')[0]}`}>
-                      {stat.value}
-                    </div>
-                    <div className={`text-xs uppercase tracking-[0.2em] mt-1 ${a.textMuted}`}>
-                      {stat.label}
-                    </div>
-                    {stat.caption && (
-                      <div className={`text-xs mt-1 ${a.textMuted}`}>{stat.caption}</div>
-                    )}
+            {isPodcast && (
+              <div className="hero-platforms-mini">
+                <span className="hero-platforms-mini-label">Și pe</span>
+                {PODCAST_PLATFORM_ICONS.map((p) => (
+                  <a
+                    key={p.key}
+                    href={p.href}
+                    title={p.title}
+                    aria-label={p.title}
+                    className="platform-icon-mini"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <PodcastPlatformIconSvg which={p.key} />
+                  </a>
+                ))}
+              </div>
+            )}
+            {!statsLooksLikeStrip && statsItems.length > 0 && (
+              <div className="hero-stats">
+                {statsItems.map((stat) => (
+                  <div key={stat.id} className="stat-card">
+                    <div className="num">{stat.value}</div>
+                    <div className="label">{stat.label}</div>
                   </div>
                 ))}
               </div>
             )}
           </div>
           {hasMedia && section.media && (
-            <div className="relative w-full">
-              <div className="relative aspect-[4/5] lg:aspect-auto lg:h-[620px] w-full rounded-lg overflow-hidden border border-[var(--color-navy-line)]">
+            <div
+              className={`hero-photo-wrap${isBookCover ? ' book' : ''}${isPodcast ? ' cover-art' : ''}`}
+            >
+              {isBookCover && <div className="book-glow" aria-hidden />}
+              <div
+                className={`hero-photo${isBookCover ? ' book-cover' : ''}${isPodcast ? ' cover-art-real' : ''}`}
+              >
                 <Image
                   src={section.media.url}
                   alt={section.media.alt || section.title}
-                  fill
+                  width={section.media.width || 1200}
+                  height={section.media.height || 1500}
                   priority
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
+                  className={isBookCover || isPodcast ? '' : 'object-cover'}
                 />
               </div>
-              {overlayStats[0] && (
-                <div className="hidden md:block absolute top-10 -left-6 lg:-left-10 bg-[var(--color-navy-soft)] border border-[var(--color-navy-line)] border-l-[3px] border-l-[var(--color-forest-bright)] rounded-lg py-4 px-6 backdrop-blur-sm shadow-xl">
-                  <div className="text-3xl font-serif font-medium text-white leading-none">
-                    {overlayStats[0].value}
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] mt-1.5 font-semibold text-[var(--color-forest-bright)]">
-                    {overlayStats[0].label}
-                  </div>
-                </div>
-              )}
-              {overlayStats[1] && (
-                <div className="hidden md:block absolute bottom-14 -right-4 lg:-right-5 bg-[var(--color-navy-soft)] border border-[var(--color-navy-line)] border-l-[3px] border-l-[var(--color-forest-bright)] rounded-lg py-4 px-6 backdrop-blur-sm shadow-xl">
-                  <div className="text-3xl font-serif font-medium text-white leading-none">
-                    {overlayStats[1].value}
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] mt-1.5 font-semibold text-[var(--color-forest-bright)]">
-                    {overlayStats[1].label}
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>
+        {statsLooksLikeStrip && heroLayoutOpen && (
+          <div className="hero-stats strip">
+            {statsItems.map((stat) => (
+              <div key={stat.id} className="stat-card">
+                <div className="num">{stat.value}</div>
+                <div className="label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

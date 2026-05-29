@@ -9,12 +9,36 @@
     "eyebrow": { "type": "string" },
     "heading": { "type": "string", "required": true },
     "headingItalic": { "type": "string" },
+    "badge": { "type": "string" },
+    "meta": { "type": "string" },
     "body": { "type": "text" },
-    "videoUrl": { "type": "string", "required": true },
+    "videoUrl": { "type": "string" },
+    "videoFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["videos"]
+    },
     "posterImage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
+    },
+    "orientation": {
+      "type": "enumeration",
+      "enum": ["landscape", "portrait"],
+      "default": "landscape"
+    },
+    "posterBadgeLabel": { "type": "string" },
+    "posterBadgeQuote": { "type": "string" },
+    "posterBadgeImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "ctaButton": {
+      "type": "component",
+      "component": "shared.cta-button",
+      "repeatable": false
     },
     "accent": {
       "type": "enumeration",

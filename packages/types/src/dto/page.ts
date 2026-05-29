@@ -25,7 +25,8 @@ export interface SeoDTO {
 export interface CtaButtonDTO {
   label: string
   href: string
-  variant: 'primary' | 'outline'
+  variant: 'primary' | 'outline' | 'secondary'
+  goldDeep: boolean
 }
 
 export type AccentDTO = 'navy' | 'paper' | 'paper-warm' | 'navy-deep'

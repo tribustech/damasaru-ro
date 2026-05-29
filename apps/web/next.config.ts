@@ -7,6 +7,14 @@ import type { NextConfig } from 'next'
 // production keeps the protection.
 const isDev = process.env.NODE_ENV !== 'production'
 
+// S3 public media host. CMS uploads via the aws-s3 provider, so media URLs are
+// absolute (https://<bucket>.s3.<region>.amazonaws.com/<key>, bucket root) and
+// the host must be allow-listed for next/image. The bucket name is not a secret
+// (it appears in every image URL the browser fetches), so it's hardcoded as a
+// default that works out of the box; MEDIA_HOSTNAME overrides it per environment
+// if the bucket ever differs.
+const s3MediaHost = process.env.MEDIA_HOSTNAME ?? 'damasaru-ro.s3.eu-central-1.amazonaws.com'
+
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowLocalIP: isDev,
@@ -23,6 +31,7 @@ const nextConfig: NextConfig = {
             },
           ]
         : []),
+      { protocol: 'https', hostname: s3MediaHost, pathname: '/**', search: '' },
     ],
   },
 }
