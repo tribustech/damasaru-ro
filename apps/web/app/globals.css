@@ -890,3 +890,75 @@ section[id] { scroll-margin-top: 80px; }
   .secondary-list { grid-template-columns: repeat(2, 1fr); }
   .press-h2 { font-size: 36px; }
 }
+
+/* ───────────────────────────────────────────────────────────
+   MEDIA PAGE — shared classes for the /media dynamic-zone rebuild
+   (MediaMarquee uses the keyframes; the organisms own their layout)
+   ─────────────────────────────────────────────────────────── */
+
+/* Z5 — twin-row infinite marquee (cards duplicated for a seamless loop) */
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.media-marquee-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-left 90s linear infinite;
+}
+.media-marquee-track.is-reverse {
+  animation-name: marquee-right;
+}
+/* Pause the whole row on hover */
+.media-marquee-row:hover .media-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Edge fade gradients (paper → transparent) on both ends of each row */
+.media-marquee-row {
+  position: relative;
+  overflow: hidden;
+}
+.media-marquee-row::before,
+.media-marquee-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.media-marquee-row::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--paper) 0%, transparent 100%);
+}
+.media-marquee-row::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--paper) 0%, transparent 100%);
+}
+
+/* Reduced-motion guard — covers the new media marquee + every other
+   animation on the page (this is the only global reduce guard). */
+@media (prefers-reduced-motion: reduce) {
+  .media-marquee-track,
+  .media-marquee-track.is-reverse {
+    animation: none !important;
+    transform: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

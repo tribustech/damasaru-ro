@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_sections_media_marquees",
+  "info": {
+    "displayName": "Media Marquee",
+    "icon": "arrowRight"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "subheading": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "relation": {
+      "type": "enumeration",
+      "enum": ["press-mentions"],
+      "required": true,
+      "default": "press-mentions"
+    },
+    "filterBy": { "type": "json" },
+    "limit": { "type": "integer", "default": 60 }
+  }
+}

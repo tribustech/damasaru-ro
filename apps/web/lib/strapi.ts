@@ -30,6 +30,60 @@ async function fetchPage<T>(path: string, locale: string, tags: string[]): Promi
 
 export { NotFoundError }
 
+// Press-mention collection list (for /media/arhiva — the full 82-appearance archive).
+// Direct collection fetch (mirrors the waitlist-count REST pattern); the page DTO endpoints
+// only ship the curated/filtered subsets, so the archive reads the raw collection instead.
+export interface PressMentionListItem {
+  id: number
+  documentId: string
+  title: string
+  outlet: string
+  url: string | null
+  type: string | null
+  brand: string | null
+  date: string | null
+  featured: boolean
+}
+
+export async function getPressMentions(locale: string): Promise<PressMentionListItem[]> {
+  const qs = new URLSearchParams({
+    locale,
+    'pagination[pageSize]': '200',
+    'sort[0]': 'date:desc',
+    'fields[0]': 'title',
+    'fields[1]': 'outlet',
+    'fields[2]': 'url',
+    'fields[3]': 'type',
+    'fields[4]': 'brand',
+    'fields[5]': 'date',
+    'fields[6]': 'featured',
+  })
+  const res = await fetch(`${STRAPI_URL}/api/press-mentions?${qs}`, {
+    headers: STRAPI_API_TOKEN ? { Authorization: `Bearer ${STRAPI_API_TOKEN}` } : {},
+    next: { tags: ['press-mentions'] },
+  })
+  if (!res.ok) throw new Error(`press-mentions fetch failed [${res.status}]`)
+  const json: unknown = await res.json()
+  const data = (json as { data?: unknown })?.data
+  const rows: Record<string, unknown>[] = Array.isArray(data) ? data : []
+  return rows.map((row) => {
+    // Strapi 5 flattens attributes onto the row; tolerate the older { attributes } shape too.
+    const a = (row.attributes as Record<string, unknown>) ?? row
+    const str = (v: unknown): string | null => (typeof v === 'string' ? v : null)
+    return {
+      id: Number(row.id),
+      documentId: str(a.documentId) ?? str(row.documentId) ?? String(row.id),
+      title: str(a.title) ?? '',
+      outlet: str(a.outlet) ?? '',
+      url: str(a.url),
+      type: str(a.type),
+      brand: str(a.brand),
+      date: str(a.date),
+      featured: Boolean(a.featured),
+    }
+  })
+}
+
 // Single-type pages
 export const getHomePage = (locale: string) =>
   fetchPage<SingleTypePageDTO>('home', locale, ['home-page'])

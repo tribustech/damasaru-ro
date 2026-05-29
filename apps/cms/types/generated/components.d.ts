@@ -1,5 +1,35 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface MediaLogoCell extends Struct.ComponentSchema {
+  collectionName: 'components_media_logo_cells';
+  info: {
+    displayName: 'Logo Cell';
+    icon: 'grid';
+  };
+  attributes: {
+    count: Schema.Attribute.String;
+    description: Schema.Attribute.String;
+    href: Schema.Attribute.String;
+    outletName: Schema.Attribute.String & Schema.Attribute.Required;
+    svgKey: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface MediaPressKitCard extends Struct.ComponentSchema {
+  collectionName: 'components_media_press_kit_cards';
+  info: {
+    displayName: 'Press Kit Card';
+    icon: 'file';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    iconKey: Schema.Attribute.Enumeration<['document', 'camera', 'mail']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'document'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsAsocBox extends Struct.ComponentSchema {
   collectionName: 'components_sections_asoc_boxes';
   info: {
@@ -376,6 +406,150 @@ export interface SectionsLogoWall extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsMediaFeatured extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_featureds';
+  info: {
+    displayName: 'Media Featured';
+    icon: 'play';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper-warm'>;
+    eyebrow: Schema.Attribute.String;
+    filterBy: Schema.Attribute.JSON;
+    heading: Schema.Attribute.String;
+    headingItalic: Schema.Attribute.String;
+    limit: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<8>;
+    relation: Schema.Attribute.Enumeration<['press-mentions']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'press-mentions'>;
+    subheading: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsMediaHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_heroes';
+  info: {
+    displayName: 'Media Hero';
+    icon: 'tv';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'navy'>;
+    badgeLabel: Schema.Attribute.String;
+    body: Schema.Attribute.Text;
+    eyebrow: Schema.Attribute.String;
+    media: Schema.Attribute.Media<'images'>;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    titleItalic: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsMediaLogoWall extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_logo_walls';
+  info: {
+    displayName: 'Media Logo Wall';
+    icon: 'grid';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    eyebrow: Schema.Attribute.String;
+    heading: Schema.Attribute.String;
+    headingItalic: Schema.Attribute.String;
+    items: Schema.Attribute.Component<'media.logo-cell', true>;
+    lead: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsMediaMagazines extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_magazines';
+  info: {
+    displayName: 'Media Magazines';
+    icon: 'book';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    eyebrow: Schema.Attribute.String;
+    filterBy: Schema.Attribute.JSON;
+    heading: Schema.Attribute.String;
+    headingItalic: Schema.Attribute.String;
+    limit: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
+    relation: Schema.Attribute.Enumeration<['press-mentions']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'press-mentions'>;
+    subheading: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsMediaMarquee extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_marquees';
+  info: {
+    displayName: 'Media Marquee';
+    icon: 'arrowRight';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    eyebrow: Schema.Attribute.String;
+    filterBy: Schema.Attribute.JSON;
+    heading: Schema.Attribute.String;
+    headingItalic: Schema.Attribute.String;
+    limit: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<60>;
+    relation: Schema.Attribute.Enumeration<['press-mentions']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'press-mentions'>;
+    subheading: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsMediaPressKit extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_press_kits';
+  info: {
+    displayName: 'Media Press Kit';
+    icon: 'briefcase';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    eyebrow: Schema.Attribute.String;
+    files: Schema.Attribute.Media<'images' | 'files', true>;
+    heading: Schema.Attribute.String;
+    headingItalic: Schema.Attribute.String;
+    intro: Schema.Attribute.Text;
+    items: Schema.Attribute.Component<'media.press-kit-card', true>;
+  };
+}
+
+export interface SectionsMediaStatStrip extends Struct.ComponentSchema {
+  collectionName: 'components_sections_media_stat_strips';
+  info: {
+    displayName: 'Media Stat Strip';
+    icon: 'chartCircle';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'paper'>;
+    items: Schema.Attribute.Component<'sections.stat-item', true>;
+  };
+}
+
 export interface SectionsNewsletterForm extends Struct.ComponentSchema {
   collectionName: 'components_sections_newsletter_forms';
   info: {
@@ -680,6 +854,8 @@ export interface SharedProjectMini extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'media.logo-cell': MediaLogoCell;
+      'media.press-kit-card': MediaPressKitCard;
       'sections.asoc-box': SectionsAsocBox;
       'sections.card-item': SectionsCardItem;
       'sections.cards-grid': SectionsCardsGrid;
@@ -697,6 +873,13 @@ declare module '@strapi/strapi' {
       'sections.image-text-split': SectionsImageTextSplit;
       'sections.logo-item': SectionsLogoItem;
       'sections.logo-wall': SectionsLogoWall;
+      'sections.media-featured': SectionsMediaFeatured;
+      'sections.media-hero': SectionsMediaHero;
+      'sections.media-logo-wall': SectionsMediaLogoWall;
+      'sections.media-magazines': SectionsMediaMagazines;
+      'sections.media-marquee': SectionsMediaMarquee;
+      'sections.media-press-kit': SectionsMediaPressKit;
+      'sections.media-stat-strip': SectionsMediaStatStrip;
       'sections.newsletter-form': SectionsNewsletterForm;
       'sections.press-brand': SectionsPressBrand;
       'sections.press-secondary-item': SectionsPressSecondaryItem;

@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_media_logo_walls",
+  "info": {
+    "displayName": "Media Logo Wall",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "lead": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "media.logo-cell"
+    }
+  }
+}

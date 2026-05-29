@@ -52,6 +52,13 @@ export const PAGE_POPULATE = {
         },
       },
       'sections.press-wall': { populate: { items: true, secondaryItems: true } },
+      'sections.media-hero': { populate: { media: true } },
+      'sections.media-stat-strip': { populate: { items: true } },
+      'sections.media-logo-wall': { populate: { items: true } },
+      'sections.media-featured': {},
+      'sections.media-magazines': {},
+      'sections.media-marquee': {},
+      'sections.media-press-kit': { populate: { items: true, files: true } },
     },
   },
 }
@@ -62,5 +69,5 @@ export const PODCAST_EPISODE_POPULATE = { coverImage: true }
 export const PROJECT_POPULATE = { heroImage: true }
 export const PRODUCT_POPULATE = { image: true }
 export const TESTIMONIAL_POPULATE = { photo: true }
-export const PRESS_MENTION_POPULATE = { logoImage: true }
+export const PRESS_MENTION_POPULATE = { logoImage: true, coverImage: true }
 export const MEDIA_ITEM_POPULATE = { thumbnail: true }

@@ -26,10 +26,16 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["article", "interview", "magazine", "tv", "radio", "podcast"],
+      "enum": ["tv", "podcast", "publicatie", "radio", "evenimente"],
       "required": true,
-      "default": "article"
+      "default": "tv"
     },
+    "brand": {
+      "type": "enumeration",
+      "enum": ["costin", "veruvis", "veruvis-kids"],
+      "default": "costin"
+    },
+    "isMagazine": { "type": "boolean", "default": false },
     "excerpt": { "type": "text" },
     "featured": { "type": "boolean", "default": false }
   }

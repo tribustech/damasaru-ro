@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_sections_media_magazines",
+  "info": {
+    "displayName": "Media Magazines",
+    "icon": "book"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "subheading": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "relation": {
+      "type": "enumeration",
+      "enum": ["press-mentions"],
+      "required": true,
+      "default": "press-mentions"
+    },
+    "filterBy": { "type": "json" },
+    "limit": { "type": "integer", "default": 5 }
+  }
+}

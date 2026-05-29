@@ -40,7 +40,14 @@
         "sections.video-feature",
         "sections.credentials-grid",
         "sections.event-feature",
-        "sections.contact-form"
+        "sections.contact-form",
+        "sections.media-hero",
+        "sections.media-stat-strip",
+        "sections.media-logo-wall",
+        "sections.media-featured",
+        "sections.media-magazines",
+        "sections.media-marquee",
+        "sections.media-press-kit"
       ]
     }
   }

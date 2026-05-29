@@ -7,7 +7,12 @@ import {
   PRODUCT_POPULATE,
 } from './populate'
 import { serializeSection, serializeMedia } from './serialize'
-import { resolveFeaturedList, resolveEventByDocumentId, resolveTestimonialsList } from './resolvers'
+import {
+  resolveFeaturedList,
+  resolveEventByDocumentId,
+  resolveTestimonialsList,
+  resolvePressMentions,
+} from './resolvers'
 
 const SLUG_TO_UID: Record<string, string> = {
   home: 'api::home-page.home-page',
@@ -48,6 +53,18 @@ export async function composeSinglePage(slug: string, locale: string) {
 
     if (section.__component === 'sections.event-feature' && rawSection.event?.documentId) {
       section.event = await resolveEventByDocumentId(rawSection.event.documentId, locale)
+    }
+
+    if (
+      section.__component === 'sections.media-featured' ||
+      section.__component === 'sections.media-magazines' ||
+      section.__component === 'sections.media-marquee'
+    ) {
+      section.items = await resolvePressMentions({
+        locale,
+        limit: section.limit ?? (section.__component === 'sections.media-featured' ? 8 : section.__component === 'sections.media-magazines' ? 5 : 60),
+        filterBy: section.filterBy ?? null,
+      })
     }
 
     if (section.__component === 'sections.testimonials') {

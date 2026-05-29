@@ -2,160 +2,136 @@ import type { Core } from '@strapi/strapi'
 import { upsertSingleType, uploadFile, docPath } from '../utils'
 
 export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
+  // Z1 hero portrait — Costin in PRO TV interview at the GoTech World stand.
   const heroPortrait = await uploadFile(
     strapi,
     docPath('8. Media', 'V-0301.jpg'),
     { alt: 'Costin Dămășaru — interviu cu microfon PRO TV la stand' }
   )
 
-  // Press kit downloads — Kit_Bio is empty (no PDFs yet), so we surface the 4
-  // press portraits as the downloadable assets. Bio PDFs are flagged in the
-  // intro copy with a fallback to contact@damasaru.ro.
-  const portret1Id = await uploadFile(
-    strapi,
-    docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_1.jpg'),
-    { alt: 'Costin Dămășaru — portret presă 1' }
-  )
-  const portret2Id = await uploadFile(
-    strapi,
-    docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_2.jpg'),
-    { alt: 'Costin Dămășaru — portret presă 2' }
-  )
-  const portret3Id = await uploadFile(
-    strapi,
-    docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_3.jpg'),
-    { alt: 'Costin Dămășaru — portret presă 3' }
-  )
-  const portret4Id = await uploadFile(
-    strapi,
-    docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_4.jpg'),
-    { alt: 'Costin Dămășaru — portret presă 4' }
-  )
-
-  const downloadItems = [
-    {
-      id: portret1Id,
-      label: 'Foto portret 1 (JPG)',
-      description: 'Portret presă high-res — orientare verticală, fundal neutru.',
-      group: 'Foto presă',
-    },
-    {
-      id: portret2Id,
-      label: 'Foto portret 2 (JPG)',
-      description: 'Portret presă high-res — alternativ, expresie deschisă.',
-      group: 'Foto presă',
-    },
-    {
-      id: portret3Id,
-      label: 'Foto portret 3 (JPG)',
-      description: 'Portret presă high-res — context editorial.',
-      group: 'Foto presă',
-    },
-    {
-      id: portret4Id,
-      label: 'Foto portret 4 (JPG)',
-      description: 'Portret presă high-res — variantă conferință.',
-      group: 'Foto presă',
-    },
-  ]
-    .filter((d): d is typeof d & { id: number } => d.id !== null)
-    .map(({ id, label, description, group }) => ({
-      label,
-      description,
-      group,
-      file: id,
-    }))
+  // Z6 press kit — Kit_Bio has no PDFs yet, so we surface the 4 press portraits
+  // from Kit_Foto_Presa as the downloadable files. Bio (PDF) + contact are
+  // handled in the card copy with a mailto fallback to contact@damasaru.ro.
+  const portretFiles = (
+    await Promise.all([
+      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_1.jpg'), {
+        alt: 'Costin Dămășaru — portret presă 1',
+      }),
+      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_2.jpg'), {
+        alt: 'Costin Dămășaru — portret presă 2',
+      }),
+      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_3.jpg'), {
+        alt: 'Costin Dămășaru — portret presă 3',
+      }),
+      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_4.jpg'), {
+        alt: 'Costin Dămășaru — portret presă 4',
+      }),
+    ])
+  ).filter((id): id is number => id !== null)
 
   await upsertSingleType(strapi, 'api::media-page.media-page', {
     seoTitle: 'Media — Costin Dămășaru | TV, Podcast, Reviste',
     seoDescription:
-      'Toate aparițiile publice ale lui Costin Dămășaru — 83 de interviuri TV, podcasturi, articole și emisiuni. Cele mai notabile conversații + reviste.',
+      'Toate aparițiile publice ale lui Costin Dămășaru — 82 de interviuri TV, podcasturi, articole și emisiuni. Cele mai notabile conversații + reviste.',
     sections: [
-      // ZONE 1 — Hero (navy) with PRO TV interview portrait
+      // ── Z1 — Hero & Manifest (NAVY) ──────────────────────────────────────
       {
-        __component: 'sections.hero',
+        __component: 'sections.media-hero',
         eyebrow: 'MEDIA',
         title: 'Toate aparițiile',
         titleItalic: 'într-un singur loc.',
         subtitle:
-          '„83 de apariții publice — la televiziuni, în podcasturi, în reviste — adunate aici, ca să găsești ușor ce te interesează."',
+          '„82 de apariții publice — la televiziuni, în podcasturi, în reviste — adunate aici, ca să găsești ușor ce te interesează."',
+        body:
+          '„De-a lungul anilor am fost invitat în multe locuri — TV, radio, podcasturi, reviste. De multe ori discuțiile au fost despre Veruvis sau Veruvis Kids, alteori despre experiențele mele personale. Aici găsești tot, fără să mai cauți pe internet."',
+        badgeLabel: 'ÎN INTERVIU',
         accent: 'navy',
-        mediaPosition: 'right',
         media: heroPortrait,
       },
 
-      // ZONE 2 — Stat strip (paper) — values + labels per mockup
+      // ── Z2 — Stat strip (PAPER) — 82 · 40+ · 3 ──────────────────────────
       {
-        __component: 'sections.stats-strip',
+        __component: 'sections.media-stat-strip',
         accent: 'paper',
         items: [
-          { value: '83', label: 'APARIȚII DOCUMENTATE', caption: null },
-          { value: '40+', label: 'CANALE MEDIA DIFERITE', caption: null },
-          { value: '3', label: 'COSTIN · VERUVIS · VERUVIS KIDS', caption: null },
+          { value: '82', label: 'APARIȚII DOCUMENTATE' },
+          { value: '40+', label: 'CANALE MEDIA DIFERITE' },
+          { value: '3', label: 'COSTIN · VERUVIS · VERUVIS KIDS' },
         ],
       },
 
-      // ZONE 3 — Logo wall „Publicații de referință" (paper).
-      // No SVG/logo assets exist for the 8 outlets, so we use cards-grid
-      // (default variant) with outlet name + count + scurtă descriere — same
-      // information density as the mockup logo cells.
+      // ── Z3 — Logo Wall featured (PAPER) — 8 wordmark-uri SVG monocrome ───
       {
-        __component: 'sections.cards-grid',
+        __component: 'sections.media-logo-wall',
         eyebrow: 'FEATURED',
         heading: 'Publicații',
         headingItalic: 'de referință.',
         lead:
           '„Cele mai prestigioase locuri unde s-a vorbit despre proiectele mele sau cu mine direct."',
         accent: 'paper',
-        columns: '4',
-        variant: 'default',
         items: [
           {
-            title: 'Forbes România',
-            text: 'CEE Forum 2023 · 24 pentru 2024 — proiectul editorial despre creierul uman optimizat.',
-            tag: '2 prezențe',
+            svgKey: 'protv',
+            outletName: 'PRO TV',
+            count: '3 apariții',
+            description: 'Reportaj GoTech World + Vorbește Lumea.',
+            href: '/media/arhiva',
           },
           {
-            title: 'PRO TV',
-            text: 'GoTech World · Vorbește Lumea — apariții TV repetate pe subiecte de neuroștiință aplicată.',
-            tag: '3 apariții',
+            svgKey: 'forbes',
+            outletName: 'Forbes România',
+            count: '2 prezențe',
+            description: 'CEE Forum 2023 + 24 pentru 2024.',
+            href: '/media/arhiva',
           },
           {
-            title: 'HotNews',
-            text: 'Interviu detaliat despre Brain Mapping & BCI și tehnologiile de optimizare a creierului.',
-            tag: '1 interviu',
+            svgKey: 'hotnews',
+            outletName: 'HotNews.ro',
+            count: '1 interviu',
+            description: 'Interviu detaliat Brain Mapping & BCI.',
+            href: '/media/arhiva',
           },
           {
-            title: 'Ziarul Financiar',
-            text: 'Business Magazin · ZF Live · Business Hi-Tech — interviuri antreprenoriale.',
-            tag: '3 articole',
+            svgKey: 'zf',
+            outletName: 'Ziarul Financiar',
+            count: '3 articole',
+            description: 'Business Magazin · ZF Live · Business Hi-Tech.',
+            href: '/media/arhiva',
           },
           {
-            title: 'Adevărul',
-            text: 'Adevărul Live · interviu TV despre toxicitatea din viața noastră.',
-            tag: '2 prezențe',
+            svgKey: 'adevarul',
+            outletName: 'Adevărul Live',
+            count: '1 interviu',
+            description: 'Interviu despre toxicitatea din viața noastră.',
+            href: '/media/arhiva',
           },
           {
-            title: 'Capital + EVZ',
-            text: 'Gala Top Performeri în Sănătate 2023 — Veruvis premiat pentru contribuția la dezvoltarea medicinei.',
-            tag: 'Premiat 2023',
+            svgKey: 'capital',
+            outletName: 'Capital + EVZ',
+            count: 'Premiat 2023',
+            description: 'Gala Top Performeri în Sănătate 2023.',
+            href: '/media/arhiva',
           },
           {
-            title: 'TVR',
-            text: 'Eu Pot · Punctul Critic · Un doctor pentru dumneavoastră · TVRi — emisiuni publice de profunzime.',
-            tag: '5 emisiuni',
+            svgKey: 'tvr',
+            outletName: 'TVR',
+            count: '5 emisiuni',
+            description: 'Eu Pot · Punctul Critic · Un doctor pentru dumneavoastră.',
+            href: '/media/arhiva',
           },
           {
-            title: 'Wall-Street.ro',
-            text: 'Mențiuni multiple pe verticala antreprenoriat și inovație — tag autor dedicat.',
-            tag: 'Mențiuni multiple',
+            svgKey: 'wallstreet',
+            outletName: 'Wall-Street.ro',
+            count: 'Mențiuni multiple',
+            description: 'Tag autor dedicat — antreprenoriat & inovație.',
+            href: '/media/arhiva',
           },
         ],
       },
 
-      // ZONE 4 — Cele mai notabile conversații (paper-warm) — top 8 cu thumbnail YouTube
+      // ── Z4 — Cele mai notabile conversații (PAPER-WARM) — 8 featured ─────
       {
-        __component: 'sections.featured-list',
+        __component: 'sections.media-featured',
         eyebrow: 'TOP APARIȚII',
         heading: 'Cele mai notabile',
         headingItalic: 'conversații.',
@@ -163,12 +139,11 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
           '„Conversațiile mari — Măruță, Mihai Morar, podcasturi și televiziuni cu cea mai mare audiență."',
         accent: 'paper-warm',
         relation: 'press-mentions',
-        layout: 'grid',
         limit: 8,
         filterBy: { featured: true },
       },
 
-      // ZONE 4a — Filozofia mea (navy interlude) — quote autentic Costin
+      // ── Z4a — Filozofia mea (NAVY interlude) ────────────────────────────
       {
         __component: 'sections.quote-large',
         eyebrow: 'FILOZOFIA MEA',
@@ -178,9 +153,9 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
         accent: 'navy',
       },
 
-      // ZONE 4b — Pe prima pagină (paper) — 5 reviste cover story
+      // ── Z4b — Pe prima pagină (PAPER) — 5 reviste ───────────────────────
       {
-        __component: 'sections.featured-list',
+        __component: 'sections.media-magazines',
         eyebrow: 'PRINT · REVISTE',
         heading: 'Pe prima',
         headingItalic: 'pagină.',
@@ -188,14 +163,13 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
           '„Interviuri ample, editoriale dedicate — în publicațiile de business și lifestyle din România."',
         accent: 'paper',
         relation: 'press-mentions',
-        layout: 'grid',
-        limit: 6,
-        filterBy: { type: 'magazine' },
+        limit: 5,
+        filterBy: { isMagazine: true },
       },
 
-      // ZONE 5 — Restul aparițiilor (paper) — carousel marquee
+      // ── Z5 — Carousel Marquee (PAPER) — restul aparițiilor ──────────────
       {
-        __component: 'sections.featured-list',
+        __component: 'sections.media-marquee',
         eyebrow: 'ARHIVA',
         heading: 'Restul aparițiilor —',
         headingItalic: '58 colaborări.',
@@ -203,15 +177,15 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
           '„Trece mouse-ul peste un card ca să-l oprești. Click pe el ca să-l deschizi."',
         accent: 'paper',
         relation: 'press-mentions',
-        layout: 'marquee',
-        limit: 24,
+        limit: 60,
+        filterBy: { featured: false, isMagazine: false },
       },
 
-      // ZONE 5b — Arhiva completă CTA (navy mega-banner)
+      // ── Z5b — Arhiva completă CTA (NAVY mega-banner) ────────────────────
       {
         __component: 'sections.cta-banner',
         eyebrow: 'ARHIVA COMPLETĂ',
-        heading: 'Vrei să vezi toate cele 83 de apariții',
+        heading: 'Vrei să vezi toate cele 82 de apariții',
         headingItalic: 'ordonate cu filtre?',
         subtext:
           '„Toate aparițiile sortabile pe Tip (TV, Podcast, Publicație, Radio, Evenimente) și pe Brand (Costin, Veruvis, Veruvis Kids). Cu căutare în titluri."',
@@ -220,19 +194,39 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
         accent: 'navy',
       },
 
-      // ZONE 6 — Press Kit „La îndemână" (paper)
+      // ── Z6 — Press Kit „La îndemână" (PAPER) ────────────────────────────
       {
-        __component: 'sections.downloads-list',
+        __component: 'sections.media-press-kit',
         eyebrow: 'PRESS KIT',
         heading: 'La',
         headingItalic: 'îndemână.',
         intro:
           '„Foto, bio și contact direct, pregătite pentru orice material despre mine." Pentru bio (scurt 50 cuv. · mediu 150 cuv. · extins 400 cuv.) în PDF sau pentru contact presă, scrie pe contact@damasaru.ro — răspund în maxim 24 ore în zilele lucrătoare.',
         accent: 'paper',
-        items: downloadItems,
+        items: [
+          {
+            iconKey: 'document',
+            title: 'Bio Costin (3 versiuni)',
+            description:
+              '„Scurt (50 cuvinte), mediu (150 cuvinte) și extins (400 cuvinte), pregătite pentru introduceri, articole standard și profile de interviu. Disponibile la cerere pe contact@damasaru.ro."',
+          },
+          {
+            iconKey: 'camera',
+            title: 'Foto presă (high-res)',
+            description:
+              '„Portrete high-res RGB, 300 DPI, cu caption și credit fotograf — descarcă-le mai jos și folosește-le pentru orice material despre mine."',
+          },
+          {
+            iconKey: 'mail',
+            title: 'Contact presă direct',
+            description:
+              '„Scrie pe contact@damasaru.ro pentru interviuri, comentarii de specialitate sau materiale. Răspund în maxim 24 de ore în zilele lucrătoare."',
+          },
+        ],
+        files: portretFiles,
       },
 
-      // ZONE 7 — Newsletter (navy-deep)
+      // ── Z7 — Newsletter (NAVY-DEEP) ─────────────────────────────────────
       {
         __component: 'sections.newsletter-form',
         eyebrow: 'NEWSLETTER',

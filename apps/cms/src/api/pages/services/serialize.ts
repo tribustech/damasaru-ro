@@ -164,8 +164,13 @@ export function serializePressMention(raw: any): PressMentionDTO {
     date: raw.date,
     url: raw.url,
     type: raw.type ?? null,
+    brand: raw.brand ?? null,
+    isMagazine: !!raw.isMagazine,
+    featured: !!raw.featured,
+    excerpt: raw.excerpt ?? null,
     logo: serializeMedia(raw.logoImage),
-  }
+    cover: serializeMedia(raw.coverImage),
+  } as PressMentionDTO
 }
 
 export function serializeMediaItem(raw: any): MediaItemDTO {
@@ -503,6 +508,78 @@ export function serializeSection(raw: any): any {
           label: s.label,
           url: s.url ?? null,
         })),
+      }
+    case 'sections.media-hero':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        title: raw.title,
+        titleItalic: raw.titleItalic ?? null,
+        subtitle: raw.subtitle ?? null,
+        body: raw.body ?? null,
+        badgeLabel: raw.badgeLabel ?? null,
+        media: serializeMedia(raw.media),
+        accent: raw.accent ?? 'navy',
+      }
+    case 'sections.media-stat-strip':
+      return {
+        ...base,
+        accent: raw.accent ?? 'paper',
+        items: (raw.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label, caption: i.caption ?? null })),
+      }
+    case 'sections.media-logo-wall':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
+        lead: raw.lead ?? null,
+        accent: raw.accent ?? 'paper',
+        items: (raw.items ?? []).map((i: any) => ({
+          id: i.id,
+          svgKey: i.svgKey,
+          outletName: i.outletName,
+          count: i.count ?? null,
+          description: i.description ?? null,
+          href: i.href ?? null,
+        })),
+      }
+    case 'sections.media-featured':
+    case 'sections.media-magazines':
+    case 'sections.media-marquee':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
+        subheading: raw.subheading ?? null,
+        accent: raw.accent ?? (raw.__component === 'sections.media-featured' ? 'paper-warm' : 'paper'),
+        relation: raw.relation ?? 'press-mentions',
+        limit: raw.limit ?? (raw.__component === 'sections.media-featured' ? 8 : raw.__component === 'sections.media-magazines' ? 5 : 60),
+        filterBy: raw.filterBy ?? null,
+        items: [],
+      }
+    case 'sections.media-press-kit':
+      return {
+        ...base,
+        eyebrow: raw.eyebrow ?? null,
+        heading: raw.heading ?? null,
+        headingItalic: raw.headingItalic ?? null,
+        intro: raw.intro ?? null,
+        accent: raw.accent ?? 'paper',
+        items: (raw.items ?? []).map((i: any) => ({
+          id: i.id,
+          iconKey: i.iconKey ?? 'document',
+          title: i.title,
+          description: i.description ?? null,
+        })),
+        files: (Array.isArray(raw.files) ? raw.files : raw.files ? [raw.files] : [])
+          .map((f: any) => {
+            const media = serializeMedia(f)
+            if (!media) return null
+            return { ...media, name: f.name ?? null, ext: f.ext ?? null, size: f.size ?? null }
+          })
+          .filter((f: any) => f !== null),
       }
     default:
       strapi.log.warn(`[pages] unknown section component: ${raw.__component}`)

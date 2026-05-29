@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_media_press_kit_cards",
+  "info": {
+    "displayName": "Press Kit Card",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "iconKey": {
+      "type": "enumeration",
+      "enum": ["document", "camera", "mail"],
+      "required": true,
+      "default": "document"
+    },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" }
+  }
+}

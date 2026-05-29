@@ -19,6 +19,13 @@ import { ContactForm } from './ContactForm'
 import { ProiecteHero } from './ProiecteHero'
 import { ProjectFeature } from './ProjectFeature'
 import { PressWall } from './PressWall'
+import MediaHero from './MediaHero'
+import MediaStatStrip from './MediaStatStrip'
+import MediaLogoWall from './MediaLogoWall'
+import MediaFeatured from './MediaFeatured'
+import MediaMagazines from './MediaMagazines'
+import MediaMarquee from './MediaMarquee'
+import MediaPressKit from './MediaPressKit'
 
 interface DynamicZoneProps {
   sections: SectionDTO[]
@@ -71,6 +78,20 @@ export function DynamicZone({ sections, locale }: DynamicZoneProps) {
             return <ProjectFeature key={key} section={section} />
           case 'sections.press-wall':
             return <PressWall key={key} section={section} />
+          case 'sections.media-hero':
+            return <MediaHero key={key} section={section} locale={locale} />
+          case 'sections.media-stat-strip':
+            return <MediaStatStrip key={key} section={section} locale={locale} />
+          case 'sections.media-logo-wall':
+            return <MediaLogoWall key={key} section={section} locale={locale} />
+          case 'sections.media-featured':
+            return <MediaFeatured key={key} section={section} locale={locale} />
+          case 'sections.media-magazines':
+            return <MediaMagazines key={key} section={section} locale={locale} />
+          case 'sections.media-marquee':
+            return <MediaMarquee key={key} section={section} locale={locale} />
+          case 'sections.media-press-kit':
+            return <MediaPressKit key={key} section={section} locale={locale} />
           default:
             return null
         }

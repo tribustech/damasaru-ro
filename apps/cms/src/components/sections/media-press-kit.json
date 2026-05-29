@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_sections_media_press_kits",
+  "info": {
+    "displayName": "Media Press Kit",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "headingItalic": { "type": "string" },
+    "intro": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "paper"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "media.press-kit-card"
+    },
+    "files": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images", "files"]
+    }
+  }
+}

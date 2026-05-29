@@ -1224,6 +1224,13 @@ export interface ApiMediaPageMediaPage extends Struct.SingleTypeSchema {
         'sections.credentials-grid',
         'sections.event-feature',
         'sections.contact-form',
+        'sections.media-hero',
+        'sections.media-stat-strip',
+        'sections.media-logo-wall',
+        'sections.media-featured',
+        'sections.media-magazines',
+        'sections.media-marquee',
+        'sections.media-press-kit',
       ]
     >;
     seoDescription: Schema.Attribute.Text &
@@ -1427,6 +1434,8 @@ export interface ApiPressMentionPressMention
     draftAndPublish: true;
   };
   attributes: {
+    brand: Schema.Attribute.Enumeration<['costin', 'veruvis', 'veruvis-kids']> &
+      Schema.Attribute.DefaultTo<'costin'>;
     coverImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1434,6 +1443,7 @@ export interface ApiPressMentionPressMention
     date: Schema.Attribute.Date;
     excerpt: Schema.Attribute.Text;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isMagazine: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1445,10 +1455,10 @@ export interface ApiPressMentionPressMention
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<
-      ['article', 'interview', 'magazine', 'tv', 'radio', 'podcast']
+      ['tv', 'podcast', 'publicatie', 'radio', 'evenimente']
     > &
       Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'article'>;
+      Schema.Attribute.DefaultTo<'tv'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

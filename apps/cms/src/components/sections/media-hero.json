@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_sections_media_heroes",
+  "info": {
+    "displayName": "Media Hero",
+    "icon": "tv"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "titleItalic": { "type": "string" },
+    "subtitle": { "type": "text" },
+    "body": { "type": "text" },
+    "badgeLabel": { "type": "string" },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_media_logo_cells",
+  "info": {
+    "displayName": "Logo Cell",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "svgKey": { "type": "string", "required": true },
+    "outletName": { "type": "string", "required": true },
+    "count": { "type": "string" },
+    "description": { "type": "string" },
+    "href": { "type": "string" }
+  }
+}

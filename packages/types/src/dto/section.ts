@@ -322,6 +322,96 @@ export interface PressWallDTO extends SectionBase {
   secondaryItems: { id: number; label: string; url: string | null }[]
 }
 
+export interface MediaHeroDTO extends SectionBase {
+  __component: 'sections.media-hero'
+  eyebrow: string | null
+  title: string
+  titleItalic: string | null
+  subtitle: string | null
+  body: string | null
+  badgeLabel: string | null
+  media: MediaDTO | null
+  accent: AccentDTO
+}
+
+export interface MediaStatStripDTO extends SectionBase {
+  __component: 'sections.media-stat-strip'
+  accent: AccentDTO
+  items: { id: number; value: string; label: string; caption: string | null }[]
+}
+
+export interface MediaLogoWallDTO extends SectionBase {
+  __component: 'sections.media-logo-wall'
+  eyebrow: string | null
+  heading: string | null
+  headingItalic: string | null
+  lead: string | null
+  accent: AccentDTO
+  items: {
+    id: number
+    svgKey: string
+    outletName: string
+    count: string | null
+    description: string | null
+    href: string | null
+  }[]
+}
+
+export interface MediaFeaturedDTO extends SectionBase {
+  __component: 'sections.media-featured'
+  eyebrow: string | null
+  heading: string | null
+  headingItalic: string | null
+  subheading: string | null
+  accent: AccentDTO
+  relation: 'press-mentions'
+  filterBy: Record<string, unknown> | null
+  limit: number
+  items: PressMentionDTO[]
+}
+
+export interface MediaMagazinesDTO extends SectionBase {
+  __component: 'sections.media-magazines'
+  eyebrow: string | null
+  heading: string | null
+  headingItalic: string | null
+  subheading: string | null
+  accent: AccentDTO
+  relation: 'press-mentions'
+  filterBy: Record<string, unknown> | null
+  limit: number
+  items: PressMentionDTO[]
+}
+
+export interface MediaMarqueeDTO extends SectionBase {
+  __component: 'sections.media-marquee'
+  eyebrow: string | null
+  heading: string | null
+  headingItalic: string | null
+  subheading: string | null
+  accent: AccentDTO
+  relation: 'press-mentions'
+  filterBy: Record<string, unknown> | null
+  limit: number
+  items: PressMentionDTO[]
+}
+
+export interface MediaPressKitDTO extends SectionBase {
+  __component: 'sections.media-press-kit'
+  eyebrow: string | null
+  heading: string | null
+  headingItalic: string | null
+  intro: string | null
+  accent: AccentDTO
+  items: {
+    id: number
+    iconKey: 'document' | 'camera' | 'mail'
+    title: string
+    description: string | null
+  }[]
+  files: MediaDTO[]
+}
+
 export type SectionDTO =
   | HeroDTO
   | TextBlockDTO
@@ -343,3 +433,10 @@ export type SectionDTO =
   | ProiecteHeroDTO
   | ProjectFeatureDTO
   | PressWallDTO
+  | MediaHeroDTO
+  | MediaStatStripDTO
+  | MediaLogoWallDTO
+  | MediaFeaturedDTO
+  | MediaMagazinesDTO
+  | MediaMarqueeDTO
+  | MediaPressKitDTO

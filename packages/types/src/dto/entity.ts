@@ -105,7 +105,12 @@ export interface PressMentionDTO {
   date: string
   url: string
   type: string | null
+  brand: string | null
+  isMagazine: boolean
+  featured: boolean
+  excerpt: string | null
   logo: MediaDTO | null
+  cover: MediaDTO | null
 }
 
 export interface MediaItemDTO {
