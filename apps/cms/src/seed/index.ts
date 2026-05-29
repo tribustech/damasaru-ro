@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi'
+import { seedMediaLibrary } from './media-library'
 import { seedTestimonials } from './collections/testimonials'
 import { seedArticles } from './collections/articles'
 import { seedEvents } from './collections/events'
@@ -20,6 +21,15 @@ import { seedContactPage } from './pages/contact'
 
 export async function seedAll(strapi: Core.Strapi): Promise<void> {
   strapi.log.info('[seed] starting bootstrap seed')
+
+  // Media library first: recreate upload-library records (pointing at existing
+  // S3 objects) so the collection/page seeds can relink media by name even on a
+  // fresh database where the client source files aren't present.
+  try {
+    await seedMediaLibrary(strapi)
+  } catch (err) {
+    strapi.log.error(`[seed] ✗ media-library: ${(err as Error).message}`)
+  }
 
   // Collections first (pages may reference them)
   const collectionSeeds = [
