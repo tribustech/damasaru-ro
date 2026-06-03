@@ -63,10 +63,9 @@ export async function seedMagazinPage(strapi: Core.Strapi): Promise<void> {
           },
           {
             title: 'Creierul este superputerea ta',
-            text: 'Aceeași carte, în format digital. Download instant după plată, în PDF + EPUB. Citește pe orice device — laptop, tabletă, Kindle, telefon. 49 lei',
-            tag: 'Digital · citești imediat',
+            text: 'Aceeași carte, în format digital — PDF + EPUB, de citit pe orice device: laptop, tabletă, Kindle, telefon. Disponibil în curând.',
+            tag: 'În curând',
             iconImage: bookCover,
-            href: '/magazin/checkout?product=ebook',
           },
           {
             title: 'Creierul este superputerea ta',

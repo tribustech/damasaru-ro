@@ -32,6 +32,11 @@ function productKind(tag: string | null): 'physical' | 'digital' | 'audio' {
   return 'physical'
 }
 
+function isComingSoon(tag: string | null): boolean {
+  const t = (tag ?? '').toLowerCase()
+  return t.includes('curând') || t.includes('curand') || t.includes('soon')
+}
+
 function ProductIcon({ kind }: { kind: 'physical' | 'digital' | 'audio' }) {
   const common = {
     className: 'product-icon',
@@ -69,33 +74,36 @@ function ProductIcon({ kind }: { kind: 'physical' | 'digital' | 'audio' }) {
   )
 }
 
-function ProductCardBody({ item, idx, total }: { item: CardsGridItemDTO; idx: number; total: number }) {
+function ProductCardBody({ item, idx }: { item: CardsGridItemDTO; idx: number }) {
   const kind = productKind(item.tag)
   const { text, price } = extractPrice(item.text ?? '')
-  const featured = idx === 0
-  const comingSoon = kind === 'audio' || idx === total - 1
-  const cardClass = `product-card${featured ? ' featured' : ''}${comingSoon && !featured ? ' coming-soon' : ''}`
-  const tagClass =
-    kind === 'physical' ? 'product-tag tag-bookzone' : kind === 'digital' ? 'product-tag tag-instant' : 'product-tag tag-soon'
+  const comingSoon = isComingSoon(item.tag)
+  const featured = idx === 0 && !comingSoon
+  // No purchase path yet → render as a grayed-out, non-clickable teaser.
+  const disabled = comingSoon && !item.href
+  const cardClass = `product-card${featured ? ' featured' : ''}${comingSoon && !featured ? ' coming-soon' : ''}${disabled ? ' disabled' : ''}`
+  const tagClass = comingSoon
+    ? 'product-tag tag-soon'
+    : kind === 'physical'
+      ? 'product-tag tag-bookzone'
+      : kind === 'digital'
+        ? 'product-tag tag-instant'
+        : 'product-tag tag-soon'
   const inner = (
     <>
       {item.tag && (
         <span className={tagClass}>
-          {kind === 'audio' && <span className="pulse-dot" />}
+          {comingSoon && <span className="pulse-dot" />}
           {item.tag}
         </span>
       )}
       <ProductIcon kind={kind} />
       <h3>{item.title}</h3>
       {text && <p>{text}</p>}
-      {price ? (
-        <div className="product-price">{price}</div>
-      ) : kind === 'audio' ? (
-        <div className="product-meta">Lansare condiționată de cerere</div>
-      ) : null}
+      {!comingSoon && price && <div className="product-price">{price}</div>}
       {item.href && (
         <span className="product-cta">
-          {kind === 'audio' ? 'Înscrie-mă pe listă' : kind === 'digital' ? 'Cumpără PDF' : 'Cumpără pe Bookzone'}{' '}
+          {comingSoon ? 'Înscrie-mă pe listă' : kind === 'digital' ? 'Cumpără PDF' : 'Cumpără pe Bookzone'}{' '}
           <span aria-hidden>→</span>
         </span>
       )}
@@ -247,7 +255,7 @@ export function CardsGrid({ section }: CardsGridProps) {
           {variant === 'products' && (
             <div className="products-grid">
               {section.items.map((item, i) => (
-                <ProductCardBody key={item.id} item={item} idx={i} total={section.items.length} />
+                <ProductCardBody key={item.id} item={item} idx={i} />
               ))}
             </div>
           )}

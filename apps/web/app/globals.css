@@ -364,6 +364,11 @@ section[id] { scroll-margin-top: 80px; }
 .product-card.featured h3 { color: var(--color-white); }
 .product-card.featured p { color: var(--color-text-light); }
 .product-card.coming-soon { background: var(--color-paper-warm); }
+/* Coming-soon with no purchase path — grayed-out, non-interactive teaser */
+.product-card.disabled { opacity: .65; }
+.product-card.disabled:hover {
+  transform: none; border-color: var(--color-line); box-shadow: none;
+}
 .product-tag {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
