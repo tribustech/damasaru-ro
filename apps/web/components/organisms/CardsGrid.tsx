@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import type { CSSProperties, ReactElement } from 'react'
 import Link from 'next/link'
 import type { CardsGridDTO, CardsGridItemDTO } from '@repo/types'
 import { sectionAnchorId } from '@/lib/sectionAnchor'
@@ -303,9 +303,9 @@ export function CardsGrid({ section }: CardsGridProps) {
           {variant === 'default' && (
             <div
               className="cta-grid"
-              style={{
-                gridTemplateColumns: `repeat(${section.columns ?? '3'}, 1fr)`,
-              }}
+              style={
+                { '--cta-cols': section.columns ?? '3' } as CSSProperties
+              }
             >
               {section.items.map((item) => {
                 const body = (

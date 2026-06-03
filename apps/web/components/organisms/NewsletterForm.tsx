@@ -66,14 +66,9 @@ export function NewsletterForm({ section }: NewsletterFormProps) {
           )}
           <form
             onSubmit={submit}
+            className="newsletter-form"
             style={{
-              display: 'flex',
-              gap: '8px',
-              maxWidth: '480px',
-              margin: '0 auto',
-              padding: '6px',
               background: isDark ? 'rgba(255,255,255,.06)' : 'rgba(20,32,46,.04)',
-              borderRadius: '999px',
               border: `1px solid ${isDark ? 'var(--color-navy-line)' : 'var(--color-line)'}`,
             }}
           >
@@ -83,15 +78,7 @@ export function NewsletterForm({ section }: NewsletterFormProps) {
               placeholder={section.placeholder ?? 'adresa@email.ro'}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                flex: 1,
-                padding: '12px 20px',
-                background: 'transparent',
-                border: 0,
-                outline: 'none',
-                color: isDark ? 'var(--color-white)' : 'var(--color-navy)',
-                fontSize: '15px',
-              }}
+              style={{ color: isDark ? 'var(--color-white)' : 'var(--color-navy)' }}
             />
             <button type="submit" disabled={status === 'loading'} className="btn btn-primary">
               {status === 'loading' ? '...' : section.submitLabel}
