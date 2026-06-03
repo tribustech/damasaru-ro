@@ -1,19 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import Negotiator from 'negotiator'
-import { match } from '@formatjs/intl-localematcher'
 
 const locales = ['ro', 'en'] as const
 export type Locale = (typeof locales)[number]
 const defaultLocale: Locale = 'ro'
-
-function getLocale(request: NextRequest): Locale {
-  const negotiator = new Negotiator({
-    headers: { 'accept-language': request.headers.get('accept-language') ?? '' },
-  })
-  const languages = negotiator.languages()
-  return match(languages, [...locales], defaultLocale) as Locale
-}
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -22,8 +12,8 @@ export function proxy(request: NextRequest) {
   )
   if (pathnameHasLocale) return
 
-  const locale = getLocale(request)
-  request.nextUrl.pathname = `/${locale}${pathname}`
+  // Always default to Romanian; English is reachable only via an explicit /en URL.
+  request.nextUrl.pathname = `/${defaultLocale}${pathname}`
   return NextResponse.redirect(request.nextUrl)
 }
 
