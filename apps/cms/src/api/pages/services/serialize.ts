@@ -196,6 +196,7 @@ export function serializeSection(raw: any): any {
         title: raw.title,
         titleItalic: raw.titleItalic ?? null,
         subtitle: raw.subtitle ?? null,
+        body: raw.body ?? null,
         accent: raw.accent ?? 'navy',
         media: serializeMedia(raw.media),
         mediaPosition: raw.mediaPosition ?? 'right',
@@ -305,6 +306,12 @@ export function serializeSection(raw: any): any {
           name: p.name,
           tag: p.tag ?? null,
           href: p.href ?? null,
+        })),
+        externalLinks: (raw.externalLinks ?? []).map((l: any) => ({
+          id: l.id,
+          label: l.label,
+          href: l.href,
+          muted: !!l.muted,
         })),
       }
     case 'sections.newsletter-form':

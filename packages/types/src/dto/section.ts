@@ -23,6 +23,7 @@ export interface HeroDTO extends SectionBase {
   title: string
   titleItalic: string | null
   subtitle: string | null
+  body: string | null
   accent: AccentDTO
   media: MediaDTO | null
   mediaPosition: 'right' | 'left' | 'below' | 'none'
@@ -131,6 +132,13 @@ export interface ProjectMiniDTO {
   href: string | null
 }
 
+export interface ExternalLinkDTO {
+  id: number | string
+  label: string
+  href: string
+  muted: boolean
+}
+
 export interface ImageTextSplitDTO extends SectionBase {
   __component: 'sections.image-text-split'
   eyebrow: string | null
@@ -143,6 +151,7 @@ export interface ImageTextSplitDTO extends SectionBase {
   imageSide: 'left' | 'right'
   cta: CtaButtonDTO | null
   projectsRow: ProjectMiniDTO[]
+  externalLinks: ExternalLinkDTO[]
 }
 
 export interface NewsletterFormDTO extends SectionBase {

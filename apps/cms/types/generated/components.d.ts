@@ -336,6 +336,7 @@ export interface SectionsHero extends Struct.ComponentSchema {
       ['navy', 'paper', 'paper-warm', 'navy-deep']
     > &
       Schema.Attribute.DefaultTo<'navy'>;
+    body: Schema.Attribute.Text;
     ctaButtons: Schema.Attribute.Component<'shared.cta-button', true>;
     eyebrow: Schema.Attribute.String;
     media: Schema.Attribute.Media<'images'>;
@@ -364,6 +365,7 @@ export interface SectionsImageTextSplit extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'paper'>;
     body: Schema.Attribute.RichText;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    externalLinks: Schema.Attribute.Component<'shared.external-link', true>;
     eyebrow: Schema.Attribute.String;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     headingItalic: Schema.Attribute.String;
@@ -824,6 +826,20 @@ export interface SharedCtaButton extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedExternalLink extends Struct.ComponentSchema {
+  collectionName: 'components_shared_external_links';
+  info: {
+    description: 'Outbound link with arrow, used in author boxes (label + href + optional dimmed state).';
+    displayName: 'External Link';
+    icon: 'link';
+  };
+  attributes: {
+    href: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    muted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+  };
+}
+
 export interface SharedFormOption extends Struct.ComponentSchema {
   collectionName: 'components_shared_form_options';
   info: {
@@ -894,6 +910,7 @@ declare module '@strapi/strapi' {
       'sections.text-block': SectionsTextBlock;
       'sections.video-feature': SectionsVideoFeature;
       'shared.cta-button': SharedCtaButton;
+      'shared.external-link': SharedExternalLink;
       'shared.form-option': SharedFormOption;
       'shared.project-mini': SharedProjectMini;
     }

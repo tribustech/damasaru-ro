@@ -80,7 +80,7 @@ function LayoutBody({ section, layout, locale }: { section: FeaturedListDTO; lay
     return <PodcastFeaturedWithList items={section.items} locale={locale} />
   }
   if (layout === 'featured-with-grid' && section.relation === 'articles') {
-    return <ArticlesFeaturedWithGrid items={section.items} locale={locale} />
+    return <ArticlesFeaturedWithGrid items={section.items} locale={locale} accent={section.accent} />
   }
   if (layout === 'list-rows' && section.relation === 'projects') {
     return <ProjectsListRows items={section.items} locale={locale} />
@@ -287,72 +287,111 @@ function PodcastFeaturedWithList({ items, locale }: { items: PodcastEpisodeDTO[]
   )
 }
 
-function ArticlesFeaturedWithGrid({ items, locale }: { items: ArticleDTO[]; locale: string }) {
+function ArticlesFeaturedWithGrid({
+  items,
+  locale,
+  accent,
+}: {
+  items: ArticleDTO[]
+  locale: string
+  accent: FeaturedListDTO['accent']
+}) {
   if (items.length === 0) return null
   const [feature, ...rest] = items
+  const isDark = accent === 'navy' || accent === 'navy-deep'
+
+  const titleCls = isDark
+    ? 'text-white hover:text-[var(--color-gold)]'
+    : 'text-[var(--color-navy)] hover:text-[var(--color-gold-deep)]'
+  const excerptCls = isDark ? 'text-[var(--color-text-light)]' : 'text-[var(--color-text-mid)]'
+  const metaCls = isDark ? 'text-[var(--color-text-soft)]' : 'text-[var(--color-text-mid)]'
+  const lineCls = isDark ? 'border-[var(--color-navy-line)]' : 'border-[var(--color-line)]'
+  const restHover = isDark ? 'hover:bg-[var(--color-navy-soft)]/40' : 'hover:bg-[var(--color-paper-warm)]/60'
+  const coverBox = isDark
+    ? 'border border-[var(--color-navy-line)] bg-gradient-to-br from-[var(--color-navy-soft)] to-[var(--color-navy)]'
+    : 'border border-[var(--color-line)] bg-[var(--color-paper-warm)]'
+  const newPill = isDark
+    ? 'bg-[var(--color-forest)] text-white'
+    : 'bg-[var(--color-gold)]/15 text-[var(--color-gold-deep)]'
+  const catPill = isDark
+    ? 'bg-[var(--color-forest)] text-white'
+    : 'bg-[var(--color-paper-warm)] text-[var(--color-text-mid)]'
+  const ctaCls = isDark ? 'text-[var(--color-gold)]' : 'text-[var(--color-gold-deep)]'
+
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 items-start mb-16 lg:mb-20">
-        <div>
-          <div className="flex gap-4 items-center mb-6 flex-wrap">
-            {feature.tags[0] && (
-              <span className="bg-[var(--color-forest)] text-white text-[10px] tracking-[0.2em] uppercase font-bold px-3 py-1.5 rounded-full">
-                {feature.tags[0]}
-              </span>
-            )}
-            {feature.date && (
-              <span className="text-[var(--color-text-soft)] text-xs">{formatDate(feature.date, locale)}</span>
-            )}
-          </div>
-          <Link href={`/${locale}/idei/${feature.slug}`}>
-            <h3 className="font-serif text-4xl lg:text-5xl font-medium leading-tight tracking-tight mb-6 text-white hover:text-[var(--color-gold)] transition-colors">
-              {feature.title}
-            </h3>
-          </Link>
-          {feature.excerpt && (
-            <p className="text-lg text-[var(--color-text-light)] leading-relaxed mb-7 font-light">{feature.excerpt}</p>
-          )}
-          {feature.readTime && (
-            <div className="text-xs text-[var(--color-text-soft)] tracking-wide">{feature.readTime}</div>
-          )}
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-start mb-16 lg:mb-20">
         <Link href={`/${locale}/idei/${feature.slug}`} className="block">
-          <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden border border-[var(--color-navy-line)] border-t-[3px] border-t-[var(--color-forest-bright)] bg-gradient-to-br from-[var(--color-navy-soft)] to-[var(--color-navy)]">
+          <div
+            className={`relative w-full aspect-[4/5] rounded-xl overflow-hidden border-t-[3px] border-t-[var(--color-gold)] ${coverBox}`}
+          >
             {feature.cover && (
               <Image
                 src={feature.cover.url}
                 alt={feature.cover.alt || feature.title}
                 fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
+                sizes="(max-width: 1024px) 100vw, 45vw"
                 className="object-cover"
               />
             )}
           </div>
         </Link>
+        <div>
+          <div className="flex gap-4 items-center mb-6 flex-wrap">
+            <span
+              className={`${newPill} text-[10px] tracking-[0.2em] uppercase font-bold px-3 py-1.5 rounded-full`}
+            >
+              Articol nou
+            </span>
+            {feature.date && <span className={`${metaCls} text-xs`}>{formatDate(feature.date, locale)}</span>}
+            {feature.readTime && (
+              <>
+                <span className={`${metaCls} text-xs`}>·</span>
+                <span className={`${metaCls} text-xs`}>{feature.readTime}</span>
+              </>
+            )}
+          </div>
+          <Link href={`/${locale}/idei/${feature.slug}`}>
+            <h3
+              className={`font-serif text-4xl lg:text-5xl font-medium leading-tight tracking-tight mb-6 transition-colors ${titleCls}`}
+            >
+              {feature.title}
+            </h3>
+          </Link>
+          {feature.excerpt && (
+            <p className={`text-lg leading-relaxed mb-7 font-light ${excerptCls}`}>{feature.excerpt}</p>
+          )}
+          <Link
+            href={`/${locale}/idei/${feature.slug}`}
+            className={`inline-flex items-center gap-2 text-sm font-medium ${ctaCls} hover:gap-3 transition-all`}
+          >
+            Citește articolul <span aria-hidden>→</span>
+          </Link>
+        </div>
       </div>
 
       {rest.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-[var(--color-navy-line)]">
-          {rest.map((article, idx) => (
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t ${lineCls}`}>
+          {rest.map((article) => (
             <Link
               key={article.id}
               href={`/${locale}/idei/${article.slug}`}
-              className={`block py-8 ${idx > 0 ? 'md:pl-8' : ''} ${idx < rest.length - 1 ? 'md:pr-8 md:border-r border-[var(--color-navy-line)]' : ''} hover:bg-[var(--color-navy-soft)]/40 transition-colors`}
+              className={`block py-8 px-2 -mx-2 border-b ${lineCls} ${restHover} transition-colors`}
             >
               {article.tags[0] && (
-                <span className="inline-block bg-[var(--color-forest)] text-white text-[10px] tracking-[0.2em] uppercase font-bold px-2.5 py-1 rounded-full">
+                <span
+                  className={`inline-block ${catPill} text-[10px] tracking-[0.2em] uppercase font-bold px-2.5 py-1 rounded-full`}
+                >
                   {article.tags[0]}
                 </span>
               )}
-              <h4 className="font-serif text-xl lg:text-2xl font-medium leading-snug my-3.5 text-white">
+              <h4 className={`font-serif text-xl lg:text-2xl font-medium leading-snug my-3.5 ${isDark ? 'text-white' : 'text-[var(--color-navy)]'}`}>
                 {article.title}
               </h4>
               {article.excerpt && (
-                <p className="text-[13px] text-[var(--color-text-light)] leading-relaxed font-light line-clamp-3">
-                  {article.excerpt}
-                </p>
+                <p className={`text-[13px] leading-relaxed font-light line-clamp-3 ${excerptCls}`}>{article.excerpt}</p>
               )}
-              <div className="mt-4 text-[11px] text-[var(--color-text-soft)] tracking-wide">
+              <div className={`mt-4 text-[11px] tracking-wide ${metaCls}`}>
                 {article.readTime}
                 {article.readTime && article.date && ' · '}
                 {article.date && formatDate(article.date, locale)}

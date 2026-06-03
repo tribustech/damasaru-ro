@@ -10,6 +10,7 @@
     "title": { "type": "string", "required": true },
     "titleItalic": { "type": "string" },
     "subtitle": { "type": "text" },
+    "body": { "type": "text" },
     "accent": {
       "type": "enumeration",
       "enum": ["navy", "paper", "paper-warm", "navy-deep"],

@@ -17,7 +17,7 @@ export const PAGE_POPULATE = {
       'sections.featured-list': {},
       'sections.stats-strip': { populate: { items: true } },
       'sections.quote-large': {},
-      'sections.image-text-split': { populate: { image: true, cta: true, projectsRow: true } },
+      'sections.image-text-split': { populate: { image: true, cta: true, projectsRow: true, externalLinks: true } },
       'sections.newsletter-form': {},
       'sections.faq-accordion': { populate: { items: true } },
       'sections.logo-wall': { populate: { items: { populate: { logo: true } } } },

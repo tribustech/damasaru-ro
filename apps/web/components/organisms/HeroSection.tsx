@@ -63,6 +63,17 @@ export function HeroSection({ section, locale: _locale }: HeroSectionProps) {
               {section.titleItalic && <span className="italic">{section.titleItalic}</span>}
             </h1>
             {section.subtitle && <p className="hero-lead">{section.subtitle}</p>}
+            {section.body && (
+              <div className="hero-body">
+                {section.body
+                  .split(/\n\s*\n/)
+                  .map((p) => p.trim())
+                  .filter(Boolean)
+                  .map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+              </div>
+            )}
             {section.ctaButtons?.length > 0 && (
               <div className="hero-ctas">
                 {section.ctaButtons.map((btn) => (

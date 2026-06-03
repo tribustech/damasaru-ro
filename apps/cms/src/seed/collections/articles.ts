@@ -56,8 +56,8 @@ export async function seedArticles(strapi: Core.Strapi): Promise<void> {
       '<p>Recuperarea reală cere intervenție pe ambele paliere. Pe creier — somn, mișcare, reducerea stimulilor, eventual neurofeedback dacă pattern-ul e cronicizat. Pe minte — investigația narațiunilor care întrețin presiunea. De unde vine ideea că dacă te oprești, totul cade? Cine ești tu fără muncă? Ce ți s-a spus, copil fiind, despre odihnă și despre lene? Astea sunt întrebări psihoterapeutice, nu wellness. Și fără ele, vacanța rămâne un plasture pe un sistem care se reaprinde imediat.</p>' +
       '<p>Asta e ce încerc să explic clienților care vin la cabinet după a treia vacanță inutilă. Nu-i lipsește timp liber. Îi lipsește o conversație cu mintea lor. Și conversația aia nu se poartă pe plajă.</p>',
     category: 'Neuroștiință',
-    date: '2026-05-08',
-    readTime: '8 min citire',
+    date: '2026-05-02',
+    readTime: '7 min citire',
     featured: true,
   },
   {

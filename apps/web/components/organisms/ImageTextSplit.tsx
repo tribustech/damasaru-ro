@@ -29,6 +29,29 @@ function bodyToBlocks(body: string): Block[] {
     )
 }
 
+function ctaClass(variant: string | undefined): string {
+  return `btn ${variant === 'outline' || variant === 'secondary' ? 'btn-ghost' : 'btn-primary'}`
+}
+
+function ExternalLinks({ links }: { links: ImageTextSplitDTO['externalLinks'] }) {
+  if (!links || links.length === 0) return null
+  return (
+    <div className="author-links">
+      {links.map((l) =>
+        l.muted || !l.href ? (
+          <span key={l.id} className="author-link muted">
+            {l.label}
+          </span>
+        ) : (
+          <a key={l.id} href={l.href} target="_blank" rel="noreferrer" className="author-link">
+            {l.label} <span aria-hidden>↗</span>
+          </a>
+        )
+      )}
+    </div>
+  )
+}
+
 export function ImageTextSplit({ section }: ImageTextSplitProps) {
   const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-light'
   const reverse = section.imageSide === 'right'
@@ -59,9 +82,10 @@ export function ImageTextSplit({ section }: ImageTextSplitProps) {
                   <p key={i}>{b.text}</p>
                 )
               )}
+              <ExternalLinks links={section.externalLinks} />
               {section.cta && (
                 <div style={{ marginTop: '32px' }}>
-                  <Link href={section.cta.href} className="btn btn-primary">
+                  <Link href={section.cta.href} className={ctaClass(section.cta.variant)}>
                     {section.cta.label}
                   </Link>
                 </div>
@@ -165,9 +189,10 @@ export function ImageTextSplit({ section }: ImageTextSplitProps) {
                 <p key={`a${i}`}>{p}</p>
               ))}
             </div>
+            <ExternalLinks links={section.externalLinks} />
             {section.cta && (
               <div style={{ marginTop: '32px' }}>
-                <Link href={section.cta.href} className="btn btn-primary">
+                <Link href={section.cta.href} className={ctaClass(section.cta.variant)}>
                   {section.cta.label}
                 </Link>
               </div>

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_external_links",
+  "info": {
+    "displayName": "External Link",
+    "description": "Outbound link with arrow, used in author boxes (label + href + optional dimmed state).",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "href": { "type": "string" },
+    "muted": { "type": "boolean", "default": false }
+  }
+}

@@ -13,7 +13,7 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
     seoDescription:
       'Texte de Costin Dămășaru, cercetător în neuroștiințe aplicate, despre cum lucrează mintea și creierul împreună. Școală, suferință mintală, performanță, viață publică — prin lentila Sistemului Creier-Minte.',
     sections: [
-      // Zone 1 — Hero declarativ (navy) — eyebrow + h1 split + subtitle italic + stats strip 3
+      // Zone 1 — Hero declarativ (navy) — eyebrow + h1 split + subtitle italic + manifest body + stats strip 3
       {
         __component: 'sections.hero',
         eyebrow: 'IDEI',
@@ -21,6 +21,8 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
         titleItalic: 'care completează creierul.',
         subtitle:
           '„Texte despre școală, suferință mintală, performanță, viață publică — toate prin lentila a 7 ani de lucru cu Sistemul Creier-Minte. Și a unei vieți care încă încearcă să-și dea seama."',
+        body:
+          'Sunt cercetător în neuroștiințe aplicate. Văd creierul zilnic — pe qEEG, în Brain Map-uri, în pattern-uri. După 7 ani de practică și 18.000 de creiere analizate la Veruvis, ai crede că am ajuns la concluzia că totul e creier. Sau, dimpotrivă, că am dat-o pe spiritual și totul e doar minte.\n\nNiciuna dintre cele două. Creierul face — generează semnal, susține atenția, reglează emoția. Dar mintea aduce ce-i lipsește creierului: sensul, intenția, alegerea, narațiunea. Sunt doi parteneri într-un sistem. Niciunul nu e complet fără celălalt. Asta e teza care îmi organizează gândirea — și textele de aici.\n\nAici scriu despre școală, suferință mintală, performanță, viață publică, AI — despre orice mă frământă, dar întotdeauna prin această lentilă: cum lucrează mintea și creierul împreună, ce se întâmplă când unul îl trage înapoi pe celălalt, și ce putem face când vrem să-i punem să colaboreze. Persoana I, asumată — nu vreau să mă ascund în spatele științei.',
         accent: 'navy',
         mediaPosition: 'none',
         statsStrip: {
@@ -33,20 +35,7 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
         },
       },
 
-      // Zone 1b — Manifest la persoana I (navy, continuation of hero) — image-text-split no-image
-      {
-        __component: 'sections.image-text-split',
-        eyebrow: 'MANIFEST',
-        heading: 'Sunt cercetător',
-        headingItalic: 'în neuroștiințe aplicate.',
-        body:
-          'Văd creierul zilnic — pe qEEG, în Brain Map-uri, în pattern-uri. După 7 ani de practică și 18.000 de creiere analizate la Veruvis, ai crede că am ajuns la concluzia că totul e creier. Sau, dimpotrivă, că am dat-o pe spiritual și totul e doar minte.\n\nNiciuna dintre cele două. Creierul face — generează semnal, susține atenția, reglează emoția. Dar mintea aduce ce-i lipsește creierului: sensul, intenția, alegerea, narațiunea. Sunt doi parteneri într-un sistem. Niciunul nu e complet fără celălalt. Asta e teza care îmi organizează gândirea — și textele de aici.\n\nAici scriu despre școală, suferință mintală, performanță, viață publică, AI — despre orice mă frământă, dar întotdeauna prin această lentilă: cum lucrează mintea și creierul împreună, ce se întâmplă când unul îl trage înapoi pe celălalt, și ce putem face când vrem să-i punem să colaboreze. Persoana I, asumată — nu vreau să mă ascund în spatele științei.',
-        image: null,
-        imagePosition: 'right',
-        accent: 'navy',
-      },
-
-      // Zone 2 — Articole (paper, featured + listă) — header centrat, grid de carduri
+      // Zone 2 — Articole (paper) — featured mare + listă în grid 2 coloane
       {
         __component: 'sections.featured-list',
         eyebrow: 'TEXTE',
@@ -54,10 +43,8 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
         headingItalic: 'până acum.',
         accent: 'paper',
         relation: 'articles',
-        layout: 'grid',
+        layout: 'featured-with-grid',
         limit: 9,
-        seeAllHref: '/idei',
-        seeAllLabel: 'Toate articolele',
       },
 
       // Zone 3 — Despre autor (paper) — image-text-split cu portret B&W stânga + ghost CTA
@@ -71,6 +58,11 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
         image: authorPortrait,
         imagePosition: 'left',
         accent: 'paper',
+        externalLinks: [
+          { label: 'LinkedIn', href: 'https://www.linkedin.com/in/costindamasaru/', muted: false },
+          { label: 'Google Scholar', href: 'https://scholar.google.com/', muted: false },
+          { label: 'Wikipedia (în curând)', href: null, muted: true },
+        ],
         cta: {
           label: 'Mai multe despre Costin',
           href: '/despre',
@@ -88,6 +80,7 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
           '„Newsletter bilunar — articole noi, episoade de podcast, evenimente publice, anunțuri din Veruvis. Fără spam. Niciodată."',
         buttonLabel: 'Abonează-mă',
         placeholder: 'adresa@ta.ro',
+        fineprint: 'Te poți dezabona oricând. Adresa ta nu va fi împărtășită cu nimeni.',
         accent: 'navy-deep',
         formId: 'source-idei-page',
       },
