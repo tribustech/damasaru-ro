@@ -1,7 +1,7 @@
 // AUTO-GENERATED — do not edit by hand.
 // Snapshot of the Strapi upload library (files table) so a fresh database can
 // relink media that already lives in S3, without the client Documentation/
-// source files. Regenerate after uploading new media (see scripts/dump-media-manifest.sh).
+// source files. Regenerate after uploading new media: bash scripts/dump-media-manifest.sh
 //
 // Each entry is created in plugin::upload.file by seedMediaLibrary() when a file
 // with the same `name` does not yet exist; page/collection seeds then relink by name.
@@ -1023,6 +1023,76 @@ export const MEDIA_MANIFEST: MediaManifestEntry[] = [
     "folderPath": "/"
   },
   {
+    "name": "costin-portret-bw.jpg",
+    "alternativeText": "Costin Dămășaru — portret alb-negru",
+    "caption": "",
+    "width": 1000,
+    "height": 1250,
+    "formats": {
+      "large": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/large_costin_portret_bw_70cfe67ed5.jpg",
+        "etag": "4da4067a9ebeb3a920aac0b3473c10d3",
+        "hash": "large_costin_portret_bw_70cfe67ed5",
+        "mime": "image/jpeg",
+        "name": "large_costin-portret-bw.jpg",
+        "path": null,
+        "size": 82.37,
+        "width": 800,
+        "height": 1000,
+        "sizeInBytes": 82366
+      },
+      "small": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/small_costin_portret_bw_70cfe67ed5.jpg",
+        "etag": "e72f43db582a314f1e1e2b9238a03f8f",
+        "hash": "small_costin_portret_bw_70cfe67ed5",
+        "mime": "image/jpeg",
+        "name": "small_costin-portret-bw.jpg",
+        "path": null,
+        "size": 20.8,
+        "width": 400,
+        "height": 500,
+        "sizeInBytes": 20795
+      },
+      "medium": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/medium_costin_portret_bw_70cfe67ed5.jpg",
+        "etag": "2e2cb59e04cfe0ee9a2697273d933f66",
+        "hash": "medium_costin_portret_bw_70cfe67ed5",
+        "mime": "image/jpeg",
+        "name": "medium_costin-portret-bw.jpg",
+        "path": null,
+        "size": 44.14,
+        "width": 600,
+        "height": 750,
+        "sizeInBytes": 44138
+      },
+      "thumbnail": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/thumbnail_costin_portret_bw_70cfe67ed5.jpg",
+        "etag": "3c9547b00c22fafd53e1ed7976c2a64b",
+        "hash": "thumbnail_costin_portret_bw_70cfe67ed5",
+        "mime": "image/jpeg",
+        "name": "thumbnail_costin-portret-bw.jpg",
+        "path": null,
+        "size": 3.43,
+        "width": 125,
+        "height": 156,
+        "sizeInBytes": 3434
+      }
+    },
+    "size": 139.45,
+    "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/costin_portret_bw_70cfe67ed5.jpg",
+    "previewUrl": null,
+    "provider": "aws-s3",
+    "providerMetadata": null,
+    "hash": "costin_portret_bw_70cfe67ed5",
+    "ext": ".jpg",
+    "mime": "image/jpeg",
+    "folderPath": "/"
+  },
+  {
     "name": "cover_A_3000x3000.png",
     "alternativeText": "Ce’ai la Mansardă — cover art podcast",
     "caption": "",
@@ -1090,6 +1160,146 @@ export const MEDIA_MANIFEST: MediaManifestEntry[] = [
     "hash": "cover_A_3000x3000_59cb4cadfd",
     "ext": ".png",
     "mime": "image/png",
+    "folderPath": "/"
+  },
+  {
+    "name": "cover-burnout-vacanta.jpg",
+    "alternativeText": "Cover articol — Burnout",
+    "caption": "",
+    "width": 1400,
+    "height": 788,
+    "formats": {
+      "large": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/large_cover_burnout_vacanta_36250619bf.jpg",
+        "etag": "47d1af8223216dd26deca233b0180e98",
+        "hash": "large_cover_burnout_vacanta_36250619bf",
+        "mime": "image/jpeg",
+        "name": "large_cover-burnout-vacanta.jpg",
+        "path": null,
+        "size": 52.97,
+        "width": 1000,
+        "height": 563,
+        "sizeInBytes": 52973
+      },
+      "small": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/small_cover_burnout_vacanta_36250619bf.jpg",
+        "etag": "d4d3e76396d5995d9ef6ca26333e1544",
+        "hash": "small_cover_burnout_vacanta_36250619bf",
+        "mime": "image/jpeg",
+        "name": "small_cover-burnout-vacanta.jpg",
+        "path": null,
+        "size": 17.92,
+        "width": 500,
+        "height": 281,
+        "sizeInBytes": 17922
+      },
+      "medium": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/medium_cover_burnout_vacanta_36250619bf.jpg",
+        "etag": "097b03bff4262f139819b3f318f595ec",
+        "hash": "medium_cover_burnout_vacanta_36250619bf",
+        "mime": "image/jpeg",
+        "name": "medium_cover-burnout-vacanta.jpg",
+        "path": null,
+        "size": 32.81,
+        "width": 750,
+        "height": 422,
+        "sizeInBytes": 32806
+      },
+      "thumbnail": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/thumbnail_cover_burnout_vacanta_36250619bf.jpg",
+        "etag": "3d3042c4a9332e20ca65d2b9a198959d",
+        "hash": "thumbnail_cover_burnout_vacanta_36250619bf",
+        "mime": "image/jpeg",
+        "name": "thumbnail_cover-burnout-vacanta.jpg",
+        "path": null,
+        "size": 6.28,
+        "width": 245,
+        "height": 138,
+        "sizeInBytes": 6278
+      }
+    },
+    "size": 97.02,
+    "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/cover_burnout_vacanta_36250619bf.jpg",
+    "previewUrl": null,
+    "provider": "aws-s3",
+    "providerMetadata": null,
+    "hash": "cover_burnout_vacanta_36250619bf",
+    "ext": ".jpg",
+    "mime": "image/jpeg",
+    "folderPath": "/"
+  },
+  {
+    "name": "cover-scoala-adhd.jpg",
+    "alternativeText": "Cover articol — Ce nu vede școala",
+    "caption": "",
+    "width": 1400,
+    "height": 788,
+    "formats": {
+      "large": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/large_cover_scoala_adhd_e15e3d70ca.jpg",
+        "etag": "78258bbcbcb7192165e3ae0497033aee",
+        "hash": "large_cover_scoala_adhd_e15e3d70ca",
+        "mime": "image/jpeg",
+        "name": "large_cover-scoala-adhd.jpg",
+        "path": null,
+        "size": 128.04,
+        "width": 1000,
+        "height": 563,
+        "sizeInBytes": 128038
+      },
+      "small": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/small_cover_scoala_adhd_e15e3d70ca.jpg",
+        "etag": "9509c911fb831d751cfd2b5a861d256d",
+        "hash": "small_cover_scoala_adhd_e15e3d70ca",
+        "mime": "image/jpeg",
+        "name": "small_cover-scoala-adhd.jpg",
+        "path": null,
+        "size": 39.31,
+        "width": 500,
+        "height": 281,
+        "sizeInBytes": 39305
+      },
+      "medium": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/medium_cover_scoala_adhd_e15e3d70ca.jpg",
+        "etag": "28cb524578d973fa62e7d65d2f57edfd",
+        "hash": "medium_cover_scoala_adhd_e15e3d70ca",
+        "mime": "image/jpeg",
+        "name": "medium_cover-scoala-adhd.jpg",
+        "path": null,
+        "size": 77.27,
+        "width": 750,
+        "height": 422,
+        "sizeInBytes": 77267
+      },
+      "thumbnail": {
+        "ext": ".jpg",
+        "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/thumbnail_cover_scoala_adhd_e15e3d70ca.jpg",
+        "etag": "2238e0f66c6e816992aa28a4bf7e9b77",
+        "hash": "thumbnail_cover_scoala_adhd_e15e3d70ca",
+        "mime": "image/jpeg",
+        "name": "thumbnail_cover-scoala-adhd.jpg",
+        "path": null,
+        "size": 10.93,
+        "width": 245,
+        "height": 138,
+        "sizeInBytes": 10930
+      }
+    },
+    "size": 243.2,
+    "url": "https://damasaru-ro.s3.eu-central-1.amazonaws.com/cover_scoala_adhd_e15e3d70ca.jpg",
+    "previewUrl": null,
+    "provider": "aws-s3",
+    "providerMetadata": null,
+    "hash": "cover_scoala_adhd_e15e3d70ca",
+    "ext": ".jpg",
+    "mime": "image/jpeg",
     "folderPath": "/"
   },
   {
