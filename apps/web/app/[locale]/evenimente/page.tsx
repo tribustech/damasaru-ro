@@ -10,5 +10,9 @@ export default async function EventsPage({
   const { locale } = await params
   const page = await getEventsPage(locale).catch(() => null)
   if (!page) notFound()
-  return <DynamicZone sections={page.sections} locale={locale} />
+  return (
+    <div className="page-evenimente">
+      <DynamicZone sections={page.sections} locale={locale} />
+    </div>
+  )
 }
