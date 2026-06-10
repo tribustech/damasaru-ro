@@ -819,6 +819,9 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       }>;
     displayOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<100>;
     endDate: Schema.Attribute.Date;
+    eventStatus: Schema.Attribute.Enumeration<['viitor', 'trecut']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'viitor'>;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     jsonLd: Schema.Attribute.JSON;
     locale: Schema.Attribute.String;
@@ -845,9 +848,6 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    status: Schema.Attribute.Enumeration<['viitor', 'trecut']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'viitor'>;
     subtitle: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -1324,6 +1324,8 @@ export interface ApiPodcastEpisodePodcastEpisode
         };
       }>;
     duration: Schema.Attribute.String;
+    episodeStatus: Schema.Attribute.Enumeration<['live', 'upcoming']> &
+      Schema.Attribute.DefaultTo<'upcoming'>;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     guests: Schema.Attribute.JSON;
     locale: Schema.Attribute.String;
@@ -1342,8 +1344,6 @@ export interface ApiPodcastEpisodePodcastEpisode
         };
       }>;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    status: Schema.Attribute.Enumeration<['live', 'upcoming']> &
-      Schema.Attribute.DefaultTo<'upcoming'>;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -1651,11 +1651,13 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
         };
       }>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
-    status: Schema.Attribute.Enumeration<['live', 'upcoming', 'archived']> &
+    projectStatus: Schema.Attribute.Enumeration<
+      ['live', 'upcoming', 'archived']
+    > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'live'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     tagline: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -1681,6 +1683,10 @@ export interface ApiSpeakerBookingEntrySpeakerBookingEntry
   };
   attributes: {
     audienceSize: Schema.Attribute.String;
+    bookingStatus: Schema.Attribute.Enumeration<
+      ['new', 'contacted', 'booked', 'declined', 'archived']
+    > &
+      Schema.Attribute.DefaultTo<'new'>;
     budget: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1699,10 +1705,6 @@ export interface ApiSpeakerBookingEntrySpeakerBookingEntry
     organization: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    status: Schema.Attribute.Enumeration<
-      ['new', 'contacted', 'booked', 'declined', 'archived']
-    > &
-      Schema.Attribute.DefaultTo<'new'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
