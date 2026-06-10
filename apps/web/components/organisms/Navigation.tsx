@@ -31,7 +31,7 @@ export function Navigation({ locale, dict }: NavigationProps) {
         <div className="flex items-center justify-between h-20">
           <Link
             href={`/${locale}`}
-            className="text-xl tracking-tight font-serif text-white"
+            className="text-2xl tracking-tight font-serif font-semibold text-white"
           >
             Costin <span className="italic text-[var(--color-gold)]">Dămășaru</span>
           </Link>

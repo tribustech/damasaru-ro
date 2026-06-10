@@ -33,7 +33,7 @@ export function Footer({ locale, dict }: FooterProps) {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           <div className="lg:col-span-4">
-            <div className="text-2xl font-serif text-white mb-4">
+            <div className="text-3xl font-serif font-semibold text-white mb-4">
               Costin <span className="italic text-[var(--color-gold)]">Dămășaru</span>
             </div>
             <p className="text-sm leading-relaxed text-[var(--color-text-light)]/70 mb-8 max-w-sm">
