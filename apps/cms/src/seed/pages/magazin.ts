@@ -72,7 +72,7 @@ export async function seedMagazinPage(strapi: Core.Strapi): Promise<void> {
             text: 'Cartea — citită de mine, capitol cu capitol. Pentru când vrei să o asculți la volan, la antrenament sau la plimbare. Lansare estimată — toamna 2026.',
             tag: 'În curând · listă de așteptare',
             iconImage: bookCover,
-            href: '#audiobook-waitlist',
+            href: '/carte#audiobook',
           },
         ],
       },

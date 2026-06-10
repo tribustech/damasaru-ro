@@ -44,7 +44,7 @@ export async function CTABanner({ section }: CTABannerProps) {
       .filter(Boolean)
     const realCount = await getAudiobookWaitlistCount().catch(() => 0)
     return (
-      <section className={zoneClass}>
+      <section id="audiobook" className={zoneClass}>
         <div className="ds-container">
           <WaitlistCard
             eyebrow={section.eyebrow}
