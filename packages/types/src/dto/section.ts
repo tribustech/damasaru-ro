@@ -310,6 +310,7 @@ export interface ProjectFeatureDTO extends SectionBase {
   body: string
   layout: 'text-left' | 'text-right' | 'centered'
   accent: AccentDTO
+  logo: MediaDTO | null
   image: MediaDTO | null
   imageCaption: string | null
   stats: { id: number; value: string; label: string }[]

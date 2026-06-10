@@ -671,6 +671,7 @@ export interface SectionsProjectFeature extends Struct.ComponentSchema {
       ['text-left', 'text-right', 'centered']
     > &
       Schema.Attribute.DefaultTo<'text-left'>;
+    logo: Schema.Attribute.Media<'images'>;
     since: Schema.Attribute.String;
     stats: Schema.Attribute.Component<'sections.stat-item', true>;
     tagline: Schema.Attribute.Text;

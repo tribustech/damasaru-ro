@@ -23,13 +23,34 @@ function renderInline(text: string) {
   })
 }
 
+// Light zones (paper / paper-warm) need the white single-colour logo SVGs
+// recoloured to navy ink. We render those as a CSS mask so the same uploaded
+// asset works on any background; dark zones render the SVG directly to keep
+// the icon's white radial glow.
+const LIGHT_ACCENTS: ReadonlySet<ProjectFeatureDTO['accent']> = new Set(['paper', 'paper-warm'])
+
 export function ProjectFeature({ section }: ProjectFeatureProps) {
   const zoneClass = ZONE_BY_ACCENT[section.accent] ?? 'zone-dark'
   const isCentered = section.layout === 'centered'
+  const isLightAccent = LIGHT_ACCENTS.has(section.accent)
   const paragraphs = (section.body ?? '')
     .split(/\n\n+/)
     .map((p) => p.trim())
     .filter(Boolean)
+
+  const renderLogo = () => {
+    if (!section.logo) return null
+    const alt = section.logo.alt || section.wordmark
+    const ratio =
+      section.logo.width && section.logo.height
+        ? `${section.logo.width} / ${section.logo.height}`
+        : undefined
+    // Dark zones render the white SVG as-is (glow preserved); light zones darken
+    // the white single-colour SVG to ink via a CSS filter so it stays visible.
+    const cls = isLightAccent ? 'project-logo project-logo--ink' : 'project-logo'
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img className={cls} src={section.logo.url} alt={alt} style={{ aspectRatio: ratio }} />
+  }
 
   const renderText = () => (
     <>
@@ -38,17 +59,22 @@ export function ProjectFeature({ section }: ProjectFeatureProps) {
           {section.eyebrow}
         </div>
       )}
-      <div className={`project-wordmark${isCentered ? ' smaller' : ''}`}>
-        {section.wordmark}
-        {section.wordmarkItalic && (
-          <>
-            {' '}
-            <span className="italic">{section.wordmarkItalic}</span>
-          </>
-        )}
-        {section.wordmarkLine2 && <span className="italic">{section.wordmarkLine2}</span>}
-        {section.wordmarkLine3 && <span className="italic">{section.wordmarkLine3}</span>}
-      </div>
+      {/* When a logo is set, it stands in for the styled-text wordmark (kept in Strapi for SEO/fallback). */}
+      {section.logo ? (
+        renderLogo()
+      ) : (
+        <div className={`project-wordmark${isCentered ? ' smaller' : ''}`}>
+          {section.wordmark}
+          {section.wordmarkItalic && (
+            <>
+              {' '}
+              <span className="italic">{section.wordmarkItalic}</span>
+            </>
+          )}
+          {section.wordmarkLine2 && <span className="italic">{section.wordmarkLine2}</span>}
+          {section.wordmarkLine3 && <span className="italic">{section.wordmarkLine3}</span>}
+        </div>
+      )}
       {section.since && <div className="project-since">{section.since}</div>}
       {section.tagline && <p className="project-tagline">{section.tagline}</p>}
       {paragraphs.length > 0 && (

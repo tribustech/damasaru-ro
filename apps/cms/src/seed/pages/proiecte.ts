@@ -20,6 +20,24 @@ export async function seedProiectePage(strapi: Core.Strapi): Promise<void> {
     { alt: 'Nircura — cască de fotobiomodulare pentru acasă' }
   )
 
+  const veruvisLogo = await uploadFile(
+    strapi,
+    docPath('5. Proiecte', 'Veruvis_Logo.svg'),
+    { alt: 'Veruvis' }
+  )
+
+  const veruvisKidsLogo = await uploadFile(
+    strapi,
+    docPath('5. Proiecte', 'Veruvis Kids_Logo.svg'),
+    { alt: 'Veruvis Kids' }
+  )
+
+  const nircuraLogo = await uploadFile(
+    strapi,
+    docPath('5. Proiecte', 'Nircura_Logo.svg'),
+    { alt: 'Nircura' }
+  )
+
   await upsertSingleType(strapi, 'api::proiecte-page.proiecte-page', {
     seoTitle: 'Proiecte — Veruvis, Veruvis Kids, Nircura și Asociația | Costin Dămășaru',
     seoDescription:
@@ -57,6 +75,7 @@ export async function seedProiectePage(strapi: Core.Strapi): Promise<void> {
           '„Veruvis a apărut în 2019 ca răspuns la o căutare personală — a mea. După cei 5 ani de criză (tinitus, anxietate, atacuri de panică, blocaj) am început să caut, în România, un loc care să combine sub același acoperiș Brain Mapping, qEEG, antrenamente neuronale BM-BCI, neurofeedback și o abordare profesional-integrată a Sistemului Creier-Minte. Nu exista. Așa că, după ce m-am vindecat singur, am decis să construiesc locul pe care eu aș fi vrut să-l găsesc. Au început să vină oameni. Mulți. Aparent, nu eram singurul."\n\n„La Veruvis lucrăm cu adulți care vin pentru motive foarte diferite: anxietate, atacuri de panică, tinitus, dificultăți de concentrare, burnout, suferință mintală cronică, performanță atletică sau de leadership, recuperare după traumatism cranian. Procesul e mereu același: pornim de la un Brain Map (qEEG) care arată exact ce se întâmplă în creierul tău. Apoi construim un plan de antrenament neuronal BM-BCI adaptat. Totul pentru a ajuta fiecare persoană în parte să-și înțeleagă această complexă relație creier-minte."\n\n„În cei 7 ani de la fondare, am analizat peste 18.000 de creiere, urmărind ceea ce numesc **Metoda Veruvis™** — o abordare proprie, dezvoltată și rafinată în practica zilnică. Avem locații în București și Cluj. Mentorul meu direct și partenerul nostru științific este Dr. Wesley Center, BCN Fellow, QEEG-DL, din SUA."',
         layout: 'text-left',
         accent: 'navy',
+        logo: veruvisLogo,
         image: veruvisImage,
         imageCaption: '„Interviu Pro TV în standul Veruvis."',
         stats: [
@@ -84,6 +103,7 @@ export async function seedProiectePage(strapi: Core.Strapi): Promise<void> {
           '„Veruvis Kids este un brand separat de Veruvis. Aceeași tehnologie — Brain Map qEEG, Antrenamente Neuronale BM-BCI. Dar metoda, protocoalele, mediul fizic și modul de comunicare sunt complet adaptate pentru copii și adolescenți. Lucrăm cu vârste între 3 și 18 ani."\n\n„Vin la noi părinți cu copii care au primit diferite etichete în sistemul medical sau educațional — ADHD, dificultăți specifice de învățare, anxietate, tulburări de procesare senzorială, dificultăți de gestionare emoțională, performanță școlară sub potențial. Sau părinți care vor să sprijine performanța școlară, sportivă sau cognitivă a copilului fără să aștepte să apară probleme. Procesul începe cu un Brain Map care arată cum funcționează rețelele neuronale ale copilului — fără să-l etichetăm. Apoi construim un plan, antrenăm și măsurăm rezultate."\n\n„Veruvis Kids are locații în București și Cluj. Comunicarea se realizează întotdeauna cu părinții, nu cu copilul direct — copilul vine să se «joace». Totul fără presiunea «trebuie să te repari». Detaliile complete despre programe, protocoale și abordare sunt pe site-ul dedicat veruviskids.ro."',
         layout: 'text-right',
         accent: 'paper',
+        logo: veruvisKidsLogo,
         image: veruvisKidsImage,
         imageCaption: '„Eveniment Veruvis Kids — Ziua Copilului."',
         stats: [
@@ -109,6 +129,7 @@ export async function seedProiectePage(strapi: Core.Strapi): Promise<void> {
           '„Nircura a apărut din aceeași observație care a stat la baza Veruvis: tehnologia exista, dar nu era accesibilă publicului român — nici ca preț, nici ca informație. Fotobiomodularea, sau «red light therapy» cum o știu mulți, e o tehnologie cu peste 50 de ani de cercetare științifică serioasă în spate. Are aplicații documentate în recuperare musculară, sănătate cutanată, modulare inflamatorie și mai recent, în terapii neuronale combinate cu antrenamentele neuronale BM-BCI. Dar pe piața românească nu existau decât echipamente importate, prost specificate, fără o documentație clară."\n\n„Am construit Nircura ca o companie de echipamente profesionale și home use, fabricate sau personalizate cu specificații pe care le verificăm științific noi. Folosim aceste echipamente în centrele Veruvis și Veruvis Kids ca parte a unor protocoale combinate cu antrenamentele neuronale. Le vindem și separat, atât businessurilor partenere (spa-uri profesionale, centre de wellness, săli de fitness, clinici de recuperare), cât și direct utilizatorilor finali, pentru acasă."\n\n„Nircura nu e un side-project. Este o companie tehnologică în creștere, dezvoltare și educare. Site-ul, catalogul de produse, informațiile științifice detaliate, blogul tehnic — totul este pe nircura.ro."',
         layout: 'text-left',
         accent: 'navy',
+        logo: nircuraLogo,
         image: nircuraImage,
         imageCaption: '„Cască Nircura — fotobiomodulare pentru acasă."',
         stats: [

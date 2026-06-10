@@ -334,6 +334,7 @@ export interface SectionProjectFeature {
   body: string | null
   layout: 'text-left' | 'text-right' | 'centered'
   accent: SectionAccent
+  logo: StrapiMedia | null
   image: StrapiMedia | null
   imageCaption: string | null
   stats: StatItem[]

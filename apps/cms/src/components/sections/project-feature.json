@@ -25,6 +25,7 @@
       "enum": ["navy", "paper", "paper-warm", "navy-deep"],
       "default": "navy"
     },
+    "logo": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
     "image": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
     "imageCaption": { "type": "text" },
     "stats": {

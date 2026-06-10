@@ -877,6 +877,15 @@ section[id] { scroll-margin-top: 80px; }
 .project-grid { display: grid; gap: 80px; align-items: center; }
 .project-grid.text-left { grid-template-columns: 1.1fr 1fr; }
 .project-grid.text-right { grid-template-columns: 1fr 1.1fr; }
+/* Logo stands in for the wordmark title — sized for title prominence.
+   Per-brand height because the marks differ in type: Veruvis / Veruvis Kids are
+   icon-lockups (text is a small part of the artwork) while Nircura is a pure
+   wordmark that fills its box, so a uniform height makes Nircura tower. */
+.project-logo { display: block; height: 138px; width: auto; max-width: 100%; margin-bottom: 16px; }
+#nircura .project-logo { height: 62px; }
+/* Light zones recolour the white single-colour SVG to the navy ink (~#14202E)
+   via a filter chain (brightness(0) blacks it out, the rest tints to navy). */
+.project-logo--ink { filter: brightness(0) saturate(100%) invert(12%) sepia(28%) saturate(1100%) hue-rotate(176deg) brightness(92%) contrast(95%); }
 .project-eyebrow { color: var(--color-gold-deep); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
 .project-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--color-gold-deep); }
 .zone-dark .project-eyebrow, .zone-hero .project-eyebrow { color: var(--color-gold); }
@@ -926,6 +935,8 @@ section[id] { scroll-margin-top: 80px; }
   .project-stats { grid-template-columns: 1fr 1fr; }
   .project-wordmark { font-size: 54px; }
   .project-wordmark.smaller { font-size: 42px; }
+  .project-logo { height: 92px; margin-bottom: 14px; }
+  #nircura .project-logo { height: 48px; }
 }
 
 /* ============================================================

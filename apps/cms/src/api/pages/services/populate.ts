@@ -45,6 +45,7 @@ export const PAGE_POPULATE = {
       'sections.proiecte-hero': { populate: { anchors: true } },
       'sections.project-feature': {
         populate: {
+          logo: true,
           image: true,
           stats: true,
           ctas: true,

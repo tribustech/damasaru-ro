@@ -479,6 +479,7 @@ export function serializeSection(raw: any): any {
         body: raw.body ?? '',
         layout: raw.layout ?? 'text-left',
         accent: raw.accent ?? 'navy',
+        logo: serializeMedia(raw.logo),
         image: serializeMedia(raw.image),
         imageCaption: raw.imageCaption ?? null,
         stats: (raw.stats ?? []).map((s: any) => ({ id: s.id, value: s.value, label: s.label })),
