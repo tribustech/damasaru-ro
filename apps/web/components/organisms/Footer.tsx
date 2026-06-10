@@ -40,7 +40,7 @@ export function Footer({ locale, dict }: FooterProps) {
               Neurocercetător, autor și fondator. Construiesc instrumente prin care oamenii își recapătă claritatea — în minte și în viață.
             </p>
             <div className="inline-block px-4 py-2 rounded-full text-xs uppercase tracking-[0.2em] border border-[var(--color-gold)]/30 text-[var(--color-gold)]">
-              Veruvis · Veruvis Kids · Nircura
+              CERCETĂTOR · EDUCATOR · INOVATOR
             </div>
           </div>
 
