@@ -27,7 +27,7 @@ export function VideoFeature({ section }: VideoFeatureProps) {
   const hasUrl = !!section.videoUrl
 
   const videoContainerClasses = isPortrait
-    ? 'w-full max-w-[360px] aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_30px_60px_-20px_rgba(212,175,106,0.3),0_0_0_1px_rgba(212,175,106,0.2)] relative mx-auto md:mx-0'
+    ? 'w-full max-w-[520px] aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_30px_60px_-20px_rgba(212,175,106,0.3),0_0_0_1px_rgba(212,175,106,0.2)] relative mx-auto md:mx-0'
     : `w-full aspect-video rounded-3xl overflow-hidden border ${a.border}`
 
   return (
