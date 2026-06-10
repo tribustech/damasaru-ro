@@ -59,9 +59,25 @@ const EMBED_ONLY_COLLECTION = new Set([
   'api::press-mention.press-mention',
 ])
 
+// Strapi's built-in Media library. Editing a file directly (e.g. replacing a
+// hero photo) fires this model — not the page that references it — so without a
+// branch here the change silently no-ops. There's no back-reference from a file
+// to the entries that use it, so a file change busts every render tag.
+const UPLOAD_FILE_UID = 'plugin::upload.file'
+const COLLECTION_LIST_TAGS = [
+  'articles',
+  'events',
+  'podcast-episodes',
+  'projects',
+  'products',
+  'press-mentions',
+] as const
+
 /** Returns the exact cache tags to bust for a change, or null if the model is
  *  not rendered on the public site (e.g. waitlist/lead submissions). */
 function tagsForChange(uid: string, entry: { slug?: unknown } | undefined): string[] | null {
+  if (uid === UPLOAD_FILE_UID) return [...PAGE_TAGS, ...COLLECTION_LIST_TAGS]
+
   const pageTag = SINGLE_TYPE_TAG[uid]
   if (pageTag) return [pageTag]
 
