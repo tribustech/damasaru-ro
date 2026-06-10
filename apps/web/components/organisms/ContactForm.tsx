@@ -108,7 +108,7 @@ export function ContactForm({ section }: ContactFormProps) {
             </h2>
           )}
           {section.body && (
-            <p className={`mt-6 text-lg max-w-2xl mx-auto ${a.textMuted}`}>{section.body}</p>
+            <p className={`mt-6 text-lg max-w-2xl mx-auto text-pretty ${a.textMuted}`}>{section.body}</p>
           )}
         </div>
 

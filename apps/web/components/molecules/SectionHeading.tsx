@@ -69,7 +69,7 @@ export function SectionHeading({
   return (
     <div className={wrap}>
       {eyebrow && <Eyebrow label={eyebrow} accent={accent} align={align} />}
-      <Tag className={`${size} font-serif font-medium leading-[1.1] ${a.text}`}>
+      <Tag className={`${size} font-serif font-medium leading-[1.1] text-balance ${a.text}`}>
         {heading}
         {headingItalic && (
           <>
@@ -79,7 +79,7 @@ export function SectionHeading({
         )}
       </Tag>
       {lead && (
-        <p className={`mt-6 text-lg lg:text-xl leading-relaxed ${a.textMuted}`}>
+        <p className={`mt-6 text-lg lg:text-xl leading-relaxed text-pretty ${a.textMuted}`}>
           {renderInlineLinks(lead)}
         </p>
       )}
