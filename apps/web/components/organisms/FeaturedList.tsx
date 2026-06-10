@@ -164,18 +164,24 @@ function LatestEpisodeFeature({ items, locale }: { items: PodcastEpisodeDTO[]; l
 
 function TestimonialsScroller({ items }: { items: import('@repo/types').TestimonialDTO[] }) {
   if (items.length === 0) return null
+  const renderCard = (t: import('@repo/types').TestimonialDTO, key: string, ariaHidden = false) => (
+    <div key={key} className="review-card" aria-hidden={ariaHidden || undefined}>
+      <div className="review-stars">★★★★★</div>
+      <div className="review-text">{`„${t.quote}"`}</div>
+      <div className="review-author">
+        {t.author}
+        {t.role && <span>{t.role}</span>}
+      </div>
+    </div>
+  )
   return (
     <div className="reviews-scroll">
-      {items.map((t) => (
-        <div key={t.id} className="review-card">
-          <div className="review-stars">★★★★★</div>
-          <div className="review-text">{`„${t.quote}"`}</div>
-          <div className="review-author">
-            {t.author}
-            {t.role && <span>{t.role}</span>}
-          </div>
-        </div>
-      ))}
+      {/* Track is duplicated so the marquee loops seamlessly; the clone is
+          hidden from assistive tech to avoid reading every quote twice. */}
+      <div className="reviews-track">
+        {items.map((t) => renderCard(t, `a-${t.id}`))}
+        {items.map((t) => renderCard(t, `b-${t.id}`, true))}
+      </div>
     </div>
   )
 }
