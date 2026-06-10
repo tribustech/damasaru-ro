@@ -141,7 +141,7 @@ export async function seedEventsPage(strapi: Core.Strapi): Promise<void> {
         relation: 'events',
         layout: 'grid',
         limit: 12,
-        filterBy: { status: 'trecut', featured: false },
+        filterBy: { eventStatus: 'trecut', featured: false },
       },
 
       // ZONA 6 (copy doc) — Guest Lectures Internaționale (paper-warm).

@@ -55,7 +55,7 @@
       "type": "enumeration",
       "enum": ["identity", "ai", "comm", "business", "spirit", "community"]
     },
-    "status": {
+    "episodeStatus": {
       "type": "enumeration",
       "enum": ["live", "upcoming"],
       "default": "upcoming"

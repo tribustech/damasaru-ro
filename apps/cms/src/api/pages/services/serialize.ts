@@ -83,7 +83,7 @@ export function serializeEvent(raw: any): EventDTO {
     title: raw.title,
     subtitle: raw.subtitle ?? null,
     date: raw.date,
-    status: raw.status,
+    status: raw.eventStatus,
     city: raw.location ?? null,
     venue: raw.venue ?? null,
     cover: serializeMedia(raw.coverImage),
@@ -108,7 +108,7 @@ export function serializePodcastEpisode(raw: any): PodcastEpisodeDTO {
     youtubeUrl: raw.videoUrl ?? null,
     category: raw.category ?? null,
     categoryKind: raw.categoryKind ?? null,
-    status: raw.status === 'live' ? 'live' : 'upcoming',
+    status: raw.episodeStatus === 'live' ? 'live' : 'upcoming',
     guests: rawGuests.map((g: any) => ({ name: g.name ?? '', role: g.role ?? null })),
     featured: !!raw.featured,
   }

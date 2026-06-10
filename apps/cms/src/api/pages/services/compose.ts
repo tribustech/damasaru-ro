@@ -198,13 +198,13 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
     return {
       id: it.id, documentId: it.documentId, slug: it.slug, title: it.title,
       subtitle: it.subtitle ?? null,
-      date: it.date, status: it.status, city: it.location ?? null, venue: it.venue ?? null,
+      date: it.date, status: it.eventStatus, city: it.location ?? null, venue: it.venue ?? null,
       cover: serializeMedia(it.coverImage), excerpt: it.description ?? null,
       body: it.longDescription ?? null,
       related: (related as any[]).map((r) => ({
         id: r.id, documentId: r.documentId, slug: r.slug, title: r.title,
         subtitle: r.subtitle ?? null,
-        date: r.date, status: r.status, city: r.location ?? null, venue: r.venue ?? null,
+        date: r.date, status: r.eventStatus, city: r.location ?? null, venue: r.venue ?? null,
         cover: serializeMedia(r.coverImage), excerpt: r.description ?? null,
       })),
     }

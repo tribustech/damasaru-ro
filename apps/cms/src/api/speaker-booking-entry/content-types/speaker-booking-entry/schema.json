@@ -19,7 +19,7 @@
     "budget": { "type": "string" },
     "dateEstimate": { "type": "string" },
     "message": { "type": "text", "required": true },
-    "status": {
+    "bookingStatus": {
       "type": "enumeration",
       "enum": ["new", "contacted", "booked", "declined", "archived"],
       "default": "new"

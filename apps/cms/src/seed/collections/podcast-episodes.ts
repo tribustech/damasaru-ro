@@ -31,7 +31,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       coverImage: coverSolo,
       category: 'Identitate · Lansare',
       categoryKind: 'identity',
-      status: 'live',
+      episodeStatus: 'live',
     },
     {
       number: 2,
@@ -51,7 +51,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       coverImage: coverGuest,
       category: 'AI · Viitor',
       categoryKind: 'ai',
-      status: 'live',
+      episodeStatus: 'live',
     },
     {
       number: 3,
@@ -68,7 +68,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       featured: false,
       category: 'Comunicare',
       categoryKind: 'comm',
-      status: 'upcoming',
+      episodeStatus: 'upcoming',
     },
     {
       number: 4,
@@ -85,7 +85,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       featured: false,
       category: 'Business · Performanță',
       categoryKind: 'business',
-      status: 'upcoming',
+      episodeStatus: 'upcoming',
     },
     {
       number: 5,
@@ -102,7 +102,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       featured: false,
       category: 'Spirit · Sens',
       categoryKind: 'spirit',
-      status: 'upcoming',
+      episodeStatus: 'upcoming',
     },
     {
       number: 6,
@@ -119,7 +119,7 @@ export async function seedPodcastEpisodes(strapi: Core.Strapi): Promise<void> {
       featured: false,
       category: 'Comunitate · Sezon 2',
       categoryKind: 'community',
-      status: 'upcoming',
+      episodeStatus: 'upcoming',
     },
   ]
 

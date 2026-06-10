@@ -57,7 +57,7 @@
     },
     "ticketsUrl": { "type": "string" },
     "organizer": { "type": "string" },
-    "status": {
+    "eventStatus": {
       "type": "enumeration",
       "enum": ["viitor", "trecut"],
       "default": "viitor",

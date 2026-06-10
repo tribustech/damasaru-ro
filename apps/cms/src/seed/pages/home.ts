@@ -94,7 +94,7 @@ export async function seedHomePage(strapi: Core.Strapi): Promise<void> {
         relation: 'events',
         layout: 'event-banner',
         limit: 1,
-        filterBy: { status: 'viitor' },
+        filterBy: { eventStatus: 'viitor' },
         seeAllHref: '/evenimente',
         seeAllLabel: 'Toate evenimentele',
       },

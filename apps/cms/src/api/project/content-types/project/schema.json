@@ -46,7 +46,7 @@
       "allowedTypes": ["images"]
     },
     "externalUrl": { "type": "string" },
-    "status": {
+    "projectStatus": {
       "type": "enumeration",
       "enum": ["live", "upcoming", "archived"],
       "default": "live",
