@@ -191,6 +191,9 @@ section[id] { scroll-margin-top: 80px; }
 .zone2-text > div { margin-top: 48px; }
 .zone2-text p { font-size: 18px; line-height: 1.75; color: var(--color-navy); margin-bottom: 24px; }
 .zone2-text p:first-of-type { font-size: 20px; font-weight: 500; }
+/* All-quote bodies (e.g. Credință) render uniformly — no lead emphasis on the first quote */
+.zone2-text .quotes-body p,
+.zone2-text .quotes-body p:first-of-type { font-size: 19px; font-weight: 400; }
 .zone-dark .zone2-text p,
 .zone-dark-deep .zone2-text p { color: var(--color-text-light); }
 
