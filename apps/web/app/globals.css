@@ -135,6 +135,11 @@ section[id] { scroll-margin-top: 80px; }
   margin-bottom: 40px; max-width: 560px;
 }
 
+/* Cartea hero — wider text column so the lead breaks evenly, not as a stub.
+   Scoped to .page-carte so the other 7 heroes (incl. Magazin's book-cover hero) stay put. */
+.page-carte .hero-grid { grid-template-columns: 1.5fr 1fr; gap: 40px; }
+.page-carte .hero-lead { max-width: 650px; text-wrap: balance; }
+
 .hero-body { max-width: 620px; margin-bottom: 40px; }
 .hero-body p {
   color: var(--color-text-light); font-size: 16px; line-height: 1.75;
@@ -800,6 +805,7 @@ section[id] { scroll-margin-top: 80px; }
   .hero-grid, .zone2-grid, .zone2-grid.no-image, .zone3-grid, .creds-grid, .cta-grid,
   .chapters-list, .products-grid, .waitlist-grid, .about-mini-grid,
   .episodes-grid, .platforms-grid, .community-grid, .latest-card { grid-template-columns: 1fr; }
+  .page-carte .hero-grid { grid-template-columns: 1fr; } /* keep Cartea hero stacking on mobile */
   .creds-grid { grid-template-columns: 1fr 1fr; }
   .projects-row { grid-template-columns: 1fr 1fr; }
   .hero-stats.strip { grid-template-columns: 1fr; gap: 24px; }

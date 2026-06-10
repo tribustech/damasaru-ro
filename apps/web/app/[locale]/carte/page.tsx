@@ -10,5 +10,9 @@ export default async function BookPage({
   const { locale } = await params
   const page = await getBookPage(locale).catch(() => null)
   if (!page) notFound()
-  return <DynamicZone sections={page.sections} locale={locale} />
+  return (
+    <div className="page-carte">
+      <DynamicZone sections={page.sections} locale={locale} />
+    </div>
+  )
 }
