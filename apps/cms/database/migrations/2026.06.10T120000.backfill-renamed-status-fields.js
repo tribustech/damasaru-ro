@@ -68,12 +68,14 @@ module.exports = {
 
     // 2. Rewrite the stale reserved key inside stored featured-list filter_by JSON.
     //    {"status": "trecut", ...} -> {"eventStatus": "trecut", ...}. No-op if absent.
+    //    NB: use jsonb_exists(), not the `?` operator — knex.raw() treats `?` as a
+    //    positional bind placeholder and rewrites it to `$1`, breaking the SQL.
     if (await knex.schema.hasTable('components_sections_featured_lists')) {
       await knex.raw(`
         UPDATE components_sections_featured_lists
         SET filter_by = (filter_by - 'status')
                         || jsonb_build_object('eventStatus', filter_by->'status')
-        WHERE filter_by ? 'status'
+        WHERE jsonb_exists(filter_by, 'status')
       `)
     }
   },
