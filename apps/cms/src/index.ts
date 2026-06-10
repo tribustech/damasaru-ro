@@ -1,5 +1,5 @@
 import type { Core } from '@strapi/strapi'
-import { seedAll } from './seed'
+// import { seedAll } from './seed' // seed disabled — see bootstrap()
 import { registerRevalidation, enableRevalidation } from './revalidation'
 
 const PUBLIC_ACTIONS = [
@@ -34,7 +34,8 @@ export default {
   },
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    await seedAll(strapi)
+    // Seed disabled for now — was re-running on every startup and clobbering CMS edits.
+    // await seedAll(strapi)
     await grantPublicPermissions(strapi)
     // Seed writes are done — start forwarding content changes to the web app.
     enableRevalidation()
