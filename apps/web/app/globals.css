@@ -818,7 +818,6 @@ section[id] { scroll-margin-top: 80px; }
   .chapters-list, .products-grid, .waitlist-grid, .about-mini-grid,
   .episodes-grid, .platforms-grid, .community-grid, .latest-card { grid-template-columns: 1fr; }
   .page-carte .hero-grid { grid-template-columns: 1fr; } /* keep Cartea hero stacking on mobile */
-  .hero-visual-wrap { max-width: 420px; margin: 0 auto; } /* center the Idei hero visual when stacked */
   .creds-grid { grid-template-columns: 1fr 1fr; }
   .projects-row { grid-template-columns: 1fr 1fr; }
   .hero-stats.strip { grid-template-columns: 1fr; gap: 24px; }
@@ -836,6 +835,15 @@ section[id] { scroll-margin-top: 80px; }
   .community-card { padding: 40px 24px; }
   .community-card h2 { font-size: 42px; }
   .latest-card { padding: 32px; gap: 32px; }
+}
+
+/* Idei concept-visual hero (Z1): the tall 3:4 graphic crowds the manifest in the
+   two-column tablet range (969–1024px), where the lead heading also wraps badly.
+   Stack it through 1024px and center the framed SVG. Scoped via :has() so the
+   other five hero pages (photo / book-cover / podcast) keep their layout. */
+@media (max-width: 1024px) {
+  .hero-grid:has(.hero-visual-wrap) { grid-template-columns: 1fr; gap: 48px; align-items: start; }
+  .hero-visual-wrap { max-width: 420px; margin: 0 auto; }
 }
 
 /* ============================================================
