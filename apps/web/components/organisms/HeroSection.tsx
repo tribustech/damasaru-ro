@@ -49,6 +49,15 @@ export function HeroSection({ section, locale: _locale }: HeroSectionProps) {
   const isPodcast = /podcast/.test(eyebrowLower) || /podcast|cover[- ]?art|mansard/.test(altLower)
   const isBookCover =
     !isPodcast && !!section.media?.alt && /copert(a|ei|ă)|book[- ]?cover/i.test(section.media.alt)
+  // Conceptual hero graphic (e.g. Idei's animated "impuls electric → sens" SVG):
+  // a self-contained vector carrying its own background, labels and CSS keyframe
+  // animations. Framed in a bordered box rather than the photo crop, and served
+  // unoptimized so the embedded animations run untouched.
+  const isConceptVisual =
+    !isPodcast &&
+    !isBookCover &&
+    !!section.media &&
+    (/\.svg(\?|$)/i.test(section.media.url) || /impuls|sens|eeg/.test(altLower))
   const statsLooksLikeStrip = statsItems.length === 3
   const heroLayoutOpen = !!(section.ctaButtons?.length || section.subtitle || statsItems.length)
 
@@ -115,7 +124,21 @@ export function HeroSection({ section, locale: _locale }: HeroSectionProps) {
               </div>
             )}
           </div>
-          {hasMedia && section.media && (
+          {hasMedia && section.media && isConceptVisual && (
+            <div className="hero-visual-wrap">
+              <div className="hero-visual">
+                <Image
+                  src={section.media.url}
+                  alt={section.media.alt || section.title}
+                  fill
+                  unoptimized
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 460px"
+                />
+              </div>
+            </div>
+          )}
+          {hasMedia && section.media && !isConceptVisual && (
             <div
               className={`hero-photo-wrap${isBookCover ? ' book' : ''}${isPodcast ? ' cover-art' : ''}`}
             >

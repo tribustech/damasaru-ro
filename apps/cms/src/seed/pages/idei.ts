@@ -8,6 +8,16 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
     { alt: 'Costin Dămășaru — portret alb-negru' }
   )
 
+  // Hero visual: self-contained animated SVG ("impulsul electric devine sens" —
+  // EEG waves flowing into sense particles). Navy background + IMPULS ELECTRIC / sens
+  // labels are baked into the file, so the frontend just frames it. See the assets
+  // README in Documentation/4. Idei/idei_assets_pack_v2.
+  const heroVisual = await uploadFile(
+    strapi,
+    docPath('4. Idei', 'idei_assets_pack_v2', 'img', 'hero-impuls-sens.svg'),
+    { alt: 'Impulsul electric devine sens — vizualizare animată a undelor EEG' }
+  )
+
   await upsertSingleType(strapi, 'api::idei-page.idei-page', {
     seoTitle: 'Idei · Costin Dămășaru | Despre mintea care completează creierul',
     seoDescription:
@@ -24,7 +34,8 @@ export async function seedIdeiPage(strapi: Core.Strapi): Promise<void> {
         body:
           'Sunt cercetător în neuroștiințe aplicate. Văd creierul zilnic — pe qEEG, în Brain Map-uri, în pattern-uri. După 7 ani de practică și 18.000 de creiere analizate la Veruvis, ai crede că am ajuns la concluzia că totul e creier. Sau, dimpotrivă, că am dat-o pe spiritual și totul e doar minte.\n\nNiciuna dintre cele două. Creierul face — generează semnal, susține atenția, reglează emoția. Dar mintea aduce ce-i lipsește creierului: sensul, intenția, alegerea, narațiunea. Sunt doi parteneri într-un sistem. Niciunul nu e complet fără celălalt. Asta e teza care îmi organizează gândirea — și textele de aici.\n\nAici scriu despre școală, suferință mintală, performanță, viață publică, AI — despre orice mă frământă, dar întotdeauna prin această lentilă: cum lucrează mintea și creierul împreună, ce se întâmplă când unul îl trage înapoi pe celălalt, și ce putem face când vrem să-i punem să colaboreze. Persoana I, asumată — nu vreau să mă ascund în spatele științei.',
         accent: 'navy',
-        mediaPosition: 'none',
+        media: heroVisual,
+        mediaPosition: 'right',
         statsStrip: {
           accent: 'navy',
           items: [
