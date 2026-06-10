@@ -181,7 +181,11 @@ section[id] { scroll-margin-top: 80px; }
    The SVG ships its own navy background, IMPULS ELECTRIC / sens labels and
    keyframe animations, so we only frame it. Capped + right-aligned so the
    manifest column keeps the wider share, echoing the mockup's text/480px split. */
-.hero-visual-wrap { position: relative; width: 100%; max-width: 460px; margin-left: auto; }
+/* Top-align + sticky so the visual sits beside the heading and follows the
+   scroll past the long manifest, rather than floating in centred dead-space.
+   Scoped via :has() so only the Idei concept hero is affected. */
+.hero-grid:has(.hero-visual-wrap) { align-items: start; }
+.hero-visual-wrap { position: sticky; top: 100px; width: 100%; max-width: 460px; margin-left: auto; }
 .hero-visual {
   position: relative; aspect-ratio: 3 / 4; border-radius: 8px; overflow: hidden;
   border: 1px solid rgba(212, 175, 106, 0.15);
@@ -843,7 +847,7 @@ section[id] { scroll-margin-top: 80px; }
    other five hero pages (photo / book-cover / podcast) keep their layout. */
 @media (max-width: 1024px) {
   .hero-grid:has(.hero-visual-wrap) { grid-template-columns: 1fr; gap: 48px; align-items: start; }
-  .hero-visual-wrap { max-width: 420px; margin: 0 auto; }
+  .hero-visual-wrap { position: static; max-width: 420px; margin: 0 auto; }
 }
 
 /* ============================================================
