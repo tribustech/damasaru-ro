@@ -98,10 +98,11 @@ export function ImageTextSplit({ section }: ImageTextSplitProps) {
   }
 
   const paragraphs = blocks.filter((b) => b.kind === 'p').map((b) => b.text)
-  // When every paragraph is a quotation (e.g. the Credință section), they are
-  // equal-status quotes — suppress the lead-paragraph emphasis so they render
-  // uniformly instead of the first one looking heavier than the rest.
-  const allQuotesBody = paragraphs.length > 1 && paragraphs.every((p) => p.startsWith('„'))
+  // When every paragraph is a quotation (e.g. the Credință or CINE SCRIE
+  // sections), it is a body of equal-status quotes — suppress the lead-paragraph
+  // emphasis so they render at the standardized quote size/weight instead of the
+  // first (or only) one looking heavier than the site's other quoted bodies.
+  const allQuotesBody = paragraphs.length >= 1 && paragraphs.every((p) => p.startsWith('„'))
   const splitIdx = hasProjects && paragraphs.length >= 3 ? 2 : paragraphs.length
   const beforeProjects = paragraphs.slice(0, splitIdx)
   const afterProjects = paragraphs.slice(splitIdx)
