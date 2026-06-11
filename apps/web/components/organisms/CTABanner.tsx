@@ -86,15 +86,8 @@ export async function CTABanner({ section }: CTABannerProps) {
                 {paragraphs.slice(1).map((p, i) => (
                   <p key={`p${i}`}>{`„${p.text}"`}</p>
                 ))}
-                {bullets.length > 0 && (
-                  <ul className="community-list">
-                    {bullets.map((b, i) => (
-                      <li key={`li${i}`}>{b.text}</li>
-                    ))}
-                  </ul>
-                )}
               </div>
-              <div>
+              <div className="community-aside">
                 <form className="community-form" action={section.cta?.href ?? '#'} method="post">
                   <label htmlFor="community-email">Adresa ta de email *</label>
                   <input
@@ -111,6 +104,13 @@ export async function CTABanner({ section }: CTABannerProps) {
                     Bine ai venit. Primul insight ajunge curând.
                   </div>
                 </form>
+                {bullets.length > 0 && (
+                  <ul className="community-list">
+                    {bullets.map((b, i) => (
+                      <li key={`li${i}`}>{b.text}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           </div>
