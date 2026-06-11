@@ -888,6 +888,8 @@ section[id] { scroll-margin-top: 80px; }
 /* Light zones recolour the white single-colour SVG to the navy ink (~#14202E)
    via a filter chain (brightness(0) blacks it out, the rest tints to navy). */
 .project-logo--ink { filter: brightness(0) saturate(100%) invert(12%) sepia(28%) saturate(1100%) hue-rotate(176deg) brightness(92%) contrast(95%); }
+/* Veruvis Kids ships a multi-colour logo, so keep it white (no ink recolour). */
+#veruvis-kids .project-logo--ink { filter: none; }
 .project-eyebrow { color: var(--color-gold-deep); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
 .project-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--color-gold-deep); }
 .zone-dark .project-eyebrow, .zone-hero .project-eyebrow { color: var(--color-gold); }
