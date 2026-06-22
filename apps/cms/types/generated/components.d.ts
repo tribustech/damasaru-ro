@@ -23,6 +23,7 @@ export interface MediaPressKitCard extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
+    file: Schema.Attribute.Media<'images' | 'files'>;
     iconKey: Schema.Attribute.Enumeration<['document', 'camera', 'mail']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'document'>;
@@ -536,7 +537,6 @@ export interface SectionsMediaPressKit extends Struct.ComponentSchema {
     > &
       Schema.Attribute.DefaultTo<'paper'>;
     eyebrow: Schema.Attribute.String;
-    files: Schema.Attribute.Media<'images' | 'files', true>;
     heading: Schema.Attribute.String;
     headingItalic: Schema.Attribute.String;
     intro: Schema.Attribute.Text;

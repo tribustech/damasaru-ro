@@ -65,13 +65,8 @@ const ICONS: Record<IconKey, ReactNode> = {
 }
 
 const PRESS_EMAIL = 'contact@damasaru.ro'
-const STRAPI_URL = process.env.STRAPI_URL ?? 'http://localhost:1337'
 
-function fileUrl(url: string): string {
-  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`
-}
-
-/** Default Romanian CTA labels per icon, used when no card-level label is supplied. */
+/** Default Romanian CTA labels per icon, used when a card surfaces a file. */
 const DEFAULT_LABEL: Record<IconKey, string> = {
   document: 'Descarcă PDF',
   camera: 'Descarcă ZIP',
@@ -79,8 +74,6 @@ const DEFAULT_LABEL: Record<IconKey, string> = {
 }
 
 export default function MediaPressKit({ section }: MediaPressKitProps) {
-  const files = section.files ?? []
-
   return (
     <section
       className={`${getZoneClass(section.accent)} ${accentRootClass(section.accent)} bg-[var(--color-paper-warm)] py-[100px]`}
@@ -96,22 +89,20 @@ export default function MediaPressKit({ section }: MediaPressKitProps) {
         />
 
         <div className="mt-[60px] grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {section.items.map((item, idx) => {
+          {section.items.map((item) => {
             const isMail = item.iconKey === 'mail'
-            // Non-mail cards surface an uploaded file (1st → document, 2nd → camera, by order).
-            const file = isMail
-              ? null
-              : (files[section.items.filter((i, j) => i.iconKey !== 'mail' && j < idx).length] ??
-                files[0] ??
-                null)
-            const href = isMail ? `mailto:${PRESS_EMAIL}` : file ? fileUrl(file.url) : '#'
-            const label = DEFAULT_LABEL[item.iconKey]
-            const arrow = isMail ? '→' : '↓'
+            // Each card owns its download; absent a file we fall back to a press-email mailto.
+            const hasFile = !isMail && item.file !== null
+            const href = hasFile
+              ? `/api/press-kit/${item.file!.documentId}`
+              : `mailto:${PRESS_EMAIL}`
+            const label = hasFile ? DEFAULT_LABEL[item.iconKey] : 'Scrie-ne'
+            const arrow = hasFile ? '↓' : '→'
 
             return (
               <div
                 key={item.id}
-                className="group bg-white border border-[var(--color-line)] rounded-[10px] px-8 py-10 transition-all duration-300 hover:border-[var(--color-gold)] hover:-translate-y-1"
+                className="group flex flex-col h-full bg-white border border-[var(--color-line)] rounded-[10px] px-8 py-10 transition-all duration-300 hover:border-[var(--color-gold)] hover:-translate-y-1"
               >
                 <div className="w-14 h-14 rounded-xl mb-6 flex items-center justify-center bg-[rgba(212,175,106,0.12)] text-[var(--color-gold-deep)] transition-colors duration-300 group-hover:bg-[rgba(45,77,67,0.12)] group-hover:text-[var(--color-forest)]">
                   {ICONS[item.iconKey]}
@@ -128,10 +119,7 @@ export default function MediaPressKit({ section }: MediaPressKitProps) {
                 )}
                 <a
                   href={href}
-                  {...(!isMail
-                    ? { target: '_blank', rel: 'noreferrer', download: '' }
-                    : {})}
-                  className="inline-flex items-center gap-2 bg-[var(--color-navy)] text-[var(--color-gold)] px-6 py-3 rounded-full text-[13px] font-semibold transition-colors duration-200 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
+                  className="mt-auto self-start inline-flex items-center gap-2 bg-[var(--color-navy)] text-[var(--color-gold)] px-6 py-3 rounded-full text-[13px] font-semibold transition-colors duration-200 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
                 >
                   {label} <span>{arrow}</span>
                 </a>

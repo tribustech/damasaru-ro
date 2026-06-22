@@ -13,6 +13,7 @@
       "default": "document"
     },
     "title": { "type": "string", "required": true },
-    "description": { "type": "text" }
+    "description": { "type": "text" },
+    "file": { "type": "media", "multiple": false, "allowedTypes": ["images", "files"] }
   }
 }

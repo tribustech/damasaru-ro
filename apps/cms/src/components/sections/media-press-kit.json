@@ -19,11 +19,6 @@
       "type": "component",
       "repeatable": true,
       "component": "media.press-kit-card"
-    },
-    "files": {
-      "type": "media",
-      "multiple": true,
-      "allowedTypes": ["images", "files"]
     }
   }
 }

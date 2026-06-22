@@ -432,8 +432,15 @@ export interface MediaPressKitDTO extends SectionBase {
     iconKey: 'document' | 'camera' | 'mail'
     title: string
     description: string | null
+    file:
+      | (MediaDTO & {
+          documentId: string
+          name: string | null
+          ext: string | null
+          size: number | null
+        })
+      | null
   }[]
-  files: MediaDTO[]
 }
 
 export type SectionDTO =

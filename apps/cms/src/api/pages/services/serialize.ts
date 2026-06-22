@@ -585,19 +585,24 @@ export function serializeSection(raw: any): any {
         headingItalic: raw.headingItalic ?? null,
         intro: raw.intro ?? null,
         accent: raw.accent ?? 'paper',
-        items: (raw.items ?? []).map((i: any) => ({
-          id: i.id,
-          iconKey: i.iconKey ?? 'document',
-          title: i.title,
-          description: i.description ?? null,
-        })),
-        files: (Array.isArray(raw.files) ? raw.files : raw.files ? [raw.files] : [])
-          .map((f: any) => {
-            const media = serializeMedia(f)
-            if (!media) return null
-            return { ...media, name: f.name ?? null, ext: f.ext ?? null, size: f.size ?? null }
-          })
-          .filter((f: any) => f !== null),
+        items: (raw.items ?? []).map((i: any) => {
+          const media = i.file ? serializeMedia(i.file) : null
+          return {
+            id: i.id,
+            iconKey: i.iconKey ?? 'document',
+            title: i.title,
+            description: i.description ?? null,
+            file: media
+              ? {
+                  ...media,
+                  documentId: i.file.documentId,
+                  name: i.file.name ?? null,
+                  ext: i.file.ext ?? null,
+                  size: i.file.size ?? null,
+                }
+              : null,
+          }
+        }),
       }
     default:
       strapi.log.warn(`[pages] unknown section component: ${raw.__component}`)

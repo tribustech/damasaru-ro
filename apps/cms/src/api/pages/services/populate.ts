@@ -59,7 +59,7 @@ export const PAGE_POPULATE = {
       'sections.media-featured': {},
       'sections.media-magazines': {},
       'sections.media-marquee': {},
-      'sections.media-press-kit': { populate: { items: true, files: true } },
+      'sections.media-press-kit': { populate: { items: { populate: { file: true } } } },
     },
   },
 }

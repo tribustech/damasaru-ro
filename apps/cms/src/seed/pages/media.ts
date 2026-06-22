@@ -9,25 +9,10 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
     { alt: 'Costin Dămășaru — interviu cu microfon PRO TV la stand' }
   )
 
-  // Z6 press kit — Kit_Bio has no PDFs yet, so we surface the 4 press portraits
-  // from Kit_Foto_Presa as the downloadable files. Bio (PDF) + contact are
-  // handled in the card copy with a mailto fallback to contact@damasaru.ro.
-  const portretFiles = (
-    await Promise.all([
-      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_1.jpg'), {
-        alt: 'Costin Dămășaru — portret presă 1',
-      }),
-      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_2.jpg'), {
-        alt: 'Costin Dămășaru — portret presă 2',
-      }),
-      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_3.jpg'), {
-        alt: 'Costin Dămășaru — portret presă 3',
-      }),
-      uploadFile(strapi, docPath('8. Media', 'Kit_Foto_Presa', 'Costin_Damasaru_Portret_4.jpg'), {
-        alt: 'Costin Dămășaru — portret presă 4',
-      }),
-    ])
-  ).filter((id): id is number => id !== null)
+  // Z6 press kit — download files (Foto presă ZIP, bio PDF) are attached per-card
+  // via the CMS media library, not the seed, so reseeds never clobber edited
+  // content. Cards seed with no file; the bio card stays a mailto fallback until
+  // a PDF is uploaded.
 
   await upsertSingleType(strapi, 'api::media-page.media-page', {
     seoTitle: 'Media — Costin Dămășaru | TV, Podcast, Reviste',
@@ -223,7 +208,6 @@ export async function seedMediaPage(strapi: Core.Strapi): Promise<void> {
               '„Scrie pe contact@damasaru.ro pentru interviuri, comentarii de specialitate sau materiale. Răspund în maxim 24 de ore în zilele lucrătoare."',
           },
         ],
-        files: portretFiles,
       },
 
       // ── Z7 — Newsletter (NAVY-DEEP) ─────────────────────────────────────
