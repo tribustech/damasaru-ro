@@ -19,11 +19,7 @@ export async function seedContactPage(strapi: Core.Strapi): Promise<void> {
         mediaPosition: 'none',
       },
 
-      // ZONA 2 — Formular (paper). Copy verbatim from Contact_Mockup.html.
-      // TODO (schema gap): contact-form component needs subjectOptions[], organizationLabel,
-      // consentText, fineprint + an email routing map to fully express the HTML mockup form
-      // (subject select with 5 options, optional organization field, GDPR checkbox).
-      // Tracked as punch-list item #5. Until then, only nameLabel/emailLabel/messageLabel render.
+      // ZONA 2 — Formular (paper). Copy + email routing verbatim from Contact_Mockup.html.
       {
         __component: 'sections.contact-form',
         eyebrow: 'Scrie-mi',
@@ -32,8 +28,42 @@ export async function seedContactPage(strapi: Core.Strapi): Promise<void> {
         subtext:
           '„Citesc fiecare mesaj personal. Răspund în 48 de ore lucrătoare, în general mai repede dacă pot."',
         nameLabel: 'Numele tău',
+        namePlaceholder: 'Mihai Popescu',
         emailLabel: 'Email',
+        emailPlaceholder: 'mihai@exemplu.ro',
+        subjectLabel: 'Despre ce e vorba',
+        subjectPlaceholder: 'Alege un subiect...',
+        subjectOptions: [
+          {
+            label: 'Media & Presă — interviu, citat, material',
+            value: 'media',
+            routingEmail: 'presa@damasaru.ro',
+          },
+          {
+            label: 'Evenimente & Speaking — keynote, conferință, workshop',
+            value: 'speaking',
+            routingEmail: 'speaking@damasaru.ro',
+          },
+          {
+            label: 'Colaborare profesională — propunere, parteneriat',
+            value: 'collab',
+            routingEmail: 'contact@damasaru.ro',
+          },
+          {
+            label: 'Despre cărți, podcast, conținut',
+            value: 'book',
+            routingEmail: 'contact@damasaru.ro',
+          },
+          { label: 'Altceva', value: 'other', routingEmail: 'contact@damasaru.ro' },
+        ],
+        organizationLabel: 'Organizație / Publicație',
+        organizationOptional: true,
+        organizationPlaceholder: 'Forbes România, TVR, companie, etc.',
         messageLabel: 'Mesajul tău',
+        messagePlaceholder:
+          'Spune-mi despre ce e vorba. Cu cât ai mai multe detalii, cu atât mai bine pot să-ți răspund.',
+        consentText:
+          'Sunt de acord ca datele mele să fie procesate conform politicii de confidențialitate pentru a-mi primi un răspuns la acest mesaj.',
         submitLabel: 'Trimite mesajul',
         successMessage:
           'Am primit mesajul tău. Îți răspund personal în 48 de ore lucrătoare.',
@@ -49,6 +79,7 @@ export async function seedContactPage(strapi: Core.Strapi): Promise<void> {
         headingItalic: 'și aici.',
         lead: '„Sunt activ pe rețele și acolo conversația e mai relaxată — pe LinkedIn împărtășesc mai mult din zona profesională, pe Instagram și TikTok lucruri mai apropiate de viața de zi cu zi."',
         accent: 'navy',
+        variant: 'channels',
         columns: '3',
         items: [
           {

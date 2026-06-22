@@ -64,7 +64,7 @@ export function HeroSection({ section, locale: _locale }: HeroSectionProps) {
   return (
     <section className={zoneClass}>
       <div className="ds-container">
-        <div className={hasMedia ? `hero-grid${reverse ? ' reverse' : ''}` : 'body-grid-narrow'}>
+        <div className={hasMedia ? `hero-grid${reverse ? ' reverse' : ''}` : 'body-grid-narrow hero-centered'}>
           <div>
             {section.eyebrow && <span className="hero-eyebrow">{section.eyebrow}</span>}
             <h1 className="hero-h1">

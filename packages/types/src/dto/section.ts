@@ -46,7 +46,7 @@ export interface TextBlockDTO extends SectionBase {
   cta: CtaButtonDTO | null
 }
 
-export type CardsGridVariant = 'default' | 'convictions' | 'cta-cards' | 'chapters' | 'products' | 'platforms'
+export type CardsGridVariant = 'default' | 'convictions' | 'cta-cards' | 'chapters' | 'products' | 'platforms' | 'channels'
 
 export interface CardsGridMetaItemDTO {
   icon: string | null

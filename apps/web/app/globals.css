@@ -123,6 +123,13 @@ section[id] { scroll-margin-top: 80px; }
 }
 .hero-eyebrow::before { content: ''; position: absolute; left: 0; top: 50%; width: 32px; height: 1px; background: var(--color-gold); }
 
+/* Centered hero (media-less, e.g. /contact) — matches Contact_Mockup.html:
+   centered text, eyebrow flanked by lines on both sides, lead centered. */
+.hero-centered { text-align: center; }
+.hero-centered .hero-eyebrow { padding-left: 44px; padding-right: 44px; }
+.hero-centered .hero-eyebrow::after { content: ''; position: absolute; right: 0; top: 50%; width: 32px; height: 1px; background: var(--color-gold); }
+.hero-centered .hero-lead { max-width: 640px; margin-left: auto; margin-right: auto; }
+
 .hero-h1 {
   font-family: var(--font-serif); font-size: 64px; line-height: 1.05;
   font-weight: 500; letter-spacing: -1.5px; color: var(--color-white); margin-bottom: 32px;
@@ -884,6 +891,27 @@ section[id] { scroll-margin-top: 80px; }
 .platform-icon.icon-amazon { background: #1A98FF; color: white; }
 .platform-name { font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--color-navy); line-height: 1.2; margin-bottom: 4px; }
 .platform-sub { font-size: 12px; color: var(--color-text-soft); line-height: 1.4; font-weight: 400; }
+
+/* Channels grid — social cards on navy (Contact "Mă găsești și aici") */
+.channels-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 60px; }
+.channel-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 106, 0.2);
+  border-radius: 12px; padding: 32px 24px;
+  text-decoration: none; color: var(--color-text-light);
+  text-align: center; transition: all .3s;
+  display: flex; flex-direction: column; align-items: center;
+}
+.channel-card:hover { background: rgba(212, 175, 106, 0.06); border-color: var(--color-gold); transform: translateY(-4px); }
+.channel-card-icon {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-gold); margin-bottom: 18px; transition: color .3s;
+}
+.channel-card-name { font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--color-white); margin-bottom: 4px; }
+.channel-card-handle { font-size: 12px; color: var(--color-text-light); opacity: .65; }
+@media (max-width: 1024px) { .channels-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .channels-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* Community card (Mintea Trează) — navy-soft, 2-col with form */
 .community-card {

@@ -94,6 +94,7 @@ export interface SectionsCardsGrid extends Struct.ComponentSchema {
         'chapters',
         'products',
         'platforms',
+        'channels',
       ]
     > &
       Schema.Attribute.DefaultTo<'default'>;

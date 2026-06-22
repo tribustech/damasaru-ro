@@ -159,7 +159,7 @@ export function ContactForm({ section }: ContactFormProps) {
             </div>
 
             {(hasPhone || hasOrg) && (
-              <div className="grid gap-5 md:grid-cols-2">
+              <div className={`grid gap-5 ${hasPhone && hasOrg ? 'md:grid-cols-2' : ''}`}>
                 {hasPhone && (
                   <label className="block">
                     <span className={labelClasses}>{section.phoneLabel}</span>

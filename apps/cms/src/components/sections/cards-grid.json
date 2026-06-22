@@ -22,7 +22,7 @@
     },
     "variant": {
       "type": "enumeration",
-      "enum": ["default", "convictions", "cta-cards", "chapters", "products", "platforms"],
+      "enum": ["default", "convictions", "cta-cards", "chapters", "products", "platforms", "channels"],
       "default": "default"
     },
     "items": {
