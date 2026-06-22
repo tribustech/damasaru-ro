@@ -51,15 +51,28 @@ function ProductCardBody({ item }: { item: CardsGridItemDTO }) {
   const ctaClass = `product-btn ${waitlist ? 'btn-ghost' : 'btn-primary'}`
   let cta: ReactElement
   if (item.href) {
-    cta = item.href.startsWith('http') ? (
-      <a href={item.href} target="_blank" rel="noreferrer" className={ctaClass}>
-        {ctaInner}
-      </a>
-    ) : (
-      <Link href={item.href} className={ctaClass}>
-        {ctaInner}
-      </Link>
-    )
+    if (item.href.startsWith('http')) {
+      cta = (
+        <a href={item.href} target="_blank" rel="noreferrer" className={ctaClass}>
+          {ctaInner}
+        </a>
+      )
+    } else if (item.href.startsWith('#')) {
+      // In-page anchor (e.g. the waitlist CTAs point at #newsletter). Use a native
+      // <a> so the browser handles same-page hash scrolling — Next's <Link> does
+      // not reliably scroll to a hash on the current route in the App Router.
+      cta = (
+        <a href={item.href} className={ctaClass}>
+          {ctaInner}
+        </a>
+      )
+    } else {
+      cta = (
+        <Link href={item.href} className={ctaClass}>
+          {ctaInner}
+        </Link>
+      )
+    }
   } else {
     cta = (
       <button type="button" className={ctaClass}>
