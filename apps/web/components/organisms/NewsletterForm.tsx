@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { NewsletterFormDTO } from '@repo/types'
+import { sectionAnchorId } from '@/lib/sectionAnchor'
 
 interface NewsletterFormProps {
   section: NewsletterFormDTO
@@ -37,7 +38,7 @@ export function NewsletterForm({ section }: NewsletterFormProps) {
   }
 
   return (
-    <section className={zoneClass}>
+    <section className={zoneClass} id={sectionAnchorId(section.eyebrow)}>
       <div className="ds-container">
         <div
           style={{

@@ -88,6 +88,8 @@ export async function seedMagazinPage(strapi: Core.Strapi): Promise<void> {
             priceText: 'Disponibil în curând',
             ctaLabel: 'Anunță-mă când apare',
             fineprint: 'Primești un singur email — când lansez e-book-ul. Fără spam între timp.',
+            // Waitlist CTAs reuse the newsletter form at the bottom of the page.
+            href: '#newsletter',
           },
           // Card 3 — Audiobook (în curând, listă de așteptare)
           {
@@ -106,6 +108,8 @@ export async function seedMagazinPage(strapi: Core.Strapi): Promise<void> {
             priceText: 'Anunț prețul când lansez',
             ctaLabel: 'Anunță-mă când lansez',
             fineprint: 'Primești un singur email — în ziua lansării. Fără spam între timp.',
+            // Waitlist CTAs reuse the newsletter form at the bottom of the page.
+            href: '#newsletter',
           },
         ],
       },
