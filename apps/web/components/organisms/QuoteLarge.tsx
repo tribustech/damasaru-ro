@@ -5,6 +5,13 @@ interface QuoteLargeProps {
   section: QuoteLargeDTO
 }
 
+// Keep dash-joined compounds (e.g. "creier–minte") on a single line by
+// inserting word joiners around any dash sitting between two word characters.
+// Spaced dashes are left untouched so the rest of the quote wraps normally.
+function keepCompoundsTogether(text: string): string {
+  return text.replace(/(\S)([-–—])(\S)/g, '$1⁠$2⁠$3')
+}
+
 export function QuoteLarge({ section }: QuoteLargeProps) {
   const a = getAccent(section.accent ?? 'navy')
   return (
@@ -14,7 +21,7 @@ export function QuoteLarge({ section }: QuoteLargeProps) {
           className={`text-3xl lg:text-5xl font-serif italic leading-[1.2] ${a.text}`}
           style={{ color: 'var(--color-gold)' }}
         >
-          "{section.quote}"
+          "{keepCompoundsTogether(section.quote)}"
         </blockquote>
         {section.author && (
           <div className={`mt-8 text-sm uppercase tracking-[0.2em] ${a.textMuted}`}>
