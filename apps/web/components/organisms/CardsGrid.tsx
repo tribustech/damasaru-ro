@@ -35,7 +35,123 @@ function ProductCover({ media, className }: { media: MediaDTO | null; className:
   )
 }
 
-function ProductCardBody({ item }: { item: CardsGridItemDTO }) {
+// ── Simple product/option cards (e.g. the book's 3 formats on /carte) ──────
+// The original `products` design: an icon, a tag, a price extracted from the
+// copy, and a whole-card link. Kept separate from the magazin format-driven
+// cards below (which carry `format`/`metaItems`); routed by data shape.
+const PRICE_RE = /([\d.,]+\s*lei)\s*$/i
+function extractPrice(text: string | null): { text: string; price: string | null } {
+  if (!text) return { text: '', price: null }
+  const m = text.match(PRICE_RE)
+  if (!m) return { text, price: null }
+  return { text: text.slice(0, m.index).replace(/[\s.·•—-]+$/, '').trim(), price: m[1] }
+}
+function productKind(tag: string | null): 'physical' | 'digital' | 'audio' {
+  const t = (tag ?? '').toLowerCase()
+  if (t.includes('audio') || t.includes('pregătire') || t.includes('pregatire') || t.includes('soon')) return 'audio'
+  if (t.includes('pdf') || t.includes('instant') || t.includes('download') || t.includes('digital')) return 'digital'
+  return 'physical'
+}
+function isComingSoon(tag: string | null): boolean {
+  const t = (tag ?? '').toLowerCase()
+  return t.includes('curând') || t.includes('curand') || t.includes('soon') || t.includes('pregătire') || t.includes('pregatire')
+}
+function ProductIcon({ kind }: { kind: 'physical' | 'digital' | 'audio' }) {
+  const common = {
+    className: 'optcard-icon',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.5,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  }
+  if (kind === 'physical') {
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 010-5H20" />
+      </svg>
+    )
+  }
+  if (kind === 'digital') {
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="12" y1="18" x2="12" y2="12" />
+        <polyline points="9 15 12 18 15 15" />
+      </svg>
+    )
+  }
+  return (
+    <svg {...common} aria-hidden>
+      <rect x="9" y="2" width="6" height="12" rx="3" />
+      <path d="M19 10v2a7 7 0 01-14 0v-2" />
+      <line x1="12" y1="19" x2="12" y2="23" />
+      <line x1="8" y1="23" x2="16" y2="23" />
+    </svg>
+  )
+}
+
+function ProductOptionCardBody({ item, idx }: { item: CardsGridItemDTO; idx: number }) {
+  const kind = productKind(item.tag)
+  const { text, price } = extractPrice(item.text ?? '')
+  const comingSoon = isComingSoon(item.tag)
+  const featured = idx === 0 && !comingSoon
+  // No purchase path yet → render as a non-clickable teaser.
+  const disabled = comingSoon && !item.href
+  const cardClass = `optcard${featured ? ' featured' : ''}${comingSoon && !featured ? ' coming-soon' : ''}${disabled ? ' disabled' : ''}`
+  const tagClass = comingSoon
+    ? 'optcard-tag tag-soon'
+    : kind === 'physical'
+      ? 'optcard-tag tag-bookzone'
+      : kind === 'digital'
+        ? 'optcard-tag tag-instant'
+        : 'optcard-tag tag-soon'
+  const inner = (
+    <>
+      {item.tag && (
+        <span className={tagClass}>
+          {comingSoon && <span className="pulse-dot" />}
+          {item.tag}
+        </span>
+      )}
+      <ProductIcon kind={kind} />
+      <h3>{item.title}</h3>
+      {text && <p>{text}</p>}
+      {!comingSoon && price && <div className="optcard-price">{price}</div>}
+      {item.href && (
+        <span className="optcard-cta">
+          {comingSoon ? 'Înscrie-mă pe listă' : kind === 'digital' ? 'Cumpără PDF' : 'Cumpără pe Bookzone'}{' '}
+          <span aria-hidden>→</span>
+        </span>
+      )}
+    </>
+  )
+  if (!item.href) return <div className={cardClass}>{inner}</div>
+  if (item.href.startsWith('http')) {
+    return (
+      <a href={item.href} target="_blank" rel="noreferrer" className={cardClass}>
+        {inner}
+      </a>
+    )
+  }
+  if (item.href.startsWith('#')) {
+    // Native <a> for same-page hash scrolling (Next <Link> is unreliable for it).
+    return (
+      <a href={item.href} className={cardClass}>
+        {inner}
+      </a>
+    )
+  }
+  return (
+    <Link href={item.href} className={cardClass}>
+      {inner}
+    </Link>
+  )
+}
+
+function ProductFormatCardBody({ item }: { item: CardsGridItemDTO }) {
   const format = item.format ?? 'hardcover'
   // Waitlist mode is derived: a price placeholder with no real price.
   const waitlist = !!item.priceText && !item.price
@@ -265,13 +381,20 @@ export function CardsGrid({ section }: CardsGridProps) {
             </div>
           )}
 
-          {variant === 'products' && (
-            <div className="products-grid">
-              {section.items.map((item) => (
-                <ProductCardBody key={item.id} item={item} />
-              ))}
-            </div>
-          )}
+          {variant === 'products' &&
+            (section.items.some((it) => !!it.format) ? (
+              <div className="products-grid">
+                {section.items.map((item) => (
+                  <ProductFormatCardBody key={item.id} item={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="optcards-grid">
+                {section.items.map((item, i) => (
+                  <ProductOptionCardBody key={item.id} item={item} idx={i} />
+                ))}
+              </div>
+            ))}
 
           {variant === 'convictions' && (
             <div className="convictions-grid">

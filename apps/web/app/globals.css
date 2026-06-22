@@ -392,6 +392,78 @@ section[id] { scroll-margin-top: 80px; }
 }
 .chapter.full { grid-column: 1 / -1; }
 
+/* Pulse dot — shared by the audiobook waitlist tag + coming-soon product tags */
+.pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  animation: pcrPulse 2s ease-in-out infinite; display: inline-block;
+}
+@keyframes pcrPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(1.4); }
+}
+
+/* Simple option cards — original `products` design (icon + tag + price + link),
+   used where cards have no `format` (e.g. the 3 book formats on /carte). Kept
+   separate from the magazin format-driven `.product-card` styles further down. */
+.optcards-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 64px;
+}
+.optcard {
+  background: var(--color-white); border: 1px solid var(--color-line);
+  border-radius: 12px; padding: 36px 32px;
+  transition: all .25s; display: flex; flex-direction: column;
+  position: relative; overflow: hidden; text-decoration: none; color: inherit;
+}
+.optcard:hover {
+  border-color: var(--color-gold); transform: translateY(-3px);
+  box-shadow: 0 20px 40px -15px rgba(20,32,46,.15);
+}
+.optcard.featured {
+  background: var(--color-navy); color: var(--color-white);
+  border-color: var(--color-navy);
+}
+.optcard.featured h3 { color: var(--color-white); }
+.optcard.featured p { color: var(--color-text-light); }
+.optcard.coming-soon { background: var(--color-paper-warm); }
+.optcard.disabled:hover {
+  transform: none; border-color: var(--color-line); box-shadow: none;
+}
+.optcard-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; padding: 6px 14px; border-radius: 999px;
+  width: fit-content; margin-bottom: 24px;
+}
+.optcard-tag.tag-bookzone { background: var(--color-gold); color: var(--color-navy); }
+.optcard-tag.tag-instant { background: var(--color-forest); color: var(--color-white); }
+.optcard-tag.tag-soon { background: transparent; color: var(--color-forest); border: 1px solid var(--color-forest); }
+.optcard-icon { width: 44px; height: 44px; margin-bottom: 24px; color: var(--color-gold-deep); }
+.optcard.featured .optcard-icon { color: var(--color-gold); }
+.optcard h3 {
+  font-family: var(--font-serif); font-size: 28px;
+  line-height: 1.2; font-weight: 500; color: var(--color-navy);
+  margin-bottom: 12px;
+}
+.optcard p {
+  font-size: 14px; line-height: 1.6; color: var(--color-text-mid);
+  font-weight: 400; flex-grow: 1; margin-bottom: 24px;
+}
+.optcard-price {
+  font-family: var(--font-serif); font-size: 32px;
+  font-weight: 600; color: var(--color-navy); margin-bottom: 24px;
+  line-height: 1;
+}
+.optcard.featured .optcard-price { color: var(--color-gold); }
+.optcard-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 600; letter-spacing: .3px;
+  text-decoration: none; color: var(--color-gold-deep);
+  transition: gap .2s; margin-top: auto;
+}
+.optcard.featured .optcard-cta { color: var(--color-gold); }
+.optcard-cta:hover { gap: 12px; }
+
 /* Product cards — 3-col grid with featured / coming-soon variants */
 .products-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
@@ -914,7 +986,7 @@ section[id] { scroll-margin-top: 80px; }
 /* Responsive */
 @media (max-width: 968px) {
   .hero-grid, .zone2-grid, .zone2-grid.no-image, .zone3-grid, .creds-grid, .cta-grid,
-  .chapters-list, .products-grid, .waitlist-grid, .about-mini-grid,
+  .chapters-list, .products-grid, .optcards-grid, .waitlist-grid, .about-mini-grid,
   .episodes-grid, .platforms-grid, .community-grid, .latest-card { grid-template-columns: 1fr; }
   .page-carte .hero-grid { grid-template-columns: 1fr; } /* keep Cartea hero stacking on mobile */
   .creds-grid { grid-template-columns: 1fr 1fr; }
@@ -1167,7 +1239,7 @@ section[id] { scroll-margin-top: 80px; }
   .convictions-grid, .cta-grid, .press-expand-wrap, .press-secondary { margin-top: 36px; }
   .conviction { padding-bottom: 36px; }
   .conviction-photo-divider { margin: 48px -40px; }
-  .creds-grid, .chapters-list, .products-grid, .reviews-scroll,
+  .creds-grid, .chapters-list, .products-grid, .optcards-grid, .reviews-scroll,
   .episodes-grid, .platforms-grid { margin-top: 40px; }
   .press-secondary { padding-top: 36px; }
 
@@ -1216,7 +1288,7 @@ section[id] { scroll-margin-top: 80px; }
   .convictions-grid, .cta-grid, .press-expand-wrap, .press-secondary { margin-top: 28px; }
   .conviction { padding-bottom: 28px; }
   .conviction-photo-divider { margin: 36px -40px; }
-  .creds-grid, .chapters-list, .products-grid, .reviews-scroll,
+  .creds-grid, .chapters-list, .products-grid, .optcards-grid, .reviews-scroll,
   .episodes-grid, .platforms-grid { margin-top: 28px; }
   .press-secondary { padding-top: 28px; }
 

@@ -164,7 +164,7 @@ export async function seedBookPage(strapi: Core.Strapi): Promise<void> {
             title: 'Audiobook — vocea mea',
             text: 'Citit de mine, cap-coadă. Pentru că anumite lucruri trebuie spuse cum trebuie. Înscrie-te și te anunț când e gata.',
             tag: 'În pregătire',
-            href: '#audiobook-waitlist',
+            href: '#audiobook',
           },
         ],
       },
