@@ -233,6 +233,16 @@ export function serializeSection(raw: any): any {
           image: serializeMedia(i.iconImage),
           tag: i.tag ?? null,
           href: i.href ?? null,
+          format: i.format ?? null,
+          eyebrow: i.eyebrow ?? null,
+          price: i.price ?? null,
+          priceText: i.priceText ?? null,
+          fineprint: i.fineprint ?? null,
+          ctaLabel: i.ctaLabel ?? null,
+          metaItems: (i.metaItems ?? []).map((m: any) => ({
+            icon: m.icon ?? null,
+            label: m.label,
+          })),
         })),
       }
     case 'sections.testimonials':

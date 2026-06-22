@@ -15,6 +15,20 @@
       "allowedTypes": ["images"]
     },
     "tag": { "type": "string" },
-    "href": { "type": "string" }
+    "href": { "type": "string" },
+    "format": {
+      "type": "enumeration",
+      "enum": ["hardcover", "ebook", "audiobook"]
+    },
+    "eyebrow": { "type": "string" },
+    "price": { "type": "string" },
+    "priceText": { "type": "string" },
+    "fineprint": { "type": "string" },
+    "ctaLabel": { "type": "string" },
+    "metaItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.meta-item"
+    }
   }
 }

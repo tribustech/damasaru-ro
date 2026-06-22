@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_sections_meta_items",
+  "info": {
+    "displayName": "Meta Item",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "icon": { "type": "string" },
+    "label": { "type": "string", "required": true }
+  }
+}

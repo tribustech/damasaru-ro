@@ -51,9 +51,16 @@ export interface SectionsCardItem extends Struct.ComponentSchema {
     icon: 'feather';
   };
   attributes: {
+    ctaLabel: Schema.Attribute.String;
+    eyebrow: Schema.Attribute.String;
+    fineprint: Schema.Attribute.String;
+    format: Schema.Attribute.Enumeration<['hardcover', 'ebook', 'audiobook']>;
     href: Schema.Attribute.String;
     iconImage: Schema.Attribute.Media<'images'>;
     iconName: Schema.Attribute.String;
+    metaItems: Schema.Attribute.Component<'sections.meta-item', true>;
+    price: Schema.Attribute.String;
+    priceText: Schema.Attribute.String;
     tag: Schema.Attribute.String;
     text: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -552,6 +559,18 @@ export interface SectionsMediaStatStrip extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsMetaItem extends Struct.ComponentSchema {
+  collectionName: 'components_sections_meta_items';
+  info: {
+    displayName: 'Meta Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    icon: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsNewsletterForm extends Struct.ComponentSchema {
   collectionName: 'components_sections_newsletter_forms';
   info: {
@@ -897,6 +916,7 @@ declare module '@strapi/strapi' {
       'sections.media-marquee': SectionsMediaMarquee;
       'sections.media-press-kit': SectionsMediaPressKit;
       'sections.media-stat-strip': SectionsMediaStatStrip;
+      'sections.meta-item': SectionsMetaItem;
       'sections.newsletter-form': SectionsNewsletterForm;
       'sections.press-brand': SectionsPressBrand;
       'sections.press-secondary-item': SectionsPressSecondaryItem;

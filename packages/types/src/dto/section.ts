@@ -48,6 +48,11 @@ export interface TextBlockDTO extends SectionBase {
 
 export type CardsGridVariant = 'default' | 'convictions' | 'cta-cards' | 'chapters' | 'products' | 'platforms'
 
+export interface CardsGridMetaItemDTO {
+  icon: string | null
+  label: string
+}
+
 export interface CardsGridItemDTO {
   id: number
   title: string
@@ -55,6 +60,15 @@ export interface CardsGridItemDTO {
   image: MediaDTO | null
   tag: string | null
   href: string | null
+  /** products variant only — drives the per-format image treatment + tag color */
+  format?: 'hardcover' | 'ebook' | 'audiobook' | null
+  eyebrow?: string | null
+  price?: string | null
+  /** waitlist placeholder shown instead of `price`; presence (with no `price`) = waitlist mode */
+  priceText?: string | null
+  fineprint?: string | null
+  ctaLabel?: string | null
+  metaItems?: CardsGridMetaItemDTO[]
 }
 
 export interface CardsGridDTO extends SectionBase {

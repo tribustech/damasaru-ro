@@ -10,7 +10,7 @@ export const PAGE_POPULATE = {
       },
       'sections.text-block': { populate: { cta: true } },
       'sections.cards-grid': {
-        populate: { items: { populate: { iconImage: true } } },
+        populate: { items: { populate: { iconImage: true, metaItems: true } } },
       },
       'sections.testimonials': {},
       'sections.cta-banner': {},

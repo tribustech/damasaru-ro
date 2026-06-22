@@ -394,80 +394,161 @@ section[id] { scroll-margin-top: 80px; }
 
 /* Product cards — 3-col grid with featured / coming-soon variants */
 .products-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
   margin-top: 64px;
 }
 .product-card {
   background: var(--color-white); border: 1px solid var(--color-line);
-  border-radius: 12px; padding: 36px 32px;
-  transition: all .25s; display: flex; flex-direction: column;
-  position: relative; overflow: hidden; text-decoration: none; color: inherit;
+  border-radius: 16px; overflow: hidden;
+  display: flex; flex-direction: column; position: relative;
+  transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
 }
 .product-card:hover {
-  border-color: var(--color-gold); transform: translateY(-3px);
-  box-shadow: 0 20px 40px -15px rgba(20,32,46,.15);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(20, 32, 46, .1);
+  border-color: rgba(212, 175, 106, .3);
 }
-.product-card.featured {
-  background: var(--color-navy); color: var(--color-white);
-  border-color: var(--color-navy);
+
+/* Image area — distinct identity per product format */
+.product-image {
+  aspect-ratio: 4 / 3; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
 }
-.product-card.featured h3 { color: var(--color-white); }
-.product-card.featured p { color: var(--color-text-light); }
-.product-card.coming-soon { background: var(--color-paper-warm); }
-/* Coming-soon with no purchase path — non-interactive teaser.
-   No opacity fade: card-wide opacity also washes out the "În curând"
-   badge (forest text → faint gray). Keep it crisp like the waitlist card;
-   the paper-warm bg + missing CTA already signal it's not yet buyable. */
-.product-card.disabled:hover {
-  transform: none; border-color: var(--color-line); box-shadow: none;
+
+/* Card 1 — Carte fizică: real cover on warm gradient, 3D tilt on hover */
+.product-image.physical {
+  background: linear-gradient(135deg, #F5F2EC 0%, var(--color-paper-warm) 100%);
+  padding: 24px 12px;
 }
-.product-tag {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  font-weight: 700; padding: 6px 14px; border-radius: 999px;
-  width: fit-content; margin-bottom: 24px;
+.book-cover-img {
+  width: auto; height: 100%; max-height: 100%; object-fit: contain;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: 0 18px 36px rgba(20, 32, 46, .28), -2px 0 0 rgba(0, 0, 0, .1) inset;
+  transition: transform .5s ease;
 }
-.product-tag.tag-bookzone { background: var(--color-gold); color: var(--color-navy); }
-.product-tag.tag-instant { background: var(--color-forest); color: var(--color-white); }
-.product-tag.tag-soon { background: transparent; color: var(--color-forest); border: 1px solid var(--color-forest); }
-.pulse-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: currentColor;
-  animation: pcrPulse 2s ease-in-out infinite; display: inline-block;
+.product-card:hover .product-image.physical .book-cover-img {
+  transform: rotateY(-6deg) translateZ(15px);
 }
-@keyframes pcrPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .4; transform: scale(1.4); }
+
+/* Card 2 — E-book: cover inside a navy tablet frame + gold glow */
+.product-image.ebook {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-soft) 100%);
 }
-.product-icon { width: 44px; height: 44px; margin-bottom: 24px; color: var(--color-gold-deep); }
-.product-card.featured .product-icon { color: var(--color-gold); }
-.product-card h3 {
-  font-family: var(--font-serif); font-size: 28px;
-  line-height: 1.2; font-weight: 500; color: var(--color-navy);
-  margin-bottom: 12px;
+.product-image.ebook::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(212, 175, 106, .15), transparent 60%);
 }
-.product-card p {
-  font-size: 14px; line-height: 1.6; color: var(--color-text-mid);
-  font-weight: 400; flex-grow: 1; margin-bottom: 24px;
+.tablet-mockup {
+  height: 90%; aspect-ratio: 0.72 / 1;
+  background: var(--color-navy-deep); border: 6px solid var(--color-navy-line);
+  border-radius: 10px; box-shadow: 0 16px 32px rgba(0, 0, 0, .4);
+  position: relative; overflow: hidden; padding: 6px; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
 }
-.product-meta {
-  font-size: 13px; color: var(--color-text-dim); font-style: italic;
-  margin-bottom: 20px; font-family: var(--font-serif);
+.tablet-mockup-img {
+  width: 100%; height: 100%; object-fit: contain; border-radius: 2px; display: block;
 }
-.product-card.coming-soon .product-meta { color: var(--color-text-mid); }
+
+/* Card 3 — Audiobook: white now-playing mock on paper-warm gradient */
+.product-image.audiobook {
+  background: linear-gradient(135deg, var(--color-paper-warm) 0%, #DDD7C9 100%);
+}
+.product-image.audiobook::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(20, 32, 46, .08); pointer-events: none;
+}
+.player-mockup {
+  width: 70%; background: var(--color-white); border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(20, 32, 46, .12);
+  padding: 18px; display: flex; gap: 14px; align-items: center; z-index: 2;
+}
+.player-mockup-cover {
+  width: 64px; height: 80px; flex-shrink: 0; border-radius: 4px;
+  overflow: hidden; position: relative; background: var(--color-navy);
+}
+.player-mockup-cover-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.player-mockup-info { flex: 1; }
+.player-mockup-title {
+  font-size: 12px; font-weight: 600; color: var(--color-navy); line-height: 1.2; margin-bottom: 4px;
+}
+.player-mockup-author { font-size: 10px; color: var(--color-text-mid); }
+.player-mockup-waveform { display: flex; gap: 2px; align-items: center; margin-top: 8px; height: 12px; }
+.player-mockup-waveform span { flex: 1; background: var(--color-gold); border-radius: 1px; opacity: .4; }
+.player-mockup-waveform span:nth-child(1) { height: 30%; }
+.player-mockup-waveform span:nth-child(2) { height: 60%; }
+.player-mockup-waveform span:nth-child(3) { height: 80%; }
+.player-mockup-waveform span:nth-child(4) { height: 100%; opacity: .7; }
+.player-mockup-waveform span:nth-child(5) { height: 60%; }
+.player-mockup-waveform span:nth-child(6) { height: 90%; }
+.player-mockup-waveform span:nth-child(7) { height: 40%; }
+.player-mockup-waveform span:nth-child(8) { height: 70%; }
+.player-mockup-waveform span:nth-child(9) { height: 30%; }
+.player-mockup-waveform span:nth-child(10) { height: 50%; }
+.player-mockup-waveform span:nth-child(11) { height: 20%; }
+.player-mockup-waveform span:nth-child(12) { height: 65%; }
+
+/* Status tag pill — overlaid top-left of the image area */
+.product-image .tag {
+  position: absolute; top: 16px; left: 16px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 6px 12px; border-radius: 999px;
+}
+.product-image .tag::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+}
+.product-image .tag.physical {
+  background: rgba(61, 107, 92, .12); color: var(--color-forest-bright);
+  border: 1px solid rgba(61, 107, 92, .3);
+}
+.product-image .tag.digital {
+  background: rgba(212, 175, 106, .18); color: var(--color-gold-deep);
+  border: 1px solid rgba(184, 146, 77, .3);
+}
+.product-image .tag.waitlist {
+  background: rgba(212, 175, 106, .18); color: var(--color-gold-deep);
+  border: 1.5px dashed rgba(184, 146, 77, .5);
+}
+
+/* Card body */
+.product-content { padding: 28px 28px 32px; display: flex; flex-direction: column; flex: 1; }
+.product-eyebrow {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 600; color: var(--color-gold-deep); margin-bottom: 12px;
+}
+.product-title {
+  font-family: var(--font-serif); font-size: 24px; line-height: 1.25;
+  font-weight: 500; color: var(--color-navy); margin-bottom: 12px;
+}
+.product-desc { font-size: 14px; line-height: 1.6; color: var(--color-text-mid); margin-bottom: 20px; }
+.product-meta-list {
+  list-style: none; margin: 0 0 24px; padding: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.product-meta-list li {
+  font-size: 13px; color: var(--color-text-mid);
+  display: flex; align-items: baseline; gap: 8px;
+}
+.product-meta-icon { flex-shrink: 0; }
+
+.product-footer {
+  margin-top: auto; padding-top: 22px; border-top: 1px solid var(--color-line);
+  display: flex; flex-direction: column; gap: 16px;
+}
 .product-price {
-  font-family: var(--font-serif); font-size: 32px;
-  font-weight: 600; color: var(--color-navy); margin-bottom: 24px;
-  line-height: 1;
+  font-family: var(--font-serif); font-size: 32px; font-weight: 600;
+  color: var(--color-navy); line-height: 1;
 }
-.product-card.featured .product-price { color: var(--color-gold); }
-.product-cta {
-  display: inline-flex; align-items: center; gap: 8px;
+.product-price-text {
+  font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--color-text-soft);
+}
+.product-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px 20px; border-radius: 8px;
   font-size: 14px; font-weight: 600; letter-spacing: .3px;
-  text-decoration: none; color: var(--color-gold-deep);
-  transition: gap .2s; margin-top: auto;
+  text-decoration: none; cursor: pointer; transition: all .25s;
 }
-.product-card.featured .product-cta { color: var(--color-gold); }
-.product-cta:hover { gap: 12px; }
+.product-fineprint { font-size: 12px; line-height: 1.5; color: var(--color-text-soft); margin: 0; }
 
 /* Audiobook waitlist card — navy card, 2-col content + form */
 .waitlist-card {

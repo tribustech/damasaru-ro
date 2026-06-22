@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactElement } from 'react'
 import Link from 'next/link'
-import type { CardsGridDTO, CardsGridItemDTO } from '@repo/types'
+import Image from 'next/image'
+import type { CardsGridDTO, CardsGridItemDTO, MediaDTO } from '@repo/types'
 import { sectionAnchorId } from '@/lib/sectionAnchor'
 
 interface CardsGridProps {
@@ -16,112 +17,111 @@ const ZONE_BY_ACCENT: Record<CardsGridDTO['accent'], string> = {
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
-const PRICE_RE = /([\d.,]+\s*lei)\s*$/i
+// Author who narrates the audiobook — shown in the mini player mock. Decorative,
+// not editor-facing copy, so it lives here rather than as a CMS field.
+const AUDIOBOOK_AUTHOR = 'Costin Dămășaru'
+const AUDIOBOOK_CHAPTER = 'Capitolul 1 — Introducere'
 
-function extractPrice(text: string | null): { text: string; price: string | null } {
-  if (!text) return { text: '', price: null }
-  const m = text.match(PRICE_RE)
-  if (!m) return { text, price: null }
-  return { text: text.slice(0, m.index).replace(/[\s.·•—-]+$/, '').trim(), price: m[1] }
-}
-
-function productKind(tag: string | null): 'physical' | 'digital' | 'audio' {
-  const t = (tag ?? '').toLowerCase()
-  if (t.includes('audio') || t.includes('pregătire') || t.includes('pregatire') || t.includes('soon')) return 'audio'
-  if (t.includes('pdf') || t.includes('instant') || t.includes('download') || t.includes('digital')) return 'digital'
-  return 'physical'
-}
-
-function isComingSoon(tag: string | null): boolean {
-  const t = (tag ?? '').toLowerCase()
-  return t.includes('curând') || t.includes('curand') || t.includes('soon')
-}
-
-function ProductIcon({ kind }: { kind: 'physical' | 'digital' | 'audio' }) {
-  const common = {
-    className: 'product-icon',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.5,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  }
-  if (kind === 'physical') {
-    return (
-      <svg {...common} aria-hidden>
-        <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 010-5H20" />
-      </svg>
-    )
-  }
-  if (kind === 'digital') {
-    return (
-      <svg {...common} aria-hidden>
-        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="12" y1="18" x2="12" y2="12" />
-        <polyline points="9 15 12 18 15 15" />
-      </svg>
-    )
-  }
+function ProductCover({ media, className }: { media: MediaDTO | null; className: string }) {
+  if (!media?.url) return null
   return (
-    <svg {...common} aria-hidden>
-      <rect x="9" y="2" width="6" height="12" rx="3" />
-      <path d="M19 10v2a7 7 0 01-14 0v-2" />
-      <line x1="12" y1="19" x2="12" y2="23" />
-      <line x1="8" y1="23" x2="16" y2="23" />
-    </svg>
+    <Image
+      src={media.url}
+      alt={media.alt ?? ''}
+      width={media.width ?? 400}
+      height={media.height ?? 600}
+      className={className}
+    />
   )
 }
 
-function ProductCardBody({ item, idx }: { item: CardsGridItemDTO; idx: number }) {
-  const kind = productKind(item.tag)
-  const { text, price } = extractPrice(item.text ?? '')
-  const comingSoon = isComingSoon(item.tag)
-  const featured = idx === 0 && !comingSoon
-  // No purchase path yet → render as a grayed-out, non-clickable teaser.
-  const disabled = comingSoon && !item.href
-  const cardClass = `product-card${featured ? ' featured' : ''}${comingSoon && !featured ? ' coming-soon' : ''}${disabled ? ' disabled' : ''}`
-  const tagClass = comingSoon
-    ? 'product-tag tag-soon'
-    : kind === 'physical'
-      ? 'product-tag tag-bookzone'
-      : kind === 'digital'
-        ? 'product-tag tag-instant'
-        : 'product-tag tag-soon'
-  const inner = (
+function ProductCardBody({ item }: { item: CardsGridItemDTO }) {
+  const format = item.format ?? 'hardcover'
+  // Waitlist mode is derived: a price placeholder with no real price.
+  const waitlist = !!item.priceText && !item.price
+  const imageClass = format === 'hardcover' ? 'physical' : format
+  const tagClass = `tag ${waitlist ? 'waitlist' : format === 'hardcover' ? 'physical' : 'digital'}`
+
+  const ctaLabel = item.ctaLabel ?? (waitlist ? 'Anunță-mă' : 'Cumpără')
+  const ctaInner = (
     <>
-      {item.tag && (
-        <span className={tagClass}>
-          {comingSoon && <span className="pulse-dot" />}
-          {item.tag}
-        </span>
-      )}
-      <ProductIcon kind={kind} />
-      <h3>{item.title}</h3>
-      {text && <p>{text}</p>}
-      {!comingSoon && price && <div className="product-price">{price}</div>}
-      {item.href && (
-        <span className="product-cta">
-          {comingSoon ? 'Înscrie-mă pe listă' : kind === 'digital' ? 'Cumpără PDF' : 'Cumpără pe Bookzone'}{' '}
-          <span aria-hidden>→</span>
-        </span>
-      )}
+      {ctaLabel} <span aria-hidden>→</span>
     </>
   )
+  const ctaClass = `product-btn ${waitlist ? 'btn-ghost' : 'btn-primary'}`
+  let cta: ReactElement
   if (item.href) {
-    const isExternal = item.href.startsWith('http')
-    return isExternal ? (
-      <a href={item.href} target="_blank" rel="noreferrer" className={cardClass}>
-        {inner}
+    cta = item.href.startsWith('http') ? (
+      <a href={item.href} target="_blank" rel="noreferrer" className={ctaClass}>
+        {ctaInner}
       </a>
     ) : (
-      <Link href={item.href} className={cardClass}>
-        {inner}
+      <Link href={item.href} className={ctaClass}>
+        {ctaInner}
       </Link>
     )
+  } else {
+    cta = (
+      <button type="button" className={ctaClass}>
+        {ctaInner}
+      </button>
+    )
   }
-  return <div className={cardClass}>{inner}</div>
+
+  return (
+    <article className={`product-card ${imageClass}`}>
+      <div className={`product-image ${imageClass}`}>
+        {item.tag && <span className={tagClass}>{item.tag}</span>}
+        {format === 'hardcover' && <ProductCover media={item.image} className="book-cover-img" />}
+        {format === 'ebook' && (
+          <div className="tablet-mockup">
+            <ProductCover media={item.image} className="tablet-mockup-img" />
+          </div>
+        )}
+        {format === 'audiobook' && (
+          <div className="player-mockup">
+            <div className="player-mockup-cover">
+              <ProductCover media={item.image} className="player-mockup-cover-img" />
+            </div>
+            <div className="player-mockup-info">
+              <div className="player-mockup-title">{AUDIOBOOK_CHAPTER}</div>
+              <div className="player-mockup-author">{AUDIOBOOK_AUTHOR}</div>
+              <div className="player-mockup-waveform" aria-hidden>
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <span key={i} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="product-content">
+        {item.eyebrow && <div className="product-eyebrow">{item.eyebrow}</div>}
+        <h3 className="product-title">{item.title}</h3>
+        {item.text && <p className="product-desc">{item.text}</p>}
+        {item.metaItems && item.metaItems.length > 0 && (
+          <ul className="product-meta-list">
+            {item.metaItems.map((m, i) => (
+              <li key={i}>
+                {m.icon && <span className="product-meta-icon">{m.icon}</span>}
+                {m.label}
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="product-footer">
+          {item.price ? (
+            <div className="product-price">{item.price}</div>
+          ) : item.priceText ? (
+            <div className="product-price-text">{item.priceText}</div>
+          ) : null}
+          {cta}
+          {item.fineprint && <p className="product-fineprint">{item.fineprint}</p>}
+        </div>
+      </div>
+    </article>
+  )
 }
 
 type PlatformKey = 'spotify' | 'apple' | 'youtube' | 'amazon' | 'rss'
@@ -254,8 +254,8 @@ export function CardsGrid({ section }: CardsGridProps) {
 
           {variant === 'products' && (
             <div className="products-grid">
-              {section.items.map((item, i) => (
-                <ProductCardBody key={item.id} item={item} idx={i} />
+              {section.items.map((item) => (
+                <ProductCardBody key={item.id} item={item} />
               ))}
             </div>
           )}
