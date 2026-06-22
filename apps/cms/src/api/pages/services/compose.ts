@@ -60,11 +60,16 @@ export async function composeSinglePage(slug: string, locale: string) {
       section.__component === 'sections.media-magazines' ||
       section.__component === 'sections.media-marquee'
     ) {
-      section.items = await resolvePressMentions({
-        locale,
-        limit: section.limit ?? (section.__component === 'sections.media-featured' ? 8 : section.__component === 'sections.media-magazines' ? 5 : 60),
-        filterBy: section.filterBy ?? null,
-      })
+      section.items = await resolvePressMentions(
+        {
+          locale,
+          limit: section.limit ?? (section.__component === 'sections.media-featured' ? 8 : section.__component === 'sections.media-magazines' ? 5 : 60),
+          filterBy: section.filterBy ?? null,
+        },
+        // Only the featured grid is YouTube-thumbnail based; magazines/marquee
+        // render their own cover/logo art and accept any url.
+        { requireYoutube: section.__component === 'sections.media-featured' },
+      )
     }
 
     if (section.__component === 'sections.testimonials') {

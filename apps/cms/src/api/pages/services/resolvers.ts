@@ -16,6 +16,7 @@ import {
   serializeTestimonial,
   serializePressMention,
 } from './serialize'
+import { isYoutubeUrl } from '../../../utils/youtube'
 
 interface ListOpts {
   locale: string
@@ -104,15 +105,33 @@ export async function resolveTestimonialsList({ locale, limit, filterBy }: ListO
   return list.map(serializeTestimonial)
 }
 
-export async function resolvePressMentions({ locale: _locale, limit, filterBy }: ListOpts) {
+export async function resolvePressMentions(
+  { locale: _locale, limit, filterBy }: ListOpts,
+  opts?: { requireYoutube?: boolean },
+) {
+  // Fetch the whole filtered set first, then filter + sort + trim in JS. We can't
+  // lean on the DB sort here: Strapi/Postgres orders NULL dates FIRST under
+  // `date:desc`, so undated mentions crowd the top slots and push recent dated
+  // ones past the `limit` cut (e.g. on the Media "Top Apariții" block, capped at
+  // 8). Sorting in JS lets us put nulls LAST and only then slice to `limit`.
   const list = await strapi.documents('api::press-mention.press-mention').findMany({
     status: 'published',
-    sort: ['date:desc'],
-    limit,
+    limit: 500,
     populate: PRESS_MENTION_POPULATE,
     filters: whereFromFilterBy(filterBy),
   } as any)
-  return list.map(serializePressMention)
+  let rows = list as any[]
+  // The featured grid renders a YouTube thumbnail per card, so a mention without a
+  // video url can't render there. Drop those BEFORE the limit cut so the cap
+  // always yields that many *renderable* cards (otherwise a non-video featured
+  // item silently shrinks the visible grid — see MediaFeatured.tsx).
+  if (opts?.requireYoutube) rows = rows.filter((r) => isYoutubeUrl(r.url))
+  const sorted = rows.slice().sort((a, b) => {
+    if (a.date && b.date) return a.date < b.date ? 1 : a.date > b.date ? -1 : 0
+    if (!a.date && !b.date) return 0
+    return a.date ? -1 : 1 // dated entries before undated ones (nulls last)
+  })
+  return sorted.slice(0, limit).map(serializePressMention)
 }
 
 export async function resolveFeaturedList(
