@@ -91,8 +91,9 @@ export default function MediaPressKit({ section }: MediaPressKitProps) {
         <div className="mt-[60px] grid grid-cols-1 lg:grid-cols-3 gap-8">
           {section.items.map((item) => {
             const isMail = item.iconKey === 'mail'
-            // Each card owns its download; absent a file we fall back to a press-email mailto.
-            const hasFile = !isMail && item.file !== null
+            // Each card owns its download; absent a file (null, or undefined before the
+            // CMS schema rolls out) we fall back to a press-email mailto.
+            const hasFile = !isMail && item.file != null
             const href = hasFile
               ? `/api/press-kit/${item.file!.documentId}`
               : `mailto:${PRESS_EMAIL}`
