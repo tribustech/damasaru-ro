@@ -36,16 +36,9 @@ function ProductCover({ media, className }: { media: MediaDTO | null; className:
 }
 
 // ── Simple product/option cards (e.g. the book's 3 formats on /carte) ──────
-// The original `products` design: an icon, a tag, a price extracted from the
-// copy, and a whole-card link. Kept separate from the magazin format-driven
-// cards below (which carry `format`/`metaItems`); routed by data shape.
-const PRICE_RE = /([\d.,]+\s*lei)\s*$/i
-function extractPrice(text: string | null): { text: string; price: string | null } {
-  if (!text) return { text: '', price: null }
-  const m = text.match(PRICE_RE)
-  if (!m) return { text, price: null }
-  return { text: text.slice(0, m.index).replace(/[\s.·•—-]+$/, '').trim(), price: m[1] }
-}
+// The original `products` design: an icon, a tag, a `price`, and a whole-card
+// link. Kept separate from the magazin format-driven cards below (which carry
+// `format`/`metaItems`); routed by data shape.
 function productKind(tag: string | null): 'physical' | 'digital' | 'audio' {
   const t = (tag ?? '').toLowerCase()
   if (t.includes('audio') || t.includes('pregătire') || t.includes('pregatire') || t.includes('soon')) return 'audio'
@@ -95,7 +88,6 @@ function ProductIcon({ kind }: { kind: 'physical' | 'digital' | 'audio' }) {
 
 function ProductOptionCardBody({ item, idx }: { item: CardsGridItemDTO; idx: number }) {
   const kind = productKind(item.tag)
-  const { text, price } = extractPrice(item.text ?? '')
   const comingSoon = isComingSoon(item.tag)
   const featured = idx === 0 && !comingSoon
   // No purchase path yet → render as a non-clickable teaser.
@@ -118,8 +110,8 @@ function ProductOptionCardBody({ item, idx }: { item: CardsGridItemDTO; idx: num
       )}
       <ProductIcon kind={kind} />
       <h3>{item.title}</h3>
-      {text && <p>{text}</p>}
-      {!comingSoon && price && <div className="optcard-price">{price}</div>}
+      {item.text && <p>{item.text}</p>}
+      {item.price && <div className="optcard-price">{item.price}</div>}
       {item.href && (
         <span className="optcard-cta">
           {comingSoon ? 'Înscrie-mă pe listă' : kind === 'digital' ? 'Cumpără PDF' : 'Cumpără pe Bookzone'}{' '}
