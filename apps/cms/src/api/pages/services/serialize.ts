@@ -205,7 +205,8 @@ export function serializeSection(raw: any): any {
           ? { items: (raw.statsStrip.items ?? []).map((i: any) => ({ id: i.id, value: i.value, label: i.label, caption: i.caption ?? null })) }
           : null,
       }
-    case 'sections.text-block':
+    case 'sections.text-block': {
+      const ctaFileMedia = raw.ctaFile ? serializeMedia(raw.ctaFile) : null
       return {
         ...base,
         eyebrow: raw.eyebrow ?? null,
@@ -215,7 +216,17 @@ export function serializeSection(raw: any): any {
         accent: raw.accent ?? 'paper',
         align: raw.align ?? 'left',
         cta: ctaButton(raw.cta),
+        ctaFile: ctaFileMedia
+          ? {
+              ...ctaFileMedia,
+              documentId: raw.ctaFile.documentId,
+              name: raw.ctaFile.name ?? null,
+              ext: raw.ctaFile.ext ?? null,
+              size: raw.ctaFile.size ?? null,
+            }
+          : null,
       }
+    }
     case 'sections.cards-grid':
       return {
         ...base,

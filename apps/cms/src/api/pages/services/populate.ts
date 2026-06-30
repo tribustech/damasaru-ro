@@ -8,7 +8,7 @@ export const PAGE_POPULATE = {
           statsStrip: { populate: { items: true } },
         },
       },
-      'sections.text-block': { populate: { cta: true } },
+      'sections.text-block': { populate: { cta: true, ctaFile: true } },
       'sections.cards-grid': {
         populate: { items: { populate: { iconImage: true, metaItems: true } } },
       },

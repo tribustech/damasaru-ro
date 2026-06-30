@@ -24,6 +24,11 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.cta-button"
+    },
+    "ctaFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files"]
     }
   }
 }

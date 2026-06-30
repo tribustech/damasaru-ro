@@ -797,6 +797,7 @@ export interface SectionsTextBlock extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'left'>;
     body: Schema.Attribute.RichText;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    ctaFile: Schema.Attribute.Media<'files'>;
     eyebrow: Schema.Attribute.String;
     heading: Schema.Attribute.String;
     headingItalic: Schema.Attribute.String;
