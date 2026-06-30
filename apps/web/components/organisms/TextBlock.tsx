@@ -63,12 +63,20 @@ export function TextBlock({ section }: TextBlockProps) {
           )}
           {section.cta && (
             <div style={{ marginTop: '48px', textAlign: isCentered ? 'center' : undefined }}>
-              <Link
-                href={section.cta.href}
-                className={`btn ${section.cta.variant === 'outline' ? (isDark ? 'btn-ghost-light' : 'btn-ghost') : 'btn-primary'}`}
-              >
-                {section.cta.label} <span aria-hidden>→</span>
-              </Link>
+              {(() => {
+                const btnClass = `btn ${section.cta.variant === 'outline' ? (isDark ? 'btn-ghost-light' : 'btn-ghost') : 'btn-primary'}`
+                // When a file is attached, stream it as a download via the same-origin
+                // proxy route (forces an attachment with a clean filename).
+                return section.ctaFile ? (
+                  <a href={`/api/book-chapter/${section.ctaFile.documentId}`} className={btnClass} download>
+                    {section.cta.label} <span aria-hidden>→</span>
+                  </a>
+                ) : (
+                  <Link href={section.cta.href} className={btnClass}>
+                    {section.cta.label} <span aria-hidden>→</span>
+                  </Link>
+                )
+              })()}
             </div>
           )}
         </div>

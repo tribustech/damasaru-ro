@@ -44,6 +44,14 @@ export interface TextBlockDTO extends SectionBase {
   accent: AccentDTO
   align: 'left' | 'center'
   cta: CtaButtonDTO | null
+  ctaFile:
+    | (MediaDTO & {
+        documentId: string
+        name: string | null
+        ext: string | null
+        size: number | null
+      })
+    | null
 }
 
 export type CardsGridVariant = 'default' | 'convictions' | 'cta-cards' | 'chapters' | 'products' | 'platforms' | 'channels'
