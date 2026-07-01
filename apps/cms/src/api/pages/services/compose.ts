@@ -155,14 +155,14 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
       title: it.title, description: it.description ?? null,
       date: it.publishedAt2 ?? it.publishedAt ?? null,
       duration: it.duration ?? null, cover: serializeMedia(it.coverImage),
-      audioUrl: it.audioUrl ?? null, spotifyUrl: null, youtubeUrl: it.videoUrl ?? null,
+      audioUrl: it.audioUrl ?? null, videoUrl: it.videoUrl ?? null,
       showNotes: it.showNotes ?? null,
       related: (related as any[]).map((r) => ({
         id: r.id, documentId: r.documentId, slug: r.slug, number: r.number,
         title: r.title, description: r.description ?? null,
         date: r.publishedAt2 ?? r.publishedAt ?? null,
         duration: r.duration ?? null, cover: serializeMedia(r.coverImage),
-        audioUrl: r.audioUrl ?? null, spotifyUrl: null, youtubeUrl: r.videoUrl ?? null,
+        audioUrl: r.audioUrl ?? null, videoUrl: r.videoUrl ?? null,
       })),
     }
   },

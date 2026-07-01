@@ -49,7 +49,10 @@ export async function seedHomePage(strapi: Core.Strapi): Promise<void> {
         accent: 'paper',
         relation: 'podcast-episodes',
         layout: 'featured-with-list',
-        limit: 4,
+        // Wide enough to cover the catalog so the big card can feature the latest
+        // episode that actually has a link even when newer ones are still
+        // link-less; the rest fill the side list. See PodcastFeaturedWithList.
+        limit: 24,
         seeAllHref: '/podcast',
         seeAllLabel: 'Toate episoadele',
       },
