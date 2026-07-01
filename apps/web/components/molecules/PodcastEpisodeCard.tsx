@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import type { PodcastEpisodeDTO, PodcastEpisodeCategoryKind } from '@repo/types'
+import { episodeLinks } from '@/lib/episode'
+import { EpisodePlayLink } from './EpisodePlayLink'
 
 interface PodcastEpisodeCardProps {
   episode: PodcastEpisodeDTO
-  locale: string
 }
 
 const CATEGORY_CLASS: Record<PodcastEpisodeCategoryKind, string> = {
@@ -20,9 +20,9 @@ function epNumberLabel(n: number): string {
   return String(n).padStart(2, '0')
 }
 
-export function PodcastEpisodeCard({ episode, locale }: PodcastEpisodeCardProps) {
-  const href = `/${locale}/podcast/${episode.slug}`
-  const isLive = episode.status === 'live'
+export function PodcastEpisodeCard({ episode }: PodcastEpisodeCardProps) {
+  const links = episodeLinks(episode)
+  const isLive = links.length > 0
   const coverUrl = episode.cover?.url ?? null
   const guestLine = (() => {
     const g = episode.guests?.[0]
@@ -69,9 +69,9 @@ export function PodcastEpisodeCard({ episode, locale }: PodcastEpisodeCardProps)
       )}
 
       {isLive ? (
-        <Link href={href} className="ep-cta">
-          Ascultă acum <span aria-hidden>→</span>
-        </Link>
+        <EpisodePlayLink links={links} className="ep-cta">
+          Ascultă acum <span aria-hidden>{links.length > 1 ? '▾' : '→'}</span>
+        </EpisodePlayLink>
       ) : (
         <span className="ep-cta disabled">Te anunț când e gata →</span>
       )}

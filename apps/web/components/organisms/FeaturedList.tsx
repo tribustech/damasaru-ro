@@ -17,6 +17,8 @@ import { TestimonialCard } from '../molecules/TestimonialCard'
 import { PressMentionCard } from '../molecules/PressMentionCard'
 import { EventWaitlistForm } from '../molecules/EventWaitlistForm'
 import { accentRootClass, getAccent } from '@/lib/accent'
+import { episodeLinks, hasEpisodeLinks } from '@/lib/episode'
+import { EpisodePlayLink } from '../molecules/EpisodePlayLink'
 
 interface FeaturedListProps {
   section: FeaturedListDTO
@@ -103,7 +105,7 @@ function LayoutBody({ section, layout, locale }: { section: FeaturedListDTO; lay
     return (
       <div className="episodes-grid">
         {ordered.map((item) => (
-          <PodcastEpisodeCard key={item.id} episode={item} locale={locale} />
+          <PodcastEpisodeCard key={item.id} episode={item} />
         ))}
       </div>
     )
@@ -120,9 +122,11 @@ function LayoutBody({ section, layout, locale }: { section: FeaturedListDTO; lay
 }
 
 function LatestEpisodeFeature({ items, locale }: { items: PodcastEpisodeDTO[]; locale: string }) {
-  const ep = items[0]
+  // Prefer the most-recent episode that actually has a link; fall back to the
+  // newest one rendered in an "În curând" state when nothing is published yet.
+  const ep = items.find((e) => hasEpisodeLinks(e)) ?? items[0]
   if (!ep) return null
-  const href = `/${locale}/podcast/${ep.slug}`
+  const links = episodeLinks(ep)
   return (
     <div className="latest-card">
       <div className="latest-thumbnail-real">
@@ -135,11 +139,15 @@ function LatestEpisodeFeature({ items, locale }: { items: PodcastEpisodeDTO[]; l
             sizes="(max-width: 968px) 100vw, 60vw"
           />
         )}
-        <Link href={href} className="latest-play-btn-overlay" aria-label="Ascultă episodul">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </Link>
+        {links.length > 0 && (
+          <EpisodePlayLink links={links} className="latest-play-btn-overlay">
+            <span aria-label="Ascultă episodul">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </EpisodePlayLink>
+        )}
       </div>
       <div>
         <div className="latest-meta">
@@ -150,9 +158,13 @@ function LatestEpisodeFeature({ items, locale }: { items: PodcastEpisodeDTO[]; l
           <p className="latest-description">{`„${ep.description}"`}</p>
         )}
         <div className="latest-buttons">
-          <Link href={href} className="btn btn-primary">
-            Ascultă acum <span aria-hidden>→</span>
-          </Link>
+          {links.length > 0 ? (
+            <EpisodePlayLink links={links} className="btn btn-primary">
+              Ascultă acum <span aria-hidden>{links.length > 1 ? '▾' : '→'}</span>
+            </EpisodePlayLink>
+          ) : (
+            <span className="btn btn-primary disabled">În curând</span>
+          )}
           <Link href={`/${locale}/podcast`} className="btn btn-ghost">
             Toate episoadele
           </Link>
@@ -204,7 +216,7 @@ function DefaultCards({ section, locale }: { section: FeaturedListDTO; locale: s
       ))
     case 'podcast-episodes':
       return section.items.map((item) => (
-        <PodcastEpisodeCard key={item.id} episode={item} locale={locale} />
+        <PodcastEpisodeCard key={item.id} episode={item} />
       ))
     case 'projects':
       return section.items.map((item) => (
@@ -227,67 +239,118 @@ function DefaultCards({ section, locale }: { section: FeaturedListDTO; locale: s
 
 function PodcastFeaturedWithList({ items, locale }: { items: PodcastEpisodeDTO[]; locale: string }) {
   if (items.length === 0) return null
-  const [feature, ...rest] = items
-  const featureHref = `/${locale}/podcast/${feature.slug}`
+  // The section is never empty. Highlight the most-recent episode (number:desc)
+  // that has a video or audio link; if none in this window is published yet,
+  // fall back to the newest episode shown in an "În curând" state. Everything
+  // else — including link-less episodes — fills the side list, still by number.
+  const feature = items.find((e) => hasEpisodeLinks(e)) ?? items[0]
+  const featureLinks = episodeLinks(feature)
+  const isFeatureLive = featureLinks.length > 0
+  const rest = items.filter((e) => e !== feature)
+
+  const featureInner = (
+    <>
+      <div
+        className="absolute -top-1/2 -right-1/3 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(212,175,106,.15) 0%, transparent 60%)' }}
+      />
+      <div className="relative z-10">
+        <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-forest)] text-[10px] tracking-[0.2em] uppercase font-semibold rounded-full">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#7FCBA8] animate-pulse" />
+          {isFeatureLive ? 'Episod nou' : 'În curând'}
+        </span>
+        <h3 className="font-serif text-3xl lg:text-4xl font-medium leading-tight my-6">{feature.title}</h3>
+        <div className="flex gap-6 text-sm text-[var(--color-text-light)] mb-7">
+          <span>Ep. {feature.number}</span>
+          {feature.duration && (
+            <>
+              <span>·</span>
+              <span>{feature.duration}</span>
+            </>
+          )}
+          {feature.date && (
+            <>
+              <span>·</span>
+              <span>{formatDate(feature.date, locale)}</span>
+            </>
+          )}
+        </div>
+      </div>
+      <div className="relative z-10 inline-flex items-center gap-3.5 text-sm font-medium">
+        <span className="w-12 h-12 rounded-full bg-[var(--color-gold)] text-[var(--color-navy)] flex items-center justify-center text-base group-hover:bg-[var(--color-gold-bright)] group-hover:scale-105 transition-all">
+          ▶
+        </span>
+        {isFeatureLive ? (
+          <>
+            Ascultă acum
+            {featureLinks.length > 1 && (
+              <span aria-hidden className="ml-1.5">
+                ▾
+              </span>
+            )}
+          </>
+        ) : (
+          'Te anunț când e gata'
+        )}
+      </div>
+    </>
+  )
+
+  const featureClass =
+    'group relative overflow-hidden text-left w-full bg-[var(--color-navy)] text-white rounded-xl border-l-4 border-l-[var(--color-forest-bright)] p-10 lg:p-12 min-h-[420px] flex flex-col justify-between shadow-[0_24px_48px_-16px_rgba(20,32,46,.25)]'
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-start">
-      <Link
-        href={featureHref}
-        className="group relative overflow-hidden bg-[var(--color-navy)] text-white rounded-xl border-l-4 border-l-[var(--color-forest-bright)] p-10 lg:p-12 min-h-[420px] flex flex-col justify-between shadow-[0_24px_48px_-16px_rgba(20,32,46,.25)]"
-      >
-        <div
-          className="absolute -top-1/2 -right-1/3 w-[600px] h-[600px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(212,175,106,.15) 0%, transparent 60%)' }}
-        />
-        <div className="relative z-10">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-forest)] text-[10px] tracking-[0.2em] uppercase font-semibold rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7FCBA8] animate-pulse" />
-            Episod nou
-          </span>
-          <h3 className="font-serif text-3xl lg:text-4xl font-medium leading-tight my-6">{feature.title}</h3>
-          <div className="flex gap-6 text-sm text-[var(--color-text-light)] mb-7">
-            <span>Ep. {feature.number}</span>
-            {feature.duration && (
-              <>
-                <span>·</span>
-                <span>{feature.duration}</span>
-              </>
-            )}
-            {feature.date && (
-              <>
-                <span>·</span>
-                <span>{formatDate(feature.date, locale)}</span>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="relative z-10 inline-flex items-center gap-3.5 text-sm font-medium">
-          <span className="w-12 h-12 rounded-full bg-[var(--color-gold)] text-[var(--color-navy)] flex items-center justify-center text-base group-hover:bg-[var(--color-gold-bright)] group-hover:scale-105 transition-all">
-            ▶
-          </span>
-          Ascultă acum
-        </div>
-      </Link>
+      {isFeatureLive ? (
+        <EpisodePlayLink
+          links={featureLinks}
+          className={featureClass}
+          wrapperClassName="relative block w-full"
+        >
+          {featureInner}
+        </EpisodePlayLink>
+      ) : (
+        <div className={`${featureClass} cursor-default`}>{featureInner}</div>
+      )}
 
       <div className="flex flex-col gap-px bg-[var(--color-line)] rounded-lg overflow-hidden">
-        {rest.map((ep) => (
-          <Link
-            key={ep.id}
-            href={`/${locale}/podcast/${ep.slug}`}
-            className="bg-white p-6 flex justify-between items-start gap-5 hover:bg-[var(--color-paper-warm)] transition-colors"
-          >
-            <div className="flex-1">
-              <div className="font-serif italic text-[var(--color-gold-deep)] text-sm">Ep. {ep.number}</div>
-              <h4 className="text-[15px] font-medium leading-snug my-1.5 text-[var(--color-navy)]">{ep.title}</h4>
-              <div className="text-xs text-[var(--color-text-soft)]">
-                {ep.duration && <span>{ep.duration}</span>}
-                {ep.duration && ep.date && <span> · </span>}
-                {ep.date && <span>{formatDate(ep.date, locale)}</span>}
+        {rest.map((ep) => {
+          const rowLinks = episodeLinks(ep)
+          const inner = (
+            <>
+              <div className="flex-1">
+                <div className="font-serif italic text-[var(--color-gold-deep)] text-sm">Ep. {ep.number}</div>
+                <h4 className="text-[15px] font-medium leading-snug my-1.5 text-[var(--color-navy)]">{ep.title}</h4>
+                <div className="text-xs text-[var(--color-text-soft)]">
+                  {ep.duration && <span>{ep.duration}</span>}
+                  {ep.duration && ep.date && <span> · </span>}
+                  {ep.date && <span>{formatDate(ep.date, locale)}</span>}
+                </div>
               </div>
+              <div className="font-serif italic text-[var(--color-gold-deep)] self-center">
+                {rowLinks.length > 0 ? (
+                  rowLinks.length > 1 ? '▾' : '→'
+                ) : (
+                  <span className="text-[var(--color-text-soft)] not-italic text-xs">În curând</span>
+                )}
+              </div>
+            </>
+          )
+          return rowLinks.length > 0 ? (
+            <EpisodePlayLink
+              key={ep.id}
+              links={rowLinks}
+              wrapperClassName="relative block"
+              className="w-full text-left bg-white p-6 flex justify-between items-start gap-5 hover:bg-[var(--color-paper-warm)] transition-colors"
+            >
+              {inner}
+            </EpisodePlayLink>
+          ) : (
+            <div key={ep.id} className="bg-white p-6 flex justify-between items-start gap-5">
+              {inner}
             </div>
-            <div className="font-serif italic text-[var(--color-gold-deep)] self-center">→</div>
-          </Link>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

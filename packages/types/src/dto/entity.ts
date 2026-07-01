@@ -53,8 +53,7 @@ export interface PodcastEpisodeDTO {
   duration: string | null
   cover: MediaDTO | null
   audioUrl: string | null
-  spotifyUrl: string | null
-  youtubeUrl: string | null
+  videoUrl: string | null
   category: string | null
   categoryKind: PodcastEpisodeCategoryKind | null
   status: PodcastEpisodeStatus
