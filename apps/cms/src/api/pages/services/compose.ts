@@ -44,8 +44,17 @@ export async function composeSinglePage(slug: string, locale: string) {
     if (!section) continue
 
     if (section.__component === 'sections.featured-list') {
+      // The home podcast "featured-with-list" must feature the latest episode
+      // that actually has a link, even when newer episodes are still link-less.
+      // That means it has to look past the newest few, so we floor its fetch
+      // window here instead of depending on the editor-set `limit` (which can be
+      // small and differs per environment). The component still features the
+      // latest linked episode and lists the rest.
+      const isPodcastFeature =
+        section.relation === 'podcast-episodes' && section.layout === 'featured-with-list'
+      const limit = isPodcastFeature ? Math.max(section.limit ?? 0, 24) : section.limit
       const { items } = await resolveFeaturedList(
-        { relation: section.relation, limit: section.limit, filterBy: section.filterBy },
+        { relation: section.relation, limit, filterBy: section.filterBy },
         locale,
       )
       section.items = items
