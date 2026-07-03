@@ -1,6 +1,7 @@
 import type { ArticleDetailDTO } from '@repo/types'
 import Image from 'next/image'
 import { Eyebrow } from '../atoms/Eyebrow'
+import { mdToHtml } from '@/lib/markdown'
 
 interface ArticleDetailProps {
   article: ArticleDetailDTO
@@ -40,9 +41,8 @@ export function ArticleDetail({ article }: ArticleDetailProps) {
 
       {article.body && (
         <div
-          className="prose prose-lg max-w-none"
-          style={{ color: '#2D241E' }}
-          dangerouslySetInnerHTML={{ __html: article.body }}
+          className="article-body"
+          dangerouslySetInnerHTML={{ __html: mdToHtml(article.body) }}
         />
       )}
     </article>

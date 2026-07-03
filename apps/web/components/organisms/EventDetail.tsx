@@ -2,6 +2,7 @@ import type { EventDetailDTO } from '@repo/types'
 import Image from 'next/image'
 import { Calendar, MapPin } from 'lucide-react'
 import { Eyebrow } from '../atoms/Eyebrow'
+import { mdToHtml } from '@/lib/markdown'
 
 interface EventDetailProps {
   event: EventDetailDTO
@@ -61,9 +62,8 @@ export function EventDetail({ event }: EventDetailProps) {
 
       {event.body && (
         <div
-          className="prose prose-lg max-w-none mt-8"
-          style={{ color: '#2D241E' }}
-          dangerouslySetInnerHTML={{ __html: event.body }}
+          className="article-body mt-8"
+          dangerouslySetInnerHTML={{ __html: mdToHtml(event.body) }}
         />
       )}
     </article>
