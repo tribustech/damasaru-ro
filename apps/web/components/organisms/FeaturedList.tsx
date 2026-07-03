@@ -113,6 +113,17 @@ function LayoutBody({ section, layout, locale }: { section: FeaturedListDTO; lay
   if (layout === 'feature' && section.relation === 'podcast-episodes') {
     return <LatestEpisodeFeature items={section.items} locale={locale} />
   }
+  // Products render in the shared magazin `.products-grid` so the homepage shop
+  // zone matches the Magazin page card layout exactly.
+  if (section.relation === 'products') {
+    return (
+      <div className="products-grid">
+        {section.items.map((item) => (
+          <ProductCard key={item.id} product={item} />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className={fallbackContainer[layout] ?? fallbackContainer.grid}>
@@ -223,9 +234,7 @@ function DefaultCards({ section, locale }: { section: FeaturedListDTO; locale: s
         <ProjectCard key={item.id} project={item} locale={locale} accent={section.accent} />
       ))
     case 'products':
-      return section.items.map((item) => (
-        <ProductCard key={item.id} product={item} accent={section.accent} />
-      ))
+      return section.items.map((item) => <ProductCard key={item.id} product={item} />)
     case 'testimonials':
       return section.items.map((item, idx) => (
         <TestimonialCard key={item.id} item={item} accent={section.accent} featured={idx === 0} />

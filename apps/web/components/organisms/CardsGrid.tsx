@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactElement } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import type { CardsGridDTO, CardsGridItemDTO, MediaDTO } from '@repo/types'
+import type { CardsGridDTO, CardsGridItemDTO } from '@repo/types'
 import { sectionAnchorId } from '@/lib/sectionAnchor'
+import { ProductFormatCard, type ProductCardFormat } from '../molecules/ProductFormatCard'
 
 interface CardsGridProps {
   section: CardsGridDTO
@@ -16,24 +16,6 @@ const ZONE_BY_ACCENT: Record<CardsGridDTO['accent'], string> = {
 }
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
-
-// Author who narrates the audiobook — shown in the mini player mock. Decorative,
-// not editor-facing copy, so it lives here rather than as a CMS field.
-const AUDIOBOOK_AUTHOR = 'Costin Dămășaru'
-const AUDIOBOOK_CHAPTER = 'Capitolul 1 — Introducere'
-
-function ProductCover({ media, className }: { media: MediaDTO | null; className: string }) {
-  if (!media?.url) return null
-  return (
-    <Image
-      src={media.url}
-      alt={media.alt ?? ''}
-      width={media.width ?? 400}
-      height={media.height ?? 600}
-      className={className}
-    />
-  )
-}
 
 // ── Simple product/option cards (e.g. the book's 3 formats on /carte) ──────
 // The original `products` design: an icon, a tag, a `price`, and a whole-card
@@ -143,105 +125,28 @@ function ProductOptionCardBody({ item, idx }: { item: CardsGridItemDTO; idx: num
   )
 }
 
+// Adapter: maps a hand-authored `cards-grid` item onto the shared product card.
 function ProductFormatCardBody({ item }: { item: CardsGridItemDTO }) {
-  const format = item.format ?? 'hardcover'
+  const format = (item.format ?? 'hardcover') as ProductCardFormat
   // Waitlist mode is derived: a price placeholder with no real price.
   const waitlist = !!item.priceText && !item.price
-  const imageClass = format === 'hardcover' ? 'physical' : format
-  const tagClass = `tag ${waitlist ? 'waitlist' : format === 'hardcover' ? 'physical' : 'digital'}`
-
-  const ctaLabel = item.ctaLabel ?? (waitlist ? 'Anunță-mă' : 'Cumpără')
-  const ctaInner = (
-    <>
-      {ctaLabel} <span aria-hidden>→</span>
-    </>
-  )
-  const ctaClass = `product-btn ${waitlist ? 'btn-ghost' : 'btn-primary'}`
-  let cta: ReactElement
-  if (item.href) {
-    if (item.href.startsWith('http')) {
-      cta = (
-        <a href={item.href} target="_blank" rel="noreferrer" className={ctaClass}>
-          {ctaInner}
-        </a>
-      )
-    } else if (item.href.startsWith('#')) {
-      // In-page anchor (e.g. the waitlist CTAs point at #newsletter). Use a native
-      // <a> so the browser handles same-page hash scrolling — Next's <Link> does
-      // not reliably scroll to a hash on the current route in the App Router.
-      cta = (
-        <a href={item.href} className={ctaClass}>
-          {ctaInner}
-        </a>
-      )
-    } else {
-      cta = (
-        <Link href={item.href} className={ctaClass}>
-          {ctaInner}
-        </Link>
-      )
-    }
-  } else {
-    cta = (
-      <button type="button" className={ctaClass}>
-        {ctaInner}
-      </button>
-    )
-  }
-
   return (
-    <article className={`product-card ${imageClass}`}>
-      <div className={`product-image ${imageClass}`}>
-        {item.tag && <span className={tagClass}>{item.tag}</span>}
-        {format === 'hardcover' && <ProductCover media={item.image} className="book-cover-img" />}
-        {format === 'ebook' && (
-          <div className="tablet-mockup">
-            <ProductCover media={item.image} className="tablet-mockup-img" />
-          </div>
-        )}
-        {format === 'audiobook' && (
-          <div className="player-mockup">
-            <div className="player-mockup-cover">
-              <ProductCover media={item.image} className="player-mockup-cover-img" />
-            </div>
-            <div className="player-mockup-info">
-              <div className="player-mockup-title">{AUDIOBOOK_CHAPTER}</div>
-              <div className="player-mockup-author">{AUDIOBOOK_AUTHOR}</div>
-              <div className="player-mockup-waveform" aria-hidden>
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <span key={i} />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="product-content">
-        {item.eyebrow && <div className="product-eyebrow">{item.eyebrow}</div>}
-        <h3 className="product-title">{item.title}</h3>
-        {item.text && <p className="product-desc">{item.text}</p>}
-        {item.metaItems && item.metaItems.length > 0 && (
-          <ul className="product-meta-list">
-            {item.metaItems.map((m, i) => (
-              <li key={i}>
-                {m.icon && <span className="product-meta-icon">{m.icon}</span>}
-                {m.label}
-              </li>
-            ))}
-          </ul>
-        )}
-        <div className="product-footer">
-          {item.price ? (
-            <div className="product-price">{item.price}</div>
-          ) : item.priceText ? (
-            <div className="product-price-text">{item.priceText}</div>
-          ) : null}
-          {cta}
-          {item.fineprint && <p className="product-fineprint">{item.fineprint}</p>}
-        </div>
-      </div>
-    </article>
+    <ProductFormatCard
+      format={format}
+      image={item.image}
+      tag={item.tag}
+      tagTone={waitlist ? 'waitlist' : format === 'hardcover' ? 'physical' : 'digital'}
+      eyebrow={item.eyebrow}
+      title={item.title}
+      text={item.text}
+      metaItems={item.metaItems}
+      price={item.price}
+      priceText={item.priceText}
+      fineprint={item.fineprint}
+      ctaLabel={item.ctaLabel ?? (waitlist ? 'Anunță-mă' : 'Cumpără')}
+      ctaVariant={waitlist ? 'ghost' : 'primary'}
+      href={item.href}
+    />
   )
 }
 

@@ -52,6 +52,11 @@
       "required": true
     },
     "featured": { "type": "boolean", "default": false },
-    "order": { "type": "integer", "default": 0 }
+    "order": { "type": "integer", "default": 0 },
+    "metaItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.meta-item"
+    }
   }
 }

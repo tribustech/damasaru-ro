@@ -140,6 +140,10 @@ export function serializeProduct(raw: any): ProductDTO {
     cover: serializeMedia(raw.image),
     url: raw.buyUrl ?? null,
     order: raw.order ?? 0,
+    metaItems: (raw.metaItems ?? []).map((m: any) => ({
+      icon: m.icon ?? null,
+      label: m.label,
+    })),
   }
 }
 

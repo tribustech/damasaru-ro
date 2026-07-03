@@ -605,6 +605,19 @@ section[id] { scroll-margin-top: 80px; }
 .player-mockup-waveform span:nth-child(11) { height: 20%; }
 .player-mockup-waveform span:nth-child(12) { height: 65%; }
 
+/* Card 4 — Event: full-bleed landscape stage photo (no mockup frame) */
+.product-image.event { background: var(--color-navy); }
+.event-cover-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .5s ease;
+}
+.product-card:hover .product-image.event .event-cover-img { transform: scale(1.04); }
+/* Soft top-left scrim so the status pill stays legible on bright photos. */
+.product-image.event::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(135deg, rgba(20, 32, 46, .35), transparent 45%);
+}
+
 /* Status tag pill — overlaid top-left of the image area */
 .product-image .tag {
   position: absolute; top: 16px; left: 16px; z-index: 3;

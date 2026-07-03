@@ -1,4 +1,5 @@
 import type { MediaDTO } from './page'
+import type { CardsGridMetaItemDTO } from './section'
 
 export interface ArticleDTO {
   id: number
@@ -85,6 +86,8 @@ export interface ProductDTO {
   cover: MediaDTO | null
   url: string | null
   order: number
+  /** Optional icon+label rows shown on the rich product card (magazin look). */
+  metaItems?: CardsGridMetaItemDTO[]
 }
 
 export interface TestimonialDTO {

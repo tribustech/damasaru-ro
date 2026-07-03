@@ -1516,6 +1516,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    metaItems: Schema.Attribute.Component<'sections.meta-item', true>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     price: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
