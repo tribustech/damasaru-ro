@@ -247,6 +247,11 @@ function PodcastFeaturedWithList({ items, locale }: { items: PodcastEpisodeDTO[]
   const featureLinks = episodeLinks(feature)
   const isFeatureLive = featureLinks.length > 0
   const rest = items.filter((e) => e !== feature)
+  // The episode cover already has the title baked into the artwork, so when it
+  // exists we render the image as the whole card and overlay the status pill +
+  // "Ascultă" affordance. Without a cover (typical for the "În curând" state)
+  // we fall back to the navy text card below.
+  const cover = feature.cover
 
   const featureInner = (
     <>
@@ -296,21 +301,67 @@ function PodcastFeaturedWithList({ items, locale }: { items: PodcastEpisodeDTO[]
     </>
   )
 
+  const featureImageInner = cover && (
+    <>
+      {/* Full 16:9 artwork — the title is baked into the bottom of the image, so
+          it must never be cropped. Only the status pill overlays it (top-left). */}
+      <div className="relative aspect-video w-full overflow-hidden">
+        <Image
+          src={cover.url}
+          alt={cover.alt || feature.title}
+          fill
+          sizes="(max-width: 1024px) 100vw, 60vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
+        <div className="absolute top-5 left-5 z-10">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-forest)] text-white text-[10px] tracking-[0.2em] uppercase font-semibold rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#7FCBA8] animate-pulse" />
+            {isFeatureLive ? 'Episod nou' : 'În curând'}
+          </span>
+        </div>
+      </div>
+      {/* Navy bar under the artwork keeps the "Ascultă" button clear of the baked-in title. */}
+      <div className="flex items-center gap-3.5 bg-[var(--color-navy)] text-white px-6 py-5 text-sm font-medium">
+        <span className="w-11 h-11 rounded-full bg-[var(--color-gold)] text-[var(--color-navy)] flex items-center justify-center text-base group-hover:bg-[var(--color-gold-bright)] group-hover:scale-105 transition-all">
+          ▶
+        </span>
+        {isFeatureLive ? (
+          <>
+            Ascultă acum
+            {featureLinks.length > 1 && (
+              <span aria-hidden className="ml-1.5">
+                ▾
+              </span>
+            )}
+          </>
+        ) : (
+          'Te anunț când e gata'
+        )}
+      </div>
+    </>
+  )
+
   const featureClass =
     'group relative overflow-hidden text-left w-full bg-[var(--color-navy)] text-white rounded-xl border-l-4 border-l-[var(--color-forest-bright)] p-10 lg:p-12 min-h-[420px] flex flex-col justify-between shadow-[0_24px_48px_-16px_rgba(20,32,46,.25)]'
+  const featureImageClass =
+    'group relative block overflow-hidden text-left w-full rounded-xl border-l-4 border-l-[var(--color-forest-bright)] shadow-[0_24px_48px_-16px_rgba(20,32,46,.25)]'
+
+  const activeFeatureClass = cover ? featureImageClass : featureClass
+  const activeFeatureInner = cover ? featureImageInner : featureInner
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-start">
       {isFeatureLive ? (
         <EpisodePlayLink
           links={featureLinks}
-          className={featureClass}
+          className={activeFeatureClass}
           wrapperClassName="relative block w-full"
         >
-          {featureInner}
+          {activeFeatureInner}
         </EpisodePlayLink>
       ) : (
-        <div className={`${featureClass} cursor-default`}>{featureInner}</div>
+        <div className={`${activeFeatureClass} cursor-default`}>{activeFeatureInner}</div>
       )}
 
       <div className="flex flex-col gap-px bg-[var(--color-line)] rounded-lg overflow-hidden">
