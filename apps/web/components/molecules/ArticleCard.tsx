@@ -39,6 +39,9 @@ export function ArticleCard({ article, locale, readMoreLabel = 'Citește mai mul
             {article.title}
           </h3>
         </Link>
+        {article.author && (
+          <p className={`text-xs mb-3 ${a.textMuted}`}>de {article.author}</p>
+        )}
         {article.excerpt && (
           <p className={`text-sm mb-4 flex-1 leading-relaxed ${a.textMuted}`}>{article.excerpt}</p>
         )}

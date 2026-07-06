@@ -32,6 +32,7 @@
       "type": "richtext"
     },
     "date": { "type": "date" },
+    "author": { "type": "string" },
     "category": {
       "pluginOptions": { "i18n": { "localized": true } },
       "type": "string"

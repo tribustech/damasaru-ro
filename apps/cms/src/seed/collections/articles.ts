@@ -10,6 +10,7 @@ type ArticleSeed = {
   date: string
   readTime: string
   featured: boolean
+  author?: string
   coverImage?: number | null
 }
 
@@ -164,8 +165,10 @@ export async function seedArticles(strapi: Core.Strapi): Promise<void> {
   },
 ]
 
-  // Attach available cover images to the two flagship articles.
+  // Attach available cover images to the two flagship articles, and byline
+  // every article to Costin (his personal essays).
   for (const article of articles) {
+    article.author = article.author ?? 'Costin Damasaru'
     if (article.slug === 'ce-nu-vede-scoala-cand-spune-adhd') article.coverImage = coverAdhd
     if (article.slug === 'burnout-nu-se-vindeca-cu-o-vacanta') article.coverImage = coverBurnout
   }

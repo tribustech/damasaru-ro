@@ -131,7 +131,7 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
       date: (item as any).date,
       readTime: (item as any).readTime ?? null,
       cover: serializeMedia((item as any).coverImage),
-      author: null,
+      author: (item as any).author ?? null,
       tags: (item as any).category ? [(item as any).category] : [],
       body: (item as any).content ?? '',
       related: (related as any[]).map((r) => ({
@@ -143,7 +143,7 @@ const DETAIL_RESOLVERS: Record<string, (slug: string, locale: string) => Promise
         date: r.date,
         readTime: r.readTime ?? null,
         cover: serializeMedia(r.coverImage),
-        author: null,
+        author: r.author ?? null,
         tags: r.category ? [r.category] : [],
       })),
     }

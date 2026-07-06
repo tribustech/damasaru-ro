@@ -10,6 +10,11 @@ interface ArticleDetailProps {
 
 export function ArticleDetail({ article }: ArticleDetailProps) {
   const category = article.tags[0] ?? null
+  const meta = [
+    article.author ? `de ${article.author}` : null,
+    article.date,
+    article.readTime,
+  ].filter(Boolean)
 
   return (
     <article className="max-w-3xl mx-auto px-6 py-24">
@@ -21,10 +26,16 @@ export function ArticleDetail({ article }: ArticleDetailProps) {
         >
           {article.title}
         </h1>
-        <div className="flex items-center gap-4 text-sm" style={{ color: '#6B5F54' }}>
-          {article.date && <span>{article.date}</span>}
-          {article.readTime && <span>· {article.readTime}</span>}
-        </div>
+        {meta.length > 0 && (
+          <div className="flex items-center gap-3 text-sm" style={{ color: '#6B5F54' }}>
+            {meta.map((part, i) => (
+              <span key={i}>
+                {i > 0 && <span className="mr-3">·</span>}
+                {part}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {article.cover && (

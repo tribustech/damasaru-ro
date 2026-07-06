@@ -547,6 +547,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    author: Schema.Attribute.String;
     category: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {

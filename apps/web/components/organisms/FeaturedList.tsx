@@ -472,6 +472,7 @@ function ArticlesFeaturedWithGrid({
             >
               Articol nou
             </span>
+            {feature.author && <span className={`${metaCls} text-xs`}>de {feature.author}</span>}
             {feature.date && <span className={`${metaCls} text-xs`}>{formatDate(feature.date, locale)}</span>}
             {feature.readTime && (
               <>
@@ -521,6 +522,8 @@ function ArticlesFeaturedWithGrid({
                 <p className={`text-[13px] leading-relaxed font-light line-clamp-3 ${excerptCls}`}>{article.excerpt}</p>
               )}
               <div className={`mt-4 text-[11px] tracking-wide ${metaCls}`}>
+                {article.author && `de ${article.author}`}
+                {article.author && (article.readTime || article.date) && ' · '}
                 {article.readTime}
                 {article.readTime && article.date && ' · '}
                 {article.date && formatDate(article.date, locale)}

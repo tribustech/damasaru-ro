@@ -70,7 +70,7 @@ export function serializeArticle(raw: any): ArticleDTO {
     date: raw.date,
     readTime: raw.readTime ?? null,
     cover: serializeMedia(raw.coverImage),
-    author: null,
+    author: raw.author ?? null,
     tags: raw.category ? [raw.category] : [],
   }
 }
