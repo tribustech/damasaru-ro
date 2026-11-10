@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { NavLink } from '../molecules/NavLink'
 import type { Dictionary } from '../../lib/dictionaries'
-import { PLATFORM_MENU_URL, hasPlatformLink } from '../../lib/platform'
+import { PLATFORM_MENU_URL } from '../../lib/platform'
 
 interface NavigationProps {
   locale: string
@@ -18,7 +18,7 @@ export function Navigation({ locale, dict }: NavigationProps) {
   const navItems: { label: string; href: string; external?: boolean }[] = [
     { label: dict.about, href: `/${locale}/despre` },
     { label: dict.book, href: `/${locale}/carte` },
-    ...(hasPlatformLink(locale) ? [{ label: dict.library, href: PLATFORM_MENU_URL, external: true }] : []),
+    { label: dict.library, href: PLATFORM_MENU_URL, external: true },
     { label: dict.podcast, href: `/${locale}/podcast` },
     { label: dict.idei, href: `/${locale}/idei` },
     { label: dict.proiecte, href: `/${locale}/proiecte` },
