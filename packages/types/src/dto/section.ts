@@ -340,6 +340,20 @@ export interface ProjectFeatureDTO extends SectionBase {
   asocBox: AsocBoxDTO | null
 }
 
+export interface AudioLibraryDTO extends SectionBase {
+  __component: 'sections.audio-library'
+  anchorId: string | null
+  eyebrow: string | null
+  title: string
+  titleItalic: string | null
+  body: string | null
+  note: string | null
+  accent: AccentDTO
+  stats: { id: number; value: string; label: string }[]
+  ctas: CtaButtonDTO[]
+  collections: { id: number; name: string; meta: string | null; href: string; image: MediaDTO | null }[]
+}
+
 export interface PressWallDTO extends SectionBase {
   __component: 'sections.press-wall'
   eyebrow: string | null
@@ -471,6 +485,7 @@ export type SectionDTO =
   | ContactFormDTO
   | ProiecteHeroDTO
   | ProjectFeatureDTO
+  | AudioLibraryDTO
   | PressWallDTO
   | MediaHeroDTO
   | MediaStatStripDTO

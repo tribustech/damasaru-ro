@@ -342,6 +342,29 @@ export interface SectionProjectFeature {
   asocBox: AsocBox | null
 }
 
+export interface AudioCollection {
+  id: number
+  name: string
+  meta: string | null
+  href: string
+  image: StrapiMedia | null
+}
+
+export interface SectionAudioLibrary {
+  __component: 'sections.audio-library'
+  id: number
+  anchorId: string | null
+  eyebrow: string | null
+  title: string
+  titleItalic: string | null
+  body: string | null
+  note: string | null
+  accent: SectionAccent
+  stats: StatItem[]
+  ctas: CtaButton[]
+  collections: AudioCollection[]
+}
+
 export interface PressBrand {
   brandKey: string
   info: string | null
@@ -389,4 +412,5 @@ export type Section =
   | SectionContactForm
   | SectionProiecteHero
   | SectionProjectFeature
+  | SectionAudioLibrary
   | SectionPressWall

@@ -968,6 +968,7 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
     sections: Schema.Attribute.DynamicZone<
       [
         'sections.hero',
+        'sections.audio-library',
         'sections.text-block',
         'sections.cards-grid',
         'sections.testimonials',

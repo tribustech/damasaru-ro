@@ -8,15 +8,18 @@ interface NavLinkProps {
   label: string
   onClick?: () => void
   mobile?: boolean
+  /** Outbound link (e.g. platforma.damasaru.ro): plain <a>, same tab, never "active". */
+  external?: boolean
 }
 
-export function NavLink({ href, label, onClick, mobile = false }: NavLinkProps) {
+export function NavLink({ href, label, onClick, mobile = false, external = false }: NavLinkProps) {
   const pathname = usePathname()
-  const isActive = pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
+  const isActive = !external && (pathname === href || (href !== '/' && pathname.startsWith(`${href}/`)))
+  const Anchor = external ? 'a' : Link
 
   if (mobile) {
     return (
-      <Link
+      <Anchor
         href={href}
         onClick={onClick}
         className={`flex items-center justify-between py-3 border-b border-[var(--color-navy-line)] text-base ${
@@ -24,12 +27,12 @@ export function NavLink({ href, label, onClick, mobile = false }: NavLinkProps) 
         }`}
       >
         {label}
-      </Link>
+      </Anchor>
     )
   }
 
   return (
-    <Link
+    <Anchor
       href={href}
       className={`text-sm tracking-wide transition-colors relative pb-1 ${
         isActive ? 'text-white' : 'text-[var(--color-text-light)] hover:text-[var(--color-gold)]'
@@ -39,6 +42,6 @@ export function NavLink({ href, label, onClick, mobile = false }: NavLinkProps) 
       {isActive && (
         <span className="absolute -bottom-0 left-0 right-0 h-px bg-[var(--color-gold)]" />
       )}
-    </Link>
+    </Anchor>
   )
 }

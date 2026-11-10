@@ -25,6 +25,7 @@
       "type": "dynamiczone",
       "components": [
         "sections.hero",
+        "sections.audio-library",
         "sections.text-block",
         "sections.cards-grid",
         "sections.testimonials",

@@ -8,6 +8,9 @@ export const PAGE_POPULATE = {
           statsStrip: { populate: { items: true } },
         },
       },
+      'sections.audio-library': {
+        populate: { stats: true, ctas: true, collections: { populate: { image: true } } },
+      },
       'sections.text-block': { populate: { cta: true, ctaFile: true } },
       'sections.cards-grid': {
         populate: { items: { populate: { iconImage: true, metaItems: true } } },

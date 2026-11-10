@@ -45,6 +45,46 @@ export interface SectionsAsocBox extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsAudioCollection extends Struct.ComponentSchema {
+  collectionName: 'components_sections_audio_collections';
+  info: {
+    description: 'One collection card in the Audio Library section (cover + name + meta + outbound link).';
+    displayName: 'Audio Collection';
+    icon: 'book';
+  };
+  attributes: {
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    meta: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsAudioLibrary extends Struct.ComponentSchema {
+  collectionName: 'components_sections_audio_libraries';
+  info: {
+    description: 'Homepage promo for the audiobook platform (platforma.damasaru.ro): text, stats, CTAs and a 2\u00D72 grid of collection covers.';
+    displayName: 'Audio Library';
+    icon: 'headphone';
+  };
+  attributes: {
+    accent: Schema.Attribute.Enumeration<
+      ['navy', 'paper', 'paper-warm', 'navy-deep']
+    > &
+      Schema.Attribute.DefaultTo<'navy-deep'>;
+    anchorId: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'biblioteca'>;
+    body: Schema.Attribute.Text;
+    collections: Schema.Attribute.Component<'sections.audio-collection', true>;
+    ctas: Schema.Attribute.Component<'shared.cta-button', true>;
+    eyebrow: Schema.Attribute.String;
+    note: Schema.Attribute.Text;
+    stats: Schema.Attribute.Component<'sections.stat-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    titleItalic: Schema.Attribute.String;
+  };
+}
+
 export interface SectionsCardItem extends Struct.ComponentSchema {
   collectionName: 'components_sections_card_items';
   info: {
@@ -895,6 +935,8 @@ declare module '@strapi/strapi' {
       'media.logo-cell': MediaLogoCell;
       'media.press-kit-card': MediaPressKitCard;
       'sections.asoc-box': SectionsAsocBox;
+      'sections.audio-collection': SectionsAudioCollection;
+      'sections.audio-library': SectionsAudioLibrary;
       'sections.card-item': SectionsCardItem;
       'sections.cards-grid': SectionsCardsGrid;
       'sections.contact-form': SectionsContactForm;

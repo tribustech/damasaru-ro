@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Dictionary } from '../../lib/dictionaries'
+import { PLATFORM_MENU_URL, hasPlatformLink } from '../../lib/platform'
 
 interface FooterProps {
   locale: string
@@ -7,9 +8,10 @@ interface FooterProps {
 }
 
 export function Footer({ locale, dict }: FooterProps) {
-  const navLinks = [
+  const navLinks: { label: string; href: string; external?: boolean }[] = [
     { label: dict.nav.about, href: `/${locale}/despre` },
     { label: dict.nav.book, href: `/${locale}/carte` },
+    ...(hasPlatformLink(locale) ? [{ label: dict.nav.library, href: PLATFORM_MENU_URL, external: true }] : []),
     { label: dict.nav.podcast, href: `/${locale}/podcast` },
     { label: dict.nav.idei, href: `/${locale}/idei` },
   ]

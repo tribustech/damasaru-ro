@@ -489,6 +489,26 @@ export function serializeSection(raw: any): any {
         accent: raw.accent ?? 'navy',
         anchors: ctaButtons(raw.anchors),
       }
+    case 'sections.audio-library':
+      return {
+        ...base,
+        anchorId: raw.anchorId ?? null,
+        eyebrow: raw.eyebrow ?? null,
+        title: raw.title,
+        titleItalic: raw.titleItalic ?? null,
+        body: raw.body ?? null,
+        note: raw.note ?? null,
+        accent: raw.accent ?? 'navy-deep',
+        stats: (raw.stats ?? []).map((s: any) => ({ id: s.id, value: s.value, label: s.label })),
+        ctas: ctaButtons(raw.ctas),
+        collections: (raw.collections ?? []).map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          meta: c.meta ?? null,
+          href: c.href,
+          image: serializeMedia(c.image),
+        })),
+      }
     case 'sections.project-feature':
       return {
         ...base,

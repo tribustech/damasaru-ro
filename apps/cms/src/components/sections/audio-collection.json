@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_sections_audio_collections",
+  "info": {
+    "displayName": "Audio Collection",
+    "description": "One collection card in the Audio Library section (cover + name + meta + outbound link).",
+    "icon": "book"
+  },
+  "options": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "meta": { "type": "string" },
+    "href": { "type": "string", "required": true },
+    "image": { "type": "media", "multiple": false, "allowedTypes": ["images"] }
+  }
+}

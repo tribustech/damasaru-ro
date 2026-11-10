@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { NavLink } from '../molecules/NavLink'
 import type { Dictionary } from '../../lib/dictionaries'
+import { PLATFORM_MENU_URL, hasPlatformLink } from '../../lib/platform'
 
 interface NavigationProps {
   locale: string
@@ -14,9 +15,10 @@ interface NavigationProps {
 export function Navigation({ locale, dict }: NavigationProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  const navItems = [
+  const navItems: { label: string; href: string; external?: boolean }[] = [
     { label: dict.about, href: `/${locale}/despre` },
     { label: dict.book, href: `/${locale}/carte` },
+    ...(hasPlatformLink(locale) ? [{ label: dict.library, href: PLATFORM_MENU_URL, external: true }] : []),
     { label: dict.podcast, href: `/${locale}/podcast` },
     { label: dict.idei, href: `/${locale}/idei` },
     { label: dict.proiecte, href: `/${locale}/proiecte` },
@@ -36,9 +38,9 @@ export function Navigation({ locale, dict }: NavigationProps) {
             Costin <span className="italic text-[var(--color-gold)]">Dămășaru</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-7">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-7">
             {navItems.map((item) => (
-              <NavLink key={item.href} href={item.href} label={item.label} />
+              <NavLink key={item.href} href={item.href} label={item.label} external={item.external} />
             ))}
           </div>
 
@@ -67,6 +69,7 @@ export function Navigation({ locale, dict }: NavigationProps) {
                 key={item.href}
                 href={item.href}
                 label={item.label}
+                external={item.external}
                 mobile
                 onClick={() => setMobileOpen(false)}
               />

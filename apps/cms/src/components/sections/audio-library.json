@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_sections_audio_libraries",
+  "info": {
+    "displayName": "Audio Library",
+    "description": "Homepage promo for the audiobook platform (platforma.damasaru.ro): text, stats, CTAs and a 2×2 grid of collection covers.",
+    "icon": "headphone"
+  },
+  "options": {},
+  "attributes": {
+    "anchorId": { "type": "string", "default": "biblioteca" },
+    "eyebrow": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "titleItalic": { "type": "string" },
+    "body": { "type": "text" },
+    "note": { "type": "text" },
+    "accent": {
+      "type": "enumeration",
+      "enum": ["navy", "paper", "paper-warm", "navy-deep"],
+      "default": "navy-deep"
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.stat-item"
+    },
+    "ctas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.cta-button"
+    },
+    "collections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.audio-collection"
+    }
+  }
+}

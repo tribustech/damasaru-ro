@@ -18,6 +18,7 @@ import { EventFeature } from './EventFeature'
 import { ContactForm } from './ContactForm'
 import { ProiecteHero } from './ProiecteHero'
 import { ProjectFeature } from './ProjectFeature'
+import { AudioLibrary } from './AudioLibrary'
 import { PressWall } from './PressWall'
 import MediaHero from './MediaHero'
 import MediaStatStrip from './MediaStatStrip'
@@ -82,6 +83,8 @@ export function DynamicZone({ sections, locale }: DynamicZoneProps) {
             return <MediaHero key={key} section={section} locale={locale} />
           case 'sections.media-stat-strip':
             return <MediaStatStrip key={key} section={section} locale={locale} />
+          case 'sections.audio-library':
+            return <AudioLibrary key={key} section={section} />
           case 'sections.media-logo-wall':
             return <MediaLogoWall key={key} section={section} locale={locale} />
           case 'sections.media-featured':
