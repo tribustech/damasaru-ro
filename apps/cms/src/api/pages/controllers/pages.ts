@@ -1,4 +1,4 @@
-import { composeSinglePage, composeDetailPage } from '../services/compose'
+import { composeSinglePage, composeDetailPage, composeSitemap } from '../services/compose'
 
 export default {
   async findSingle(ctx: any) {
@@ -24,6 +24,16 @@ export default {
     } catch (err) {
       strapi.log.error('[pages] findDetail failed', { type, slug, locale, err })
       ctx.throw(500, 'detail composition failed')
+    }
+  },
+
+  async sitemap(ctx: any) {
+    const locale = (ctx.query.locale as string) ?? 'ro'
+    try {
+      ctx.body = await composeSitemap(locale)
+    } catch (err) {
+      strapi.log.error('[pages] sitemap failed', { locale, err })
+      ctx.throw(500, 'sitemap composition failed')
     }
   },
 }

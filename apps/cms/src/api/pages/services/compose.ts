@@ -255,3 +255,34 @@ export async function composeDetailPage(type: string, slug: string, locale: stri
   if (!resolver) return null
   return resolver(slug, locale)
 }
+
+// Sitemap feed: every published single page + the collections that have a public
+// detail route on the web (idei/[slug], evenimente/[slug]). Paths are mapped on the
+// web side, which owns its routes; this only reports what exists and when it changed.
+export async function composeSitemap(locale: string) {
+  const pages = (
+    await Promise.all(
+      Object.entries(SLUG_TO_UID).map(async ([slug, uid]) => {
+        const doc = await strapi
+          .documents(uid as any)
+          .findFirst({ locale, status: 'published', fields: ['updatedAt'] as any })
+        return doc ? { slug, updatedAt: (doc as any).updatedAt ?? null } : null
+      }),
+    )
+  ).filter((p): p is { slug: string; updatedAt: string | null } => p !== null)
+
+  const list = async (uid: string) =>
+    (
+      await strapi.documents(uid as any).findMany({
+        locale,
+        status: 'published',
+        fields: ['slug', 'updatedAt'] as any,
+        limit: 1000,
+      })
+    )
+      .filter((d: any) => d.slug)
+      .map((d: any) => ({ slug: d.slug as string, updatedAt: (d.updatedAt as string) ?? null }))
+
+  const [articles, events] = await Promise.all([list('api::article.article'), list('api::event.event')])
+  return { pages, articles, events }
+}
