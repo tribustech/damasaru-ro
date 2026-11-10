@@ -36,3 +36,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Production DB dumps (contain subscriber emails, form submissions, admin hashes).
+# Restore tooling lives in apps/cms/scripts; the dumps stay local only.
+*.sql
