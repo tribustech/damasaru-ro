@@ -84,6 +84,32 @@ export async function getPressMentions(locale: string): Promise<PressMentionList
   })
 }
 
+// Sitemap feed (composed by the CMS: published single pages + idei/evenimente slugs).
+// Tagged with every page + listing tag so any publish refreshes it.
+export interface SitemapEntry {
+  slug: string
+  updatedAt: string | null
+}
+export interface SitemapEntriesDTO {
+  pages: SitemapEntry[]
+  articles: SitemapEntry[]
+  events: SitemapEntry[]
+}
+
+export async function getSitemapEntries(locale: string): Promise<SitemapEntriesDTO> {
+  const res = await fetch(`${STRAPI_URL}/api/sitemap-entries?locale=${encodeURIComponent(locale)}`, {
+    headers: STRAPI_API_TOKEN ? { Authorization: `Bearer ${STRAPI_API_TOKEN}` } : {},
+    next: {
+      tags: [
+        'home-page', 'about-page', 'book-page', 'podcast-page', 'idei-page', 'proiecte-page',
+        'events-page', 'magazin-page', 'media-page', 'contact-page', 'articles', 'events',
+      ],
+    },
+  })
+  if (!res.ok) throw new Error(`sitemap-entries fetch failed [${res.status}]`)
+  return res.json() as Promise<SitemapEntriesDTO>
+}
+
 // Single-type pages
 export const getHomePage = (locale: string) =>
   fetchPage<SingleTypePageDTO>('home', locale, ['home-page'])
